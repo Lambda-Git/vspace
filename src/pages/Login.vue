@@ -3,8 +3,25 @@
     <LoginHeader></LoginHeader>
     <div class="loginForm" id="loginPage">
       <div class="formList">
-        <div class="title">验证码登录</div>
-        <div class="introduce"><i class="el-icon-message"></i>使用短信登录</div>
+        <div
+          :class="loginType === 2 ? 'cur' : ''"
+          class="title typeOne"
+          @click="onSelect(2)"
+        >
+          验证码登录
+        </div>
+        <div
+          :class="loginType === 1 ? 'cur' : ''"
+          class="title typeTwo"
+          @click="onSelect(1)"
+        >
+          账户登录
+        </div>
+        <div style="height: 23px">
+          <div v-if="this.loginType === 2" class="introduce">
+            <i class="el-icon-message"></i>使用短信登录
+          </div>
+        </div>
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -12,6 +29,7 @@
           label-width="100px"
           class="demo-ruleForm"
         >
+         
           <el-form-item label="" prop="phoneNumber">
             <el-input
               v-model="ruleForm.phoneNumber"
@@ -21,6 +39,7 @@
                 ><i class="el-icon-mobile-phone"></i
               ></template>
               <el-button
+                v-if="this.loginType === 2"
                 slot="append"
                 class="getCode"
                 :disabled="this.ruleForm.phoneNumber === ''"
@@ -28,14 +47,22 @@
               ></el-input
             >
           </el-form-item>
-          <el-form-item label="" prop="code">
+          <el-form-item v-if="this.loginType === 2" label="" prop="code">
             <el-input v-model="ruleForm.code" placeholder="请输入验证码">
+              <template slot="prepend"><i class="el-icon-lock"></i></template
+            ></el-input>
+          </el-form-item>
+           <el-form-item v-if="this.loginType === 1" label="" prop="password">
+            <el-input v-model="ruleForm.password" placeholder="请输入密码">
               <template slot="prepend"><i class="el-icon-lock"></i></template
             ></el-input>
           </el-form-item>
           <el-form-item label="" prop="type">
             <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox label="我已同意《隐私条款》和 《服务条款》" name="type">
+              <el-checkbox
+                label="我已同意《隐私条款》和 《服务条款》"
+                name="type"
+              >
               </el-checkbox>
             </el-checkbox-group>
           </el-form-item>
@@ -69,9 +96,11 @@ export default {
   },
   data() {
     return {
+      loginType: 1, // 1 账户登录 2 手机验证码登录
       ruleForm: {
         phoneNumber: "",
         code: "",
+        password: '',
         type: "",
       },
       rules: {
@@ -89,7 +118,11 @@ export default {
     console.log(this.$route.path);
   },
   methods: {
-   submitForm(formName) {
+    onSelect(type) {
+      console.log(type);
+      this.loginType = type;
+    },
+    submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           alert("submit!");
@@ -132,11 +165,18 @@ export default {
   font-size: 23px;
   margin-left: 6px;
   margin-bottom: 15px;
-  color: #3ac5ab;
   font-weight: 600;
+  color: #adb3ab;
+}
+.loginForm .formList .title.cur {
+  color: #3ac5ab;
+}
+.loginForm .formList .title.typeOne {
+  float: right;
 }
 .loginForm form {
   margin-left: -93px;
+  margin-top: 12px;
   height: 350px;
 }
 #loginPage .el-input__inner {
@@ -166,7 +206,6 @@ export default {
 .loginForm .introduce {
   color: #67bdb0;
   text-align: right;
-  margin-bottom: 12px;
 }
 .loginForm .link {
   text-align: right;
