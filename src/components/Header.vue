@@ -44,12 +44,12 @@ export default {
 
 <style scoped>
 .menuContent {
-  /* min-width: 1400px; */
   background: #619c76 repeat-x;
 }
 .menu {
   height: 50px;
-  width: 1200px;
+  width: 1140px;
+  padding: 0 30px;
   margin: auto;
   display: flex;
   justify-content: flex-end;
