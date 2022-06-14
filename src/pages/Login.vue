@@ -29,12 +29,8 @@
           label-width="100px"
           class="demo-ruleForm"
         >
-         
-          <el-form-item label="" prop="phoneNumber">
-            <el-input
-              v-model="ruleForm.phoneNumber"
-              placeholder="请输入手机号码"
-            >
+          <el-form-item label="" prop="phone">
+            <el-input v-model="ruleForm.phone" placeholder="请输入手机号码">
               <template slot="prepend"
                 ><i class="el-icon-mobile-phone"></i
               ></template>
@@ -42,7 +38,7 @@
                 v-if="this.loginType === 2"
                 slot="append"
                 class="getCode"
-                :disabled="this.ruleForm.phoneNumber === ''"
+                :disabled="this.ruleForm.phone === ''"
                 >获取验证码</el-button
               ></el-input
             >
@@ -52,8 +48,12 @@
               <template slot="prepend"><i class="el-icon-lock"></i></template
             ></el-input>
           </el-form-item>
-           <el-form-item v-if="this.loginType === 1" label="" prop="password">
-            <el-input v-model="ruleForm.password" placeholder="请输入密码">
+          <el-form-item v-if="this.loginType === 1" label="" prop="password">
+            <el-input
+              v-model="ruleForm.password"
+              placeholder="请输入密码"
+              show-password
+            >
               <template slot="prepend"><i class="el-icon-lock"></i></template
             ></el-input>
           </el-form-item>
@@ -95,18 +95,27 @@ export default {
     Footer,
   },
   data() {
+    let validatorPhone = function (phone, value, callback) {
+      let reg =
+        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+      if (value === "") {
+        callback(new Error("手机号不能为空"));
+      } else if (!reg.test(value)) {
+        callback(new Error("手机号格式错误"));
+      } else {
+        callback();
+      }
+    };
     return {
       loginType: 1, // 1 账户登录 2 手机验证码登录
       ruleForm: {
-        phoneNumber: "",
-        code: "",
-        password: '',
+        phone: undefined,
+        code: undefined,
+        password: undefined,
         type: "",
       },
       rules: {
-        phoneNumber: [
-          { required: true, message: "请输入手机号码", trigger: "blur" },
-        ],
+        phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
         code: [
           { required: true, message: "请输入手机验证码", trigger: "blur" },
         ],
@@ -117,6 +126,7 @@ export default {
   created() {
     console.log(this.$route.path);
   },
+  mounted() {},
   methods: {
     onSelect(type) {
       console.log(type);
@@ -125,9 +135,25 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert("submit!");
+          // this.$store.state.post("userInfo/login",{ // vuex
+          this.$http
+            .post("userInfo/login", {
+              phone: this.ruleForm.phone,
+              code: this.ruleForm.code,
+              password: this.ruleForm.password,
+            })
+            .then((response) => {
+              if (response.code === 2000) {
+                this.$message({
+                  message: response.message,
+                  type: "success",
+                });
+                this.$router.push("/");
+              } else {
+                this.$message.error(response.message);
+              }
+            });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
