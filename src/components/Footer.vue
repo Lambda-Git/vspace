@@ -49,7 +49,7 @@ export default {
 .list {
   display: flex;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
 }
 .list div.division {
   color: #a9a2a2;
@@ -63,11 +63,11 @@ export default {
 }
 
 .about .info {
-  font-size: 21px;
+  font-size: 18px;
 }
 .about img {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin-top: 6px;
   margin-left: 13px;
   margin-right: 13px;

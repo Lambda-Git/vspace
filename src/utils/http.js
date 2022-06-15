@@ -34,7 +34,7 @@ axios.interceptors.response.use(
       //   querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
       // })
     }
-    return response;
+    return response.data;
   },
   error => {
     return Promise.reject(error)
