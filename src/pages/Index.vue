@@ -3,7 +3,31 @@
     <Header></Header>
     <div class="content_index">
       <!-- 查询 type + input-->
-      <div class="type_search"></div>
+      <div class="type_search">
+        <div class="logo">
+          <img src="../assets/logo.png" />
+        </div>
+        <div class="type_info">
+          <div>首页</div>
+          <div>团购</div>
+          <div>折扣</div>
+          <div>严选</div>
+          <div>蔬菜</div>
+          <div>生鲜</div>
+          <div>冷冻</div>
+          <div>蛋类</div>
+          <div>酒水</div>
+          <div>杂项</div>
+        </div>
+        <div class="search">
+          <div>input</div>
+          <div class="cart">
+            <el-badge :value="200" :max="99" class="item">
+              <img src="../assets/shoppingCart1.png">
+            </el-badge>
+          </div>
+        </div>
+      </div>
       <!-- 手风琴菜单 -->
       <div class="menu_level_two"></div>
       <!-- 美丽健康 more 跳转 -->
@@ -48,7 +72,7 @@
       <!-- 最新上架 list -->
       <div class="promotion_items">
         <div class="title">最新上架</div>
-         <div class="items">
+        <div class="items">
           <el-row :gutter="20">
             <el-col
               :span="6"
@@ -236,5 +260,29 @@ export default {
 }
 .fresh_vegetables .info .more:hover {
   color: #dc7e2b;
+}
+.type_search {
+  display: flex;
+  padding: 25px 0;
+}
+.type_search .type_info {
+  margin-left: 15px;
+  display: flex;
+  line-height: 45px;
+}
+.type_search .type_info div {
+  color: #488c60;
+  font-size: 17px;
+  font-weight: 600;
+  margin-right: 28px;
+}
+.type_search .logo img {
+  width: 200px;
+}
+.type_search .search {
+ display: flex;
+}
+.type_search .search .cart{
+  
 }
 </style>
