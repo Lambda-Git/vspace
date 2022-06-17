@@ -8,10 +8,10 @@
         <router-link :to="{ path: '/register' }"> 免费注册 </router-link>
       </div>
       <div>
-        <router-link :to="{ path: '/login' }"> 我的订单 </router-link>
+        <router-link :to="{ path: '/personalCenter' }"> 我的订单 </router-link>
       </div>
       <div>
-        <router-link :to="{ path: '/login' }"> 会员中心 </router-link>
+        <router-link :to="{ path: '/personalCenter' }"> 会员中心 </router-link>
       </div>
       <div>
         <router-link :to="{ path: '/login' }"> 帮助中心 </router-link>

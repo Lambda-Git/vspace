@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/pages/Index'
 import Login from '@/pages/Login'
 import Register from '@/pages/register'
+import PersonalCenter from '@/pages/personalCenter'
 
 
 Vue.use(Router)
@@ -23,6 +24,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
-    }
+    },
+    {
+      path: '/personalCenter',
+      name: 'personalCenter',
+      component: PersonalCenter
+    },
   ]
 })
