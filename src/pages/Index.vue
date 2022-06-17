@@ -20,10 +20,12 @@
           <div>杂项</div>
         </div>
         <div class="search">
-          <div>input</div>
+          <div class="searchInfo">
+            <i class="el-icon-search"></i><input placeholder="搜一搜" />
+          </div>
           <div class="cart">
             <el-badge :value="200" :max="99" class="item">
-              <img src="../assets/shoppingCart1.png">
+              <img src="../assets/shoppingCart1.png" />
             </el-badge>
           </div>
         </div>
@@ -271,6 +273,7 @@ export default {
   line-height: 45px;
 }
 .type_search .type_info div {
+  cursor: pointer;
   color: #488c60;
   font-size: 17px;
   font-weight: 600;
@@ -280,9 +283,44 @@ export default {
   width: 200px;
 }
 .type_search .search {
- display: flex;
+  display: flex;
 }
-.type_search .search .cart{
-  
+.type_search .search .cart {
+  margin-left: 32px;
+  cursor: pointer;
+}
+.type_search .searchInfo i {
+  margin-left: 55px;
+  position: relative;
+}
+.type_search .searchInfo input {
+  width: 150px;
+  height: 25px;
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #e0dada;
+  margin-top: 5px;
+  outline: none;
+}
+::-webkit-input-placeholder {
+  color: #c5bdbd;
+  caret-color: #c5bdbd;
+}
+
+::-moz-placeholder {
+  color: #c5bdbd;
+  caret-color: #c5bdbd;
+} /* firefox 19+ */
+
+:-ms-input-placeholder {
+  color: #c5bdbd;
+  caret-color: #c5bdbd;
+} /* ie */
+
+input:-moz-placeholder {
+  color: #c5bdbd;
+  caret-color: #c5bdbd;
 }
 </style>
