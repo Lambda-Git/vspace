@@ -39,6 +39,7 @@
             :props="defaultProps"
             default-expand-all
             ref="tree"
+            @node-click="handleNodeClick"
           >
           </el-tree>
         </div>
@@ -48,19 +49,19 @@
             <el-carousel-item>
               <img
                 style="height: 400px; width: 100%"
-                src="../assets/banner-1.jpg"
+                src="../assets/slide_3.jpg"
               />
             </el-carousel-item>
             <el-carousel-item>
               <img
                 style="height: 400px; width: 100%"
-                src="../assets/banner-2.jpg"
+                src="../assets/slide_4.jpg"
               />
             </el-carousel-item>
             <el-carousel-item>
               <img
                 style="height: 400px; width: 100%"
-                src="../assets/banner-3.jpg"
+                src="../assets/slide_5.jpg"
               />
             </el-carousel-item>
           </el-carousel>
@@ -201,7 +202,7 @@ export default {
               id: 3.2,
               label: "海参",
             },
-             {
+            {
               id: 3.3,
               label: "帝王蟹",
             },
@@ -235,7 +236,19 @@ export default {
       }
     );
   },
-  methods: {},
+  methods: {
+    handleNodeClick(data) {
+      console.log(data);
+      // 当前页面打开
+      // this.$router.push({ path: "/goodsType", query: { name: data.label } });
+      // 新页面打开
+      let { href } = this.$router.resolve({
+        path: "/goodsType",
+        query: { username: data.label  },
+      });
+      window.open(href, "_blank");
+    },
+  },
 };
 </script>
 
