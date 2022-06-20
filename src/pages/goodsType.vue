@@ -155,7 +155,4 @@ export default {
     background: #62d2a1;
     padding: 15px;
 }
-.is-focusable .is-current{
-  background: #62d2a1;
-}
 </style>
