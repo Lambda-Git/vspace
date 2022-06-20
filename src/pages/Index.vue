@@ -31,7 +31,41 @@
         </div>
       </div>
       <!-- 手风琴菜单 -->
-      <div class="menu_level_two"></div>
+      <div class="menu_level_two" style="display: flex; margin-bottom: 30px">
+        <div class="side_left" style="width: 300px; background: #488c60">
+          <el-tree
+            class="filter-tree"
+            :data="Treedata"
+            :props="defaultProps"
+            default-expand-all
+            ref="tree"
+          >
+          </el-tree>
+        </div>
+        <div class="side_rotation" style="width: 100%">
+          <el-carousel height="400px">
+            <!-- <el-carousel-item v-for="item in rotationArray" :key="item"> -->
+            <el-carousel-item>
+              <img
+                style="height: 400px; width: 100%"
+                src="../assets/banner-1.jpg"
+              />
+            </el-carousel-item>
+            <el-carousel-item>
+              <img
+                style="height: 400px; width: 100%"
+                src="../assets/banner-2.jpg"
+              />
+            </el-carousel-item>
+            <el-carousel-item>
+              <img
+                style="height: 400px; width: 100%"
+                src="../assets/banner-3.jpg"
+              />
+            </el-carousel-item>
+          </el-carousel>
+        </div>
+      </div>
       <!-- 美丽健康 more 跳转 -->
       <div class="health_more">
         <img src="../assets/health_more.png" alt="" />
@@ -111,8 +145,69 @@ export default {
   name: "Index",
   data() {
     return {
+      rotationArray: [
+        ".//static/img/cart-1.jpg",
+        ".//static/img/cart-2.jpg",
+        ".//static/img/cart-1.jpg",
+      ],
       promotionProductData: [],
       latestProductData: [],
+      Treedata: [
+        {
+          id: 1,
+          label: "蔬菜豆制品",
+          children: [
+            {
+              id: 1.1,
+              label: "土豆",
+            },
+            {
+              id: 1.2,
+              label: "大白菜",
+            },
+            {
+              id: 1.3,
+              label: "干豆角",
+            },
+          ],
+        },
+        {
+          id: 2,
+          label: "肉禽蛋",
+          children: [
+            {
+              id: 2.1,
+              label: "鸡胸肉",
+            },
+            {
+              id: 2.2,
+              label: "牛棒骨",
+            },
+            {
+              id: 2.3,
+              label: "鹌鹑蛋",
+            },
+          ],
+        },
+        {
+          id: 3,
+          label: "海鲜水产",
+          children: [
+            {
+              id: 3.1,
+              label: "龙虾",
+            },
+            {
+              id: 3.2,
+              label: "海参",
+            },
+             {
+              id: 3.3,
+              label: "帝王蟹",
+            },
+          ],
+        },
+      ],
     };
   },
   created() {
