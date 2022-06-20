@@ -32,7 +32,7 @@
       </div>
       <!-- 手风琴菜单 -->
       <div class="menu_level_two" style="display: flex; margin-bottom: 30px">
-        <div class="side_left" style="width: 300px; background: #488c60">
+        <div class="side_left" style="width: 300px; background: rgb(98, 210, 161);">
           <el-tree
             class="filter-tree"
             :data="Treedata"
@@ -253,7 +253,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style >
 .content_index {
   width: 1200px;
   margin: auto;
@@ -430,5 +430,23 @@ export default {
 input:-moz-placeholder {
   color: #c5bdbd;
   caret-color: #c5bdbd;
+}
+.el-tree {
+  color: #fff;
+  background: #62d2a1;
+  padding: 15px;
+}
+span.el-tree-node__label {
+  font-size: 18px;
+  font-weight: 600;
+}
+.el-tree-node:focus > .el-tree-node__content {
+  background: #009866;
+  border-radius: 5px;
+}
+.el-tree-node__content:hover,
+.el-upload-list__item:hover {
+  background: #009866;
+  border-radius: 5px;
 }
 </style>

@@ -17,6 +17,9 @@
             text-align: center;
             height: 40px;
             line-height: 40px;
+            font-size: 22px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
           "
         >
           分类
@@ -30,11 +33,17 @@
           @node-click="handleNodeClick"
         >
         </el-tree>
-        <div style="width:250px;margin-top: 20px;">
-          <img style="width: 100%;border-radius: 6px;" src="../assets/left_one.jpg" />
+        <div style="width: 250px; margin-top: 20px">
+          <img
+            style="width: 100%; border-radius: 6px"
+            src="../assets/left_one.jpg"
+          />
         </div>
-        <div style="width:250px;margin-top: 40px;">
-          <img style="width: 100%;border-radius: 6px;" src="../assets/left_two.png" />
+        <div style="width: 250px; margin-top: 40px">
+          <img
+            style="width: 100%; border-radius: 6px"
+            src="../assets/left_two.png"
+          />
         </div>
       </div>
       <div class="right">
@@ -127,7 +136,7 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .pesponCenter {
   padding: 20px 0px;
   width: 1200px;
@@ -151,8 +160,21 @@ export default {
 }
 
 .el-tree {
-    color: #fff;
-    background: #62d2a1;
-    padding: 15px;
+  color: #fff;
+  background: #62d2a1;
+  padding: 15px;
+}
+span.el-tree-node__label {
+  font-size: 18px;
+  font-weight: 600;
+}
+.el-tree-node:focus > .el-tree-node__content {
+  background: #009866;
+  border-radius: 5px;
+}
+.el-tree-node__content:hover,
+.el-upload-list__item:hover {
+  background: #009866;
+  border-radius: 5px;
 }
 </style>
