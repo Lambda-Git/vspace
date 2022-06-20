@@ -47,7 +47,20 @@
         </div>
       </div>
       <div class="right">
-        <div class="goodsList"></div>
+        <div class="goodsList">
+          <div style="padding: 0 30px; width: 750px">
+            <div
+              style="
+                height: 200px;
+                width: 100%;
+                border: 1px solid #e2dbdb;
+                border-radius: 4px;
+              "
+            >
+              2121
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <Footer></Footer>

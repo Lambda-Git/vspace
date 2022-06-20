@@ -112,7 +112,7 @@
         </div>
         <!-- 用户基本信息 -->
         <div v-if="curSelect === 2">
-          <div class="formList">
+          <div class="formList" style="padding: 30px;">
             <el-form
               :model="userInfoForm"
               :rules="userInfoRules"
@@ -228,7 +228,7 @@
         </div>
         <!-- 修改密码 -->
         <div v-if="curSelect == 3" class="passwordForm" id="passwordPage">
-          <div class="formList">
+          <div class="formList" style="padding: 30px;">
             <el-form
               :model="passwordForm"
               :rules="passwordRules"
