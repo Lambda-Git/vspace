@@ -50,14 +50,40 @@
         <div class="goodsList">
           <div style="padding: 0 30px; width: 750px">
             <div
+              v-for="(item, index) in ProductData"
+              :key="index"
               style="
                 height: 200px;
                 width: 100%;
                 border: 1px solid #e2dbdb;
                 border-radius: 4px;
+                margin-bottom: 20px;
               "
             >
-              2121
+              <div style="padding: 10px; display: flex">
+                <div style="border: 1px solid #e2dbdb">
+                  <img style="width: 170px" src="../assets/cart-1.jpg" />
+                </div>
+                <div style="width: 100%; padding-left: 20px">
+                  <div style="display: flex">
+                    <div>南非西柚5斤</div>
+                    <div>红心西柚大果孕妇柚子</div>
+                  </div>
+                  <div style="color: 009866">¥ 29.69</div>
+                  <div>
+                    南非西柚5斤,红心西柚大果孕妇柚子进口葡萄柚水果包邮新鲜鲜果,空运到北京,新鲜多汁,口中爆浆的感觉你值得拥有,现在下单,两小时送到你手中。
+                  </div>
+                  <div>
+                    <el-button
+                      style="background: rgb(98, 210, 161); color: #fff"
+                      type="primary"
+                      plain
+                      @click="buys(item)"
+                      >购买</el-button
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -77,6 +103,7 @@ export default {
   },
   data() {
     return {
+      ProductData: [1, 2, 3, 4, 5, 6],
       Treedata: [
         {
           id: 1,
@@ -143,8 +170,12 @@ export default {
     onSelect(type) {
       this.curSelect = type;
     },
-    resetForm(formName) {
-      this.$refs[formName].resetFields();
+    buys(item) {
+      let { href } = this.$router.resolve({
+        path: "/goodsDetails",
+        query: { username: item  },
+      });
+      window.open(href, "_blank");
     },
   },
 };

@@ -5,6 +5,7 @@ import Login from '@/pages/Login'
 import Register from '@/pages/register'
 import PersonalCenter from '@/pages/personalCenter'
 import GoodsType from '@/pages/goodsType'
+import GoodsDetails from '@/pages/goodsDetails'
 
 
 Vue.use(Router)
@@ -35,6 +36,11 @@ export default new Router({
       path: '/goodsType',
       name: 'goodsType',
       component: GoodsType
+    },
+    {
+      path: '/goodsDetails',
+      name: 'goodsDetails',
+      component: GoodsDetails
     },
   ]
 })
