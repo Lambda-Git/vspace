@@ -9,7 +9,95 @@
     <div class="line"></div>
 
     <div class="goodsDetail">
-      
+      <div style="display: flex">
+        <div>
+          <div
+            style="
+              width: 430px;
+              height: 430px;
+              border: 1px solid #e2dbdb;
+              border-radius: 3px;
+              padding: 10px;
+            "
+          >
+            <img
+              style="
+                width: 100%;
+                height: 100%;
+                border: 1px solid #e2dbdb;
+                border-radius: 3px;
+              "
+              src="../assets/goodsDetail.jpg"
+            />
+          </div>
+          <div style="width: 450px; display: flex; margin-top: 10px">
+            <div class="imgType">
+              <img
+                style="width: 100%; height: 100%"
+                src="../assets/goodsDetail.jpg"
+              />
+            </div>
+            <div class="imgType" style="margin-left: 15px">
+              <img
+                style="width: 100%; height: 100%"
+                src="../assets/goodsDetail.jpg"
+              />
+            </div>
+            <div class="imgType" style="margin-left: 15px">
+              <img
+                style="width: 100%; height: 100%"
+                src="../assets/goodsDetail.jpg"
+              />
+            </div>
+          </div>
+        </div>
+        <div style="width: 100%; padding: 25px">
+          <div style="font-size: 20px; font-weight: 500; color: #228664;">
+            圣女果新鲜小番茄5斤水果当季整箱包邮蔬菜生吃自然熟西红柿千禧
+          </div>
+          <div style="display: flex;margin-top: 10px;">
+            <div style="width: 100px;">价格</div>
+            <div>¥ 89.00</div>
+          </div>
+          <div style="display: flex;margin-top: 10px;">
+            <div style="width: 100px;">促销价</div>
+            <div style="font-size: 18px;font-weight: 500;color: #228664;">¥ 29.80- 39.79</div>
+          </div>
+          <div>
+            <div>
+              <div>月销量:</div>
+              <div>6000+</div>
+            </div>
+            <div>
+              <div>积分:</div>
+              <div>14起</div>
+            </div>
+          </div>
+          <div>
+            <div>详情描述</div>
+            <div></div>
+          </div>
+          <div>
+            <div>数量</div>
+            <div></div>
+          </div>
+          <div style="width: 100%">
+            <el-button
+              style="color: rgb(98, 210, 161); width: 200px"
+              plain
+              @click="buys(item)"
+              >立即购买</el-button
+            >
+            <el-button
+              style="background: rgb(98, 210, 161); color: #fff; width: 200px"
+              type="primary"
+              plain
+              @click="buys(item)"
+              >加入购物车</el-button
+            >
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 商品推荐 list-->
@@ -162,5 +250,16 @@ export default {
   font-size: 18px;
   margin-left: 8px;
   margin-top: -2px;
+}
+
+.goodsDetail .imgType {
+  cursor: pointer;
+  width: 150px;
+  border: 1px solid #e2dbdb;
+  border-radius: 3px;
+}
+
+.goodsDetail .imgType:hover img {
+  border: 1px solid #228664;
 }
 </style>
