@@ -52,36 +52,48 @@
           </div>
         </div>
         <div style="width: 100%; padding: 25px">
-          <div style="font-size: 20px; font-weight: 500; color: #228664;">
+          <div style="font-size: 20px; font-weight: 500; color: #228664">
             圣女果新鲜小番茄5斤水果当季整箱包邮蔬菜生吃自然熟西红柿千禧
           </div>
-          <div style="display: flex;margin-top: 10px;">
-            <div style="width: 100px;">价格</div>
-            <div>¥ 89.00</div>
+          <div style="display: flex; margin-top: 20px">
+            <div style="width: 100px">价格:</div>
+            <div style="text-decoration: line-through">¥ 89.00</div>
           </div>
-          <div style="display: flex;margin-top: 10px;">
-            <div style="width: 100px;">促销价</div>
-            <div style="font-size: 18px;font-weight: 500;color: #228664;">¥ 29.80- 39.79</div>
+          <div style="display: flex; margin-top: 20px">
+            <div style="width: 100px">促销价:</div>
+            <div style="font-size: 18px; font-weight: 500; color: #228664">
+              ¥ 29.80- 39.79
+            </div>
           </div>
-          <div>
-            <div>
+          <div style="display: flex; margin-top: 20px">
+            <div style="width: 50%; display: flex; justify-content: center">
               <div>月销量:</div>
-              <div>6000+</div>
+              <div style="color: #228664; margin-left: 15px">6000+</div>
             </div>
-            <div>
+            <div style="border-right: 1px solid #ececec"></div>
+            <div style="width: 50%; display: flex; justify-content: center">
               <div>积分:</div>
-              <div>14起</div>
+              <div style="color: #228664; margin-left: 15px">14起</div>
             </div>
           </div>
-          <div>
-            <div>详情描述</div>
-            <div></div>
+          <div style="margin-top: 20px">
+            <div style="width: 100px; height: 55px; float: left">详情描述:</div>
+            <div style="font-size: 14px">
+              西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质,西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质,西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质
+            </div>
           </div>
-          <div>
-            <div>数量</div>
-            <div></div>
+          <div style="margin-top: 20px; display: flex">
+            <div style="width: 100px; margin-top: 8px">数量:</div>
+            <div>
+              <el-input-number
+                v-model="num"
+                controls-position="right"
+                @change="handleChange"
+                :min="1"
+              ></el-input-number>
+            </div>
           </div>
-          <div style="width: 100%">
+          <div style="width: 100%; margin-top: 20px">
             <el-button
               style="color: rgb(98, 210, 161); width: 200px"
               plain
@@ -93,8 +105,58 @@
               type="primary"
               plain
               @click="buys(item)"
-              >加入购物车</el-button
+              ><img
+                style="position: absolute; margin-top: -1px; margin-left: -18px"
+                src="../assets/shoppingCart3.png"
+              />
+              加入购物车</el-button
             >
+          </div>
+          <div
+            style="
+              width: 100%;
+              margin-top: 30px;
+              height: 170px;
+              border: 1px solid #ececec;
+              border-radius: 8px;
+            "
+          >
+            <div
+              style="
+                padding: 8px;
+                background: #62d2a1;
+                width: 72px;
+                color: #fff;
+                margin-bottom: 5px;
+              "
+            >
+              商品描述
+            </div>
+            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+              <div style="width: 50%; display: flex">
+                <div>品牌名称:</div>
+                <div>西红柿</div>
+              </div>
+              <div style="width: 50%; display: flex">
+                <div>产品参数:</div>
+                <div>XBSHHJDISIFHOSFHOFHOFHOS</div>
+              </div>
+            </div>
+            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+              <div style="width: 50%; display: flex">
+                <div>商品规格:</div>
+                <div>每份500克</div>
+              </div>
+              <div style="width: 50%; display: flex">
+                <div>生产日期</div>
+                <div>2022年06月22日</div>
+              </div>
+            </div>
+            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+              <div style="">商品有效期:</div>
+              <div>冷藏: 15天</div>
+              <div>常温: 5天</div>
+            </div>
           </div>
         </div>
       </div>
@@ -142,6 +204,7 @@ export default {
     return {
       ProductData: [1, 2, 3, 4, 5, 6],
       recommendData: [],
+      num: 1,
     };
   },
   created() {
@@ -168,6 +231,9 @@ export default {
         query: { username: data.label },
       });
       window.open(href, "_blank");
+    },
+    handleChange(value) {
+      console.log(value);
     },
   },
 };

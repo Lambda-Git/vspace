@@ -437,7 +437,7 @@ input:-moz-placeholder {
   padding: 15px;
 }
 span.el-tree-node__label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 .el-tree-node:focus > .el-tree-node__content {

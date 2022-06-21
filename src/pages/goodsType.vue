@@ -65,17 +65,39 @@
                   <img style="width: 170px" src="../assets/cart-1.jpg" />
                 </div>
                 <div style="width: 100%; padding-left: 20px">
-                  <div style="display: flex">
+                  <div
+                    style="
+                      display: flex;
+                      font-size: 18px;
+                      font-weight: 600;
+                      letter-spacing: 4px;
+                      margin-bottom: 10px;
+                    "
+                  >
                     <div>南非西柚5斤</div>
-                    <div>红心西柚大果孕妇柚子</div>
+                    <div style="margin-left: 20px">红心西柚大果孕妇柚子</div>
                   </div>
-                  <div style="color: 009866">¥ 29.69</div>
-                  <div>
+                  <div
+                    style="
+                      font-size: 20px;
+                      font-weight: 600;
+                      color: #039766;
+                      margin-bottom: 10px;
+                    "
+                  >
+                    ¥ 29.69
+                  </div>
+                  <div style="margin-bottom: 10px; font-size: 14px">
                     南非西柚5斤,红心西柚大果孕妇柚子进口葡萄柚水果包邮新鲜鲜果,空运到北京,新鲜多汁,口中爆浆的感觉你值得拥有,现在下单,两小时送到你手中。
                   </div>
                   <div>
                     <el-button
-                      style="background: rgb(98, 210, 161); color: #fff"
+                      style="
+                        background: rgb(98, 210, 161);
+                        color: #fff;
+                        width: 90px;
+                        border-radius: 25px;
+                      "
                       type="primary"
                       plain
                       @click="buys(item)"
@@ -173,7 +195,7 @@ export default {
     buys(item) {
       let { href } = this.$router.resolve({
         path: "/goodsDetails",
-        query: { username: item  },
+        query: { username: item },
       });
       window.open(href, "_blank");
     },
@@ -209,7 +231,7 @@ export default {
   padding: 15px;
 }
 span.el-tree-node__label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
 }
 .el-tree-node:focus > .el-tree-node__content {
