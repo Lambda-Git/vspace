@@ -104,7 +104,7 @@
               style="background: rgb(98, 210, 161); color: #fff; width: 200px"
               type="primary"
               plain
-              @click="buys(item)"
+              @click="addCards(item)"
               ><img
                 style="position: absolute; margin-top: -1px; margin-left: -18px"
                 src="../assets/shoppingCart3.png"
@@ -132,7 +132,7 @@
             >
               商品描述
             </div>
-            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+            <div style="display: flex; padding: 10px 5px; font-size: 14px">
               <div style="width: 50%; display: flex">
                 <div>品牌名称:</div>
                 <div>西红柿</div>
@@ -142,7 +142,7 @@
                 <div>XBSHHJDISIFHOSFHOFHOFHOS</div>
               </div>
             </div>
-            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+            <div style="display: flex; padding: 10px 5px; font-size: 14px">
               <div style="width: 50%; display: flex">
                 <div>商品规格:</div>
                 <div>每份500克</div>
@@ -152,7 +152,7 @@
                 <div>2022年06月22日</div>
               </div>
             </div>
-            <div style="display: flex; padding: 10px 5px;font-size: 14px;">
+            <div style="display: flex; padding: 10px 5px; font-size: 14px">
               <div style="">商品有效期:</div>
               <div>冷藏: 15天</div>
               <div>常温: 5天</div>
@@ -173,7 +173,7 @@
               v-for="(item, index) in recommendData"
               :key="index"
             >
-              <div class="grid_ontent">
+              <div class="grid_ontent" @click="buys(item)">
                 <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
@@ -225,10 +225,17 @@ export default {
     onSelect(type) {
       this.curSelect = type;
     },
-    buys() {
+    buys(data) {
       let { href } = this.$router.resolve({
-        path: "/goodsType",
+        path: "/goodsDetails",
         query: { username: data.label },
+      });
+      window.open(href, "_blank");
+    },
+    addCards(data) {
+      let { href } = this.$router.resolve({
+        path: "/shoppingCart",
+        query: { username: data },
       });
       window.open(href, "_blank");
     },
@@ -278,6 +285,10 @@ export default {
   border: 1px solid #eaeaea;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.promotion_items .items .grid_ontent:hover {
+  border: 1px solid #228664;
 }
 
 .promotion_items .items .grid_ontent .item_img {

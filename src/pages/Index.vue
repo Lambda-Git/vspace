@@ -85,7 +85,7 @@
               v-for="(item, index) in promotionProductData"
               :key="index"
             >
-              <div class="grid_ontent">
+              <div class="grid_ontent" @click="buys(item)">
                 <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
@@ -116,7 +116,7 @@
               v-for="(item, index) in latestProductData"
               :key="index"
             >
-              <div class="grid_ontent">
+              <div class="grid_ontent" @click="buys(item)">
                 <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
@@ -248,6 +248,13 @@ export default {
       });
       window.open(href, "_blank");
     },
+    buys(data) {
+      let { href } = this.$router.resolve({
+        path: "/goodsDetails",
+        query: { username: data.label },
+      });
+      window.open(href, "_blank");
+    },
   },
 };
 </script>
@@ -301,9 +308,14 @@ export default {
   padding: 25px;
 }
 .promotion_items .items .grid_ontent {
+  cursor: pointer;
   border: 1px solid #eaeaea;
   border-radius: 5px;
   margin-bottom: 20px;
+}
+
+.promotion_items .items .grid_ontent:hover {
+  border: 1px solid #228664;
 }
 
 .promotion_items .items .grid_ontent .item_img {

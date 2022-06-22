@@ -6,6 +6,7 @@ import Register from '@/pages/register'
 import PersonalCenter from '@/pages/personalCenter'
 import GoodsType from '@/pages/goodsType'
 import GoodsDetails from '@/pages/goodsDetails'
+import ShoppingCart from '@/pages/shoppingCart'
 
 
 Vue.use(Router)
@@ -41,6 +42,11 @@ export default new Router({
       path: '/goodsDetails',
       name: 'goodsDetails',
       component: GoodsDetails
+    },
+    {
+      path: '/shoppingCart',
+      name: 'shoppingCart',
+      component: ShoppingCart
     },
   ]
 })
