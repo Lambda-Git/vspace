@@ -7,6 +7,7 @@ import PersonalCenter from '@/pages/personalCenter'
 import GoodsType from '@/pages/goodsType'
 import GoodsDetails from '@/pages/goodsDetails'
 import ShoppingCart from '@/pages/shoppingCart'
+import Settlement from '@/pages/settlement'
 
 
 Vue.use(Router)
@@ -47,6 +48,11 @@ export default new Router({
       path: '/shoppingCart',
       name: 'shoppingCart',
       component: ShoppingCart
+    },
+    {
+      path: '/settlement',
+      name: 'settlement',
+      component: Settlement
     },
   ]
 })

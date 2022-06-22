@@ -155,9 +155,10 @@ export default {
     onSelect(type) {
       this.curSelect = type;
     },
+    // 结算
     settlement() {
       let { href } = this.$router.resolve({
-        path: "/goodsDetails",
+        path: "/settlement",
         query: { username: '结算' },
       });
       window.open(href, "_blank");
@@ -187,6 +188,5 @@ export default {
 .cards {
   width: 1200px;
   margin: auto;
-  height: 400px;
 }
 </style>
