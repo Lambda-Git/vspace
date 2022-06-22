@@ -20,13 +20,22 @@
           style="width: 100%"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column label="日期" width="120">
-            <template slot-scope="scope">{{ scope.row.date }}</template>
+          <el-table-column type="selection" width="30"> </el-table-column>
+          <el-table-column label="商品信息" width="700">
+            <template slot-scope="scope">
+              <img src="../assets/cart-1.jpg" />
+              <div>
+                {{scope.price}}
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="120">
+          <el-table-column prop="price" label="单价" width="80">
           </el-table-column>
-          <el-table-column prop="address" label="地址" show-overflow-tooltip>
+          <el-table-column prop="count" label="数量" width="80" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column prop="money" label="金额" width="80" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column prop="action" label="操作" width="180" show-overflow-tooltip>
           </el-table-column>
         </el-table>
       </div>
@@ -46,6 +55,11 @@ export default {
   data() {
     return {
       ProductData: [1, 2, 3, 4, 5, 6],
+      tableData:[
+        {price: 14,count: 20,money: 100.00, },
+        {price: 17.99,count: 3,money: 1020.00, },
+        {price: 14.99,count: 100,money: 1100.00, },
+      ]
     };
   },
   created() {
