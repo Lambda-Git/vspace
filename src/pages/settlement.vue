@@ -15,14 +15,7 @@
     </div>
     <div class="settlementInfo" style="margin-bottom: 20px">
       <div>填写并核对订单信息</div>
-      <div
-        style="
-          border: 2px solid #009866;
-          height: 700px;
-          padding: 20px;
-          margin-top: 10px;
-        "
-      >
+      <div style="border: 2px solid #009866; padding: 20px; margin-top: 10px">
         <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px">
           收货人信息
         </div>
@@ -131,10 +124,156 @@
               border-radius: 5px;
             "
           >
-            11
+            <div style="display: flex; padding: 30px">
+              <div style="width: 350px">
+                <div style="font-size: 15px; font-weight: 500">配送方式</div>
+                <div
+                  style="
+                    border: 1px solid #009866;
+                    width: 110px;
+                    height: 25px;
+                    text-align: center;
+                    line-height: 25px;
+                    color: #009866;
+                    margin: 10px 0 20px 20px;
+                  "
+                >
+                  快递运输
+                </div>
+                <div style="display: flex">
+                  <div style="font-size: 15px; font-weight: 500">配送时间</div>
+                  <div>
+                    <el-input
+                      style="width: 250px; margin-top: -11px; margin-left: 10px"
+                      placeholder="工作日、双休日与节假日均可配送"
+                    ></el-input>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex">
+                <div>
+                  <img
+                    style="width: 100px; height: 100px;margin-right: 10px;"
+                    src="../assets/cart-1.jpg"
+                  />
+                </div>
+                <div style="margin-right: 30px;">
+                  <div style="width: 300px;font-size: 13px;color: #898996;margin-bottom: 5px;">
+                    京东京造 荞麦枕头 花草枕 100%荞麦壳填充
+                    大凉山高山苦荞全棉舒睡枕芯睡眠填充分区高
+                  </div>
+                  <div style="width: 300px;font-size: 13px;color: #898996;margin-bottom: 5px;">颜色：店长推荐】智能游戏APP+加粗车架+防滑脚踏 黑</div>
+                  <div style="display: flex">
+                    <div><img src="" /></div>
+                    <div style="width: 300px;font-size: 13px;color: #898996;">不支持7天无理由退货</div>
+                  </div>
+                </div>
+                <div style="width: 100px;text-align: center;">
+                  <div style="margin-top: 30px;font-size: 16px;font-weight: 600;color: #009866;">¥ 29.99</div>
+                  <div style="font-size: 14px;margin-top: 8px;">不计重量</div>
+                </div>
+                <div style="width: 100px;text-align: center;margin-top: 40px;font-size: 14px">x 1</div>
+                <div style="width: 50px;text-align: center;margin-top: 40px;font-size: 14px">有货</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="line"></div>
+        <div style="margin-bottom: 30px">
+          <div style="font-size: 16px; font-weight: 500; margin-bottom: 10px">
+            发票信息
+          </div>
+          <div style="display: flex; font-size: 14px">
+            <div style="margin-left: 20px">电子普通发票</div>
+            <div style="margin-left: 30px">个人</div>
+            <div style="margin-left: 30px">商品明细</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buyInfo">
+      <div>
+        <div style="display: flex; margin-bottom: 10px">
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 600;
+              margin-left: 950px;
+              width: 80px;
+              text-align: right;
+              margin-right: 70px;
+            "
+          >
+            总商品金额:
+          </div>
+          <div style="font-size: 14px; font-weight: 600">¥192.90</div>
+        </div>
+        <div style="display: flex; margin-bottom: 10px">
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 600;
+              margin-left: 950px;
+              width: 80px;
+              text-align: right;
+              margin-right: 70px;
+            "
+          >
+            运费:
+          </div>
+          <div style="font-size: 14px; font-weight: 600">¥6.00</div>
+        </div>
+      </div>
+      <div
+        style="
+          border: 1px solid #f7f5f5;
+          background: #f7f5f5;
+          border-radius: 5px;
+          padding: 20px 0;
+          margin-bottom: 30px;
+        "
+      >
+        <div style="display: flex; margin-bottom: 10px">
+          <div
+            style="
+              font-size: 14px;
+              font-weight: 600;
+              margin-left: 950px;
+              width: 80px;
+              text-align: right;
+              margin-right: 30px;
+            "
+          >
+            应付总额:
+          </div>
+          <div style="font-size: 18px; font-weight: 600; color: #009866">
+            ¥192.90
+          </div>
+        </div>
+        <div style="display: flex; justify-content: flex-end">
+          <div style="display: flex; margin-right: 40px">
+            <div style="font-size: 14px; font-weight: 600; margin-right: 10px">
+              寄送至:
+            </div>
+            <div style="font-size: 14px; font-weight: 600">
+              北京 朝阳区 三环到四环之间 小关安苑北里安苑北里小区 19号楼 1708
+            </div>
+          </div>
+          <div style="display: flex; margin-right: 50px">
+            <div style="font-size: 14px; font-weight: 600">收货人:</div>
+            <div style="font-size: 14px; font-weight: 600">
+              周桂林 13716883073
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: right; margin-bottom: 20px">
+        <el-button
+          style="background: #009866; color: #fff; width: 140px"
+          plain
+          @click="settlement()"
+          >提交订单</el-button
+        >
       </div>
     </div>
     <el-dialog
@@ -381,5 +520,10 @@ export default {
 .paySelect {
   border: 1px solid #009866;
   color: #009866;
+}
+.buyInfo {
+  width: 1200px;
+  margin: auto;
+  margin-top: 40px;
 }
 </style>
