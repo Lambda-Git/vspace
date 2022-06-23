@@ -38,14 +38,9 @@
             style="display: flex"
           >
             <div
-              style="
-                width: 120px;
-                height: 35px;
-                text-align: center;
-                line-height: 35px;
-                border: 1px solid #009866;
-                margin-bottom: 20px;
-              "
+              :class="addresSelect === index ? 'addresSelect' : ''"
+              class="addressName"
+              @click="addresOnSelect(index)"
             >
               {{ item.name }}
             </div>
@@ -80,7 +75,9 @@
               style="height: 35px; line-height: 35px; margin-left: 100px"
               v-if="item.default === false"
             >
-              <el-button type="text">设置为默认地址</el-button>
+              <el-button @click="setDefault(item.id)" type="text"
+                >设置为默认地址</el-button
+              >
             </div>
             <div style="height: 35px; line-height: 35px; margin-left: 20px">
               <i style="cursor: pointer" class="el-icon-edit"></i>
@@ -99,11 +96,27 @@
             支付方式
           </div>
           <div style="display: flex">
-            <div class="paytype"><i class="el-icon-s-shop"></i>货到付款</div>
-            <div class="paytype">
+            <div
+              @click="payTypeOnSelect(1)"
+              :class="payType === 1 ? 'paySelect' : ''"
+              class="paytype"
+            >
+              <i class="el-icon-s-shop"></i>货到付款
+            </div>
+            <div
+              @click="payTypeOnSelect(2)"
+              :class="payType === 2 ? 'paySelect' : ''"
+              class="paytype"
+            >
               <i class="el-icon-full-screen"></i>在线支付
             </div>
-            <div class="paytype"><i class="el-icon-bank-card"></i>对公转账</div>
+            <div
+              @click="payTypeOnSelect(3)"
+              :class="payType === 3 ? 'paySelect' : ''"
+              class="paytype"
+            >
+              <i class="el-icon-bank-card"></i>对公转账
+            </div>
           </div>
         </div>
         <div class="line"></div>
@@ -191,6 +204,8 @@ export default {
       }
     };
     return {
+      addresSelect: -1,
+      payType: 0,
       options: provinceAndCityData,
       ProductData: [1, 2, 3, 4, 5, 6],
       dialogVisible: false,
@@ -270,6 +285,39 @@ export default {
     handleChange(value) {
       console.log(value);
     },
+    setDefault(id) {
+      let array = [];
+      this.addressList.forEach((item) => {
+        if (item.id === id) {
+          item.default === true;
+          array.push({
+            id: item.id,
+            name: item.name,
+            cities: item.cities,
+            detail: item.detail,
+            phone: item.phone,
+            default: true,
+          });
+        } else {
+          array.push({
+            id: item.id,
+            name: item.name,
+            cities: item.cities,
+            detail: item.detail,
+            phone: item.phone,
+            default: false,
+          });
+        }
+      });
+      console.log(array);
+      this.addressList = array.slice();
+    },
+    addresOnSelect(num) {
+      this.addresSelect = num;
+    },
+    payTypeOnSelect(num) {
+      this.payType = num;
+    },
   },
 };
 </script>
@@ -305,13 +353,33 @@ export default {
   border-bottom: 1px solid #009866;
   margin-bottom: 20px;
 }
+.addressName {
+  width: 120px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border: 1px solid #d4cece;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.addressName:hover {
+  color: #009866;
+}
 .paytype {
-  border: 1px solid #009866;
+  border: 1px solid #d4cece;
   padding: 5px 20px;
   margin-right: 50px;
   cursor: pointer;
 }
 .paytype:hover {
+  color: #009866;
+}
+.addresSelect {
+  border: 1px solid #009866;
+  color: #009866;
+}
+.paySelect {
+  border: 1px solid #009866;
   color: #009866;
 }
 </style>
