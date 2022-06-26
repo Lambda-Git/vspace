@@ -39,7 +39,7 @@ export default {
       // activeIndex: '1',
       // activeIndex2: '1'
     };
-  },66
+  },
    created() {
      if(JSON.parse(localStorage.getItem('car')) !== 'null') {
        this.$store.commit('addCar',JSON.parse(localStorage.getItem('car')))
