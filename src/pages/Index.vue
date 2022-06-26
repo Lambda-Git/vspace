@@ -24,7 +24,7 @@
             <i class="el-icon-search"></i><input placeholder="搜一搜" />
           </div>
           <div class="cart">
-            <el-badge :value="200" :max="99" class="item">
+            <el-badge :value="$store.getters.getAllCount" class="item">
               <img src="../assets/shoppingCart1.png" />
             </el-badge>
           </div>
@@ -32,7 +32,10 @@
       </div>
       <!-- 手风琴菜单 -->
       <div class="menu_level_two" style="display: flex; margin-bottom: 30px">
-        <div class="side_left" style="width: 300px; background: rgb(98, 210, 161);">
+        <div
+          class="side_left"
+          style="width: 300px; background: rgb(98, 210, 161)"
+        >
           <el-tree
             class="filter-tree"
             :data="Treedata"
@@ -153,6 +156,10 @@ export default {
       ],
       promotionProductData: [],
       latestProductData: [],
+      defaultProps: {
+        children: "children",
+        label: "label",
+      },
       Treedata: [
         {
           id: 1,
@@ -244,7 +251,7 @@ export default {
       // 新页面打开
       let { href } = this.$router.resolve({
         path: "/goodsType",
-        query: { username: data.label  },
+        query: { username: data.label },
       });
       window.open(href, "_blank");
     },

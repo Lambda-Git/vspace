@@ -8,12 +8,19 @@ import GoodsType from '@/pages/goodsType'
 import GoodsDetails from '@/pages/goodsDetails'
 import ShoppingCart from '@/pages/shoppingCart'
 import Settlement from '@/pages/settlement'
+import Paying from '@/pages/paying'
+import Test from '@/pages/test'
 
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'test',
+    //   component: Test
+    // },
     {
       path: '/',
       name: 'Index',
@@ -53,6 +60,11 @@ export default new Router({
       path: '/settlement',
       name: 'settlement',
       component: Settlement
+    },
+    {
+      path: '/paying',
+      name: 'paying',
+      component: Paying
     },
   ]
 })

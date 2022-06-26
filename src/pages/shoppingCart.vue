@@ -159,13 +159,14 @@ export default {
     settlement() {
       let { href } = this.$router.resolve({
         path: "/settlement",
-        query: { username: '结算' },
+        query: { username: "结算" },
       });
       window.open(href, "_blank");
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
     },
+    handleChange() {},
   },
 };
 </script>

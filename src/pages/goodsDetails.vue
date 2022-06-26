@@ -7,7 +7,6 @@
       </div>
     </div>
     <div class="line"></div>
-
     <div class="goodsDetail">
       <div style="display: flex">
         <div>
@@ -97,14 +96,14 @@
             <el-button
               style="color: rgb(98, 210, 161); width: 200px"
               plain
-              @click="buys(item)"
+              @click="buyNow(item)"
               >立即购买</el-button
             >
             <el-button
               style="background: rgb(98, 210, 161); color: #fff; width: 200px"
               type="primary"
               plain
-              @click="addCards(item)"
+              @click="addToShopCar(item)"
               ><img
                 style="position: absolute; margin-top: -1px; margin-left: -18px"
                 src="../assets/shoppingCart3.png"
@@ -232,13 +231,26 @@ export default {
       });
       window.open(href, "_blank");
     },
-    addCards(data) {
+    buyNow(data) {
       let { href } = this.$router.resolve({
         path: "/shoppingCart",
         query: { username: data },
       });
       window.open(href, "_blank");
     },
+    // 点击添加到购物车
+    addToShopCar(item) {
+      this.ballFlag = !this.ballFlag;
+      var goodsInfo = {
+        id: Date.now(),
+        count: 2,
+        price: 32,
+        selected: true,
+      };
+      this.$store.commit("addCar", goodsInfo);
+      console.log(this.$store);
+    },
+
     handleChange(value) {
       console.log(value);
     },

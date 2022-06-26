@@ -271,7 +271,7 @@
         <el-button
           style="background: #009866; color: #fff; width: 140px"
           plain
-          @click="settlement()"
+          @click="goPaying()"
           >提交订单</el-button
         >
       </div>
@@ -456,6 +456,9 @@ export default {
     },
     payTypeOnSelect(num) {
       this.payType = num;
+    },
+    goPaying(){
+       this.$router.push({ path: "/paying", query: { name: '' } });
     },
   },
 };

@@ -126,6 +126,10 @@ export default {
   data() {
     return {
       ProductData: [1, 2, 3, 4, 5, 6],
+       defaultProps: {
+        children: "children",
+        label: "label",
+      },
       Treedata: [
         {
           id: 1,
@@ -198,6 +202,9 @@ export default {
         query: { username: item },
       });
       window.open(href, "_blank");
+    },
+    handleNodeClick(data) {
+      console.log(data);
     },
   },
 };
