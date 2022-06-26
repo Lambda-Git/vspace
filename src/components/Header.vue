@@ -19,8 +19,14 @@
       <div>
         <router-link :to="{ path: '/login' }"> 关于我们 </router-link>
       </div>
-      <div>
-        <router-link :to="{ path: '/login' }"> 手机版 </router-link>
+      <div v-if="this.$route.path !== '/'">
+        <!-- <router-link :to="{ path: '/login' }"> -->
+          <div class="cart">
+            <el-badge :value="$store.getters.getAllCount" class="item">
+              <img src="../assets/shoppingCart3.png" />
+            </el-badge>
+          </div>
+        <!-- </router-link> -->
       </div>
     </div>
   </div>
@@ -33,6 +39,11 @@ export default {
       // activeIndex: '1',
       // activeIndex2: '1'
     };
+  },66
+   created() {
+     if(JSON.parse(localStorage.getItem('car')) !== 'null') {
+       this.$store.commit('addCar',JSON.parse(localStorage.getItem('car')))
+     }
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -63,4 +74,13 @@ export default {
   color: #fff;
   text-decoration: none;
 }
+
+.menu .cart {
+  margin-left: 32px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+ .menu .cart img {
+   width: 25px;
+ }
 </style>>
