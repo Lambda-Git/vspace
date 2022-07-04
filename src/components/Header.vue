@@ -21,11 +21,11 @@
       </div>
       <div v-if="this.$route.path !== '/'">
         <!-- <router-link :to="{ path: '/login' }"> -->
-          <div class="cart">
-            <el-badge :value="$store.getters.getAllCount" class="item">
-              <img src="../assets/shoppingCart3.png" />
-            </el-badge>
-          </div>
+        <div class="cart">
+          <el-badge :value="$store.getters.getAllCount" class="item">
+            <img src="../assets/shoppingCart3.png" />
+          </el-badge>
+        </div>
         <!-- </router-link> -->
       </div>
     </div>
@@ -40,10 +40,12 @@ export default {
       // activeIndex2: '1'
     };
   },
-   created() {
-     if(JSON.parse(localStorage.getItem('car')) !== 'null') {
-       this.$store.commit('addCar',JSON.parse(localStorage.getItem('car')))
-     }
+  mounted() {
+    console.log("localStorage.car");
+    console.log(localStorage.getItem("car"));
+    if (localStorage.getItem("car") !== null) {
+      // this.$store.commit("addCar", JSON.parse(localStorage.getItem("car")));
+    }
   },
   methods: {
     handleSelect(key, keyPath) {
@@ -80,7 +82,7 @@ export default {
   margin-top: 10px;
   cursor: pointer;
 }
- .menu .cart img {
-   width: 25px;
- }
+.menu .cart img {
+  width: 25px;
+}
 </style>>
