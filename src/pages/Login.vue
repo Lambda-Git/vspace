@@ -34,6 +34,22 @@
               <template slot="prepend"
                 ><i class="el-icon-mobile-phone"></i
               ></template>
+              <!-- <el-button
+                v-if="disabled"
+                type="primary"
+                size="mini"
+                style="magin-left: 3px"
+                @click="verification"
+                >获取验证码</el-button
+              >
+              <el-button
+                v-if="!disabled"
+                type="info"
+                disabled
+                size="mini"
+                style="magin-left: 3px"
+                >{{ timer }}秒后重试</el-button
+              > -->
               <el-button
                 v-if="this.loginType === 2"
                 slot="append"
@@ -108,6 +124,8 @@ export default {
     };
     return {
       loginType: 1, // 1 账户登录 2 手机验证码登录
+      disabled: true,
+      timer: 60,
       ruleForm: {
         phone: undefined,
         code: undefined,

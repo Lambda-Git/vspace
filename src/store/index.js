@@ -10,10 +10,12 @@ import { post, get, patch, put } from '../utils/http'
 
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV != 'production',
-    state: { str: 'liangzai', car:[]},
+    state: { str: 'liangzai', car: [] },
     getters: {
         // 计算购物车 徽标的数值
         getAllCount(state) {
+            // console.log('计算购物车')
+            // console.log(state.car)
             var c = 0
             state.car.forEach(item => {
                 if (item.id) {
@@ -31,7 +33,7 @@ const store = new Vuex.Store({
         addCar(state, goodsInfo) {
             var flag = false
             state.car.some(item => {
-                if (item.id === goodsInfo.id) {
+                if (item.id && item.id === goodsInfo.id) {
                     item.count += parseInt(goodsInfo.count)
                     flag = true
                     return true
@@ -40,9 +42,13 @@ const store = new Vuex.Store({
             if (!flag) {
                 state.car.push(goodsInfo)
             }
-            console.log('goodsInfo')
-            console.log(goodsInfo)
-            localStorage.setItem('car', JSON.stringify(state.car))
+            console.log('JSON.stringify(state.car)')
+            console.log(JSON.stringify(state.car))
+            if (JSON.stringify(state.car) !== 'null') {
+                console.log(21221)
+                console.log(JSON.stringify(state.car))
+                localStorage.setItem('car', JSON.stringify(state.car))
+            }
         }
     },
     modules: {
