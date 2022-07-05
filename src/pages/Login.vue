@@ -34,30 +34,17 @@
               <template slot="prepend"
                 ><i class="el-icon-mobile-phone"></i
               ></template>
-              <!-- <el-button
-                v-if="disabled"
-                type="primary"
-                size="mini"
-                style="magin-left: 3px"
+              <el-button
+                v-if="this.loginType === 2 && disabled"
+                slot="append"
+                class="getCode"
                 @click="verification"
                 >获取验证码</el-button
               >
-              <el-button
-                v-if="!disabled"
-                type="info"
-                disabled
-                size="mini"
-                style="magin-left: 3px"
+              <el-button v-if="!disabled" slot="append" class="getCode" disabled
                 >{{ timer }}秒后重试</el-button
-              > -->
-              <el-button
-                v-if="this.loginType === 2"
-                slot="append"
-                class="getCode"
-                :disabled="this.ruleForm.phone === ''"
-                >获取验证码</el-button
-              ></el-input
-            >
+              >
+            </el-input>
           </el-form-item>
           <el-form-item v-if="this.loginType === 2" label="" prop="code">
             <el-input v-model="ruleForm.code" placeholder="请输入验证码">
@@ -127,7 +114,7 @@ export default {
       disabled: true,
       timer: 60,
       ruleForm: {
-        phone: undefined,
+        phone: '',
         code: undefined,
         password: undefined,
         type: "",
@@ -142,13 +129,35 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.path);
+    // console.log(this.$route.path);
   },
   mounted() {},
   methods: {
     onSelect(type) {
-      console.log(type);
       this.loginType = type;
+    },
+    verification() {
+      // 手机号常规检验
+       let reg =
+        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+      if (this.ruleForm.phone === "") {
+        this.$message.error('手机号不能为空!');
+        return  false
+      } 
+      if (!reg.test(this.ruleForm.phone)) {
+        this.$message.error('手机号格式错误!');
+        return  false
+      } 
+      this.disabled = false;
+      // this.getVerification()// 调获取验证码接口
+      const authTimer = setInterval(() => {
+        this.timer--;
+        if (this.timer <= 0) {
+          this.disabled = true;
+          this.timer = 60;
+          clearInterval(authTimer);
+        }
+      }, 1000);
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
