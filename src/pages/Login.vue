@@ -149,7 +149,8 @@ export default {
         return  false
       } 
       this.disabled = false;
-      // this.getVerification()// 调获取验证码接口
+      // 调获取验证码接口
+      this.getVerification()
       const authTimer = setInterval(() => {
         this.timer--;
         if (this.timer <= 0) {
@@ -158,6 +159,9 @@ export default {
           clearInterval(authTimer);
         }
       }, 1000);
+    },
+    getVerification() {
+      // 调用验证码接口
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
