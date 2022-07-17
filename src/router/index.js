@@ -9,18 +9,11 @@ import GoodsDetails from '@/pages/goodsDetails'
 import ShoppingCart from '@/pages/shoppingCart'
 import Settlement from '@/pages/settlement'
 import Paying from '@/pages/paying'
-import Test from '@/pages/test'
-
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'test',
-    //   component: Test
-    // },
     {
       path: '/',
       name: 'Index',
