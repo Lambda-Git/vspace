@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>抽奖</title>
+  <style>
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video,
+    code,
+    form,
+    fieldset,
+    legend,
+    input,
+    textarea,
+    blockquote {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+
+    html {
+      width: 100%;
+    }
+
+    body {
+      width: 100%;
+    }
+
+    .show-numFixed {
+      text-align: center;
+      padding: 30px;
+      height: 20px;
+    }
+
+    .draw-container {
+      width: 705px;
+      margin: 50px auto 0;
+      display: flex;
+      box-sizing: border-box;
+      padding-right: 5px;
+      padding-bottom: 5px;
+      align-items: center;
+      overflow: hidden;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .draw-item {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-draw,
+    .count-text {
+      width: 100px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px auto 0;
+    }
+
+    .btn-draw {
+      background: blue;
+      color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.5);
+    }
+
+    .count-text {
+      background: blue;
+      color: #fff;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="root">
+    <div class="show-numFixed">
+    </div>
+    <div class="draw-container">
+
+    </div>
+    <div class="btn-draw">抽奖</div>
+    <div class="count-text">次数0</div>
+  </div>
+
+</body>
+<script>
+  function initPageEvent(func) {
+    var oldOnload = window.onload
+    if (typeof window.onload === 'function') {
+      window.onload = function () {
+        oldOnload()
+        func()
+      }
+    } else {
+      window.onload = function () {
+        func()
+      }
+    }
+  }
+
+  function createRandom(minVal, maxVal) {
+    return parseInt(Math.random() * (maxVal - minVal + 1), 10) + minVal
+  }
+
+  function createFixArr(arr = [], length, minVal, maxVal) {
+    if (arr.length < length) {
+      let num = createRandom(minVal, maxVal)
+      if (!arr.includes(num)) arr.push(num)
+      return createFixArr(arr, length, minVal, maxVal)
+    } else {
+      return arr
+    }
+  }
+
+  function createUniqueNum(arr, offset, limit, arrLimit) {
+    console.log(arrLimit)
+    if (arrLimit !== undefined) {
+      document.querySelector('.show-numFixed').innerHTML = '本次固定的前十个:' + arrLimit.toString()
+    }
+    let n = true
+    while (n) {
+      let unique
+      if (arrLimit !== undefined) {
+        unique = arrLimit[createRandom(offset, limit)]
+      } else {
+        unique = createRandom(offset, limit)
+      }
+      if (!arr.includes(unique)) {
+        n = false
+        return unique
+      }
+    }
+  }
+
+  // 抽奖前置事件
+  let preLuckDraw = function () {
+    let offset = 0
+    let limit = 199
+    let arrTen = []
+    let numFixed = 10
+    arrTen = createFixArr(arrTen, numFixed, offset, limit);
+    var indexDraw = 0
+    var participantList = []
+    return function () {
+      console.log(indexDraw)
+      console.log(participantList)
+      let luckIndex
+      if (indexDraw < numFixed) {
+        luckIndex = createUniqueNum(participantList, 0, 9, arrTen);
+      } else if (indexDraw < 200) {
+        luckIndex = createUniqueNum(participantList, offset, limit);
+      }
+
+      if (indexDraw < 200) {
+        participantList.push(luckIndex)
+        document.querySelectorAll('.draw-item')[luckIndex].style.background = 'red'
+        indexDraw = indexDraw + 1
+        document.querySelector('.count-text').innerHTML = indexDraw
+      } else {
+        document.querySelector('.btn-draw').innerHTML = '抽奖已经结束'
+
+      }
+
+    }
+  }
+  // 绘制div
+  function createDiv() {
+    for (var i = 0; i < 200; i++) {
+      var divDrawItem = document.createElement('div')
+      divDrawItem.className = 'draw-item'
+      divDrawItem.innerText = i
+      document.getElementsByClassName('draw-container')[0].appendChild(divDrawItem)
+    }
+  }
+
+  // 加载页面事件
+  function initDrawEvent() {
+    createDiv();
+    let luckDraw = preLuckDraw();
+    document.querySelector('.btn-draw').onclick = function () {
+      luckDraw()
+    }
+  }
+  initPageEvent(initDrawEvent)
+
+</script>
+
+</html>
