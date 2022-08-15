@@ -38,12 +38,12 @@
                 v-if="this.loginType === 2 && disabled"
                 slot="append"
                 class="getCode"
+                :disabled="this.ruleForm.phone === ''"
                 @click="verification"
                 >获取验证码</el-button
               >
-              <el-button v-if="!disabled" slot="append" class="getCode" disabled
-                >{{ timer }}秒后重试</el-button
-              >
+              <el-button v-if="!disabled" slot="append" class="getCode"
+                >{{ timer }}秒后重试</el-button>
             </el-input>
           </el-form-item>
           <el-form-item v-if="this.loginType === 2" label="" prop="code">
@@ -162,6 +162,15 @@ export default {
     },
     getVerification() {
       // 调用验证码接口
+      console.log(this.ruleForm.phone)
+      this.$http
+            .post("userInfo/login", {
+              phone: this.ruleForm.phone,
+            })
+            .then((response) => {
+              
+            }
+            );
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
