@@ -391,9 +391,9 @@ ngrok 内网穿透工具：
 ## 5.3 用户退款
 
 ```
-请求:/ali-pay/trade/refund
+请求:ali-pay/trade/refund/{orderId}/{reason}
 请求方式：post
-参数： String orderSign
+参数： String orderId,String reason
 返回值：json
 ```
 
@@ -409,17 +409,11 @@ ngrok 内网穿透工具：
 
 ```
 未支付     0
-支付成功   1
+支付成功    1
 超时已关闭  2
 用户已取消  3
-退款中     4
-已退款     5
-```
-
-## 5.4 用户获得个人账单【可选择】
-
-```
-留作备用
+退款中      4
+已退款      5
 ```
 
 
@@ -920,4 +914,24 @@ json格式如下：
 
 
 购物车内容： 
+
+
+
+添加到购物车： 
+
+http://localhost:10012/cart/add?productId=1002&num=10
+
+查询购物车： 
+
+http://localhost:10012/cart/list
+
+下单： 
+
+http://localhost:10012/order?userAddr=北京樱花园
+
+支付： 
+
+http://localhost:18090/ali-pay/trade/page/pay/1026
+
+vscode：页面展示
 

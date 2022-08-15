@@ -1,7 +1,8 @@
 import axios from 'axios';
 // import { Message } from 'element-ui';
 // axios.defaults.timeout = 5000;
-// axios.defaults.baseURL ='';
+// 本地开发 调试
+// axios.defaults.baseURL ='http://3ea5443a.cpolar.cn/';
  
 
 //http request 拦截器
