@@ -2,26 +2,14 @@
   <div>
     <Header></Header>
     <div class="content_index">
-      <!-- 查询 type + input-->
+      <!-- 查询 input-->
       <div class="type_search">
         <div class="logo">
           <img src="../assets/logo.png" />
         </div>
-        <div class="type_info">
-          <div>首页</div>
-          <div>团购</div>
-          <div>折扣</div>
-          <div>严选</div>
-          <div>蔬菜</div>
-          <div>生鲜</div>
-          <div>冷冻</div>
-          <div>蛋类</div>
-          <div>酒水</div>
-          <div>杂项</div>
-        </div>
         <div class="search">
           <div class="searchInfo">
-            <i class="el-icon-search"></i><input placeholder="搜一搜" />
+            <i @click="searchGo()" style="cursor: pointer" class="el-icon-search"></i><input v-model="curCategoryName" placeholder="搜一搜" />
           </div>
           <div class="cart">
             <el-badge :value="$store.getters.getAllCount" class="item">
@@ -34,7 +22,7 @@
       <div class="menu_level_two" style="display: flex; margin-bottom: 30px">
         <div
           class="side_left"
-          style="width: 300px; background: rgb(98, 210, 161)"
+          style="width: 300px; background: rgb(98, 210, 161);height:400px;overflow: auto;"
         >
           <el-tree
             class="filter-tree"
@@ -48,25 +36,9 @@
         </div>
         <div class="side_rotation" style="width: 100%">
           <el-carousel height="400px">
-            <!-- <el-carousel-item v-for="item in rotationArray" :key="item"> -->
-            <el-carousel-item>
-              <img
-                style="height: 400px; width: 100%"
-                src="../assets/slide_3.jpg"
-              />
-            </el-carousel-item>
-            <el-carousel-item>
-              <img
-                style="height: 400px; width: 100%"
-                src="../assets/slide_4.jpg"
-              />
-            </el-carousel-item>
-            <el-carousel-item>
-              <img
-                style="height: 400px; width: 100%"
-                src="../assets/slide_5.jpg"
-              />
-            </el-carousel-item>
+              <el-carousel-item v-for="(item,index) in bannerData" :key="index">
+                <img :src="bannerLocalList[index]"  style="height: 400px; width: 100%" alt="">
+              </el-carousel-item>
           </el-carousel>
         </div>
       </div>
@@ -89,7 +61,7 @@
               :key="index"
             >
               <div class="grid_ontent" @click="buys(item)">
-                <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
+                <div class="item_img"><img :src="rotationArray[index]" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
                   <div class="one">惊爆价:</div>
@@ -120,7 +92,7 @@
               :key="index"
             >
               <div class="grid_ontent" @click="buys(item)">
-                <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
+                <div class="item_img"><img :src="rotationArray[index]" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
                   <div class="one">惊爆价:</div>
@@ -149,79 +121,41 @@ export default {
   name: "Index",
   data() {
     return {
+      curCategoryName: '',
+       // 暂时用本地图片代替服务器图片文件
       rotationArray: [
-        ".//static/img/cart-1.jpg",
-        ".//static/img/cart-2.jpg",
-        ".//static/img/cart-1.jpg",
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+      ],
+      // 暂时用本地图片代替服务器图片文件
+      bannerLocalList:[
+          require("../assets/slide_3.jpg"),
+          require("../assets/slide_4.jpg"),
+          require("../assets/slide_5.jpg"),
       ],
       promotionProductData: [],
       latestProductData: [],
+      bannerData: [],
       defaultProps: {
         children: "children",
-        label: "label",
+        label: "categoryName",
       },
-      Treedata: [
-        {
-          id: 1,
-          label: "蔬菜豆制品",
-          children: [
-            {
-              id: 1.1,
-              label: "土豆",
-            },
-            {
-              id: 1.2,
-              label: "大白菜",
-            },
-            {
-              id: 1.3,
-              label: "干豆角",
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: "肉禽蛋",
-          children: [
-            {
-              id: 2.1,
-              label: "鸡胸肉",
-            },
-            {
-              id: 2.2,
-              label: "牛棒骨",
-            },
-            {
-              id: 2.3,
-              label: "鹌鹑蛋",
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: "海鲜水产",
-          children: [
-            {
-              id: 3.1,
-              label: "龙虾",
-            },
-            {
-              id: 3.2,
-              label: "海参",
-            },
-            {
-              id: 3.3,
-              label: "帝王蟹",
-            },
-          ],
-        },
-      ],
+      Treedata: [],
     };
   },
   created() {
     console.log(this.$route.path);
   },
   mounted() {
+    this.$nextTick(this.getBanner())
+    this.getAllProductCategories()
     // 获取促销商品
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
@@ -244,6 +178,41 @@ export default {
     );
   },
   methods: {
+    getBanner(){
+      // 获取广告轮播图
+     this.$http.get("/static/advertisingBanner.json").then(
+      (res) => {
+        this.bannerData = res.data;
+      },
+      (err) => {
+        // 500响应
+        console.log(err);
+      }
+    );
+    },
+    getAllProductCategories(){
+      // 获取所有商品分类 
+      this.$http.get("/static/allProductCategories.json").then(
+        (res) => {
+          this.Treedata = this.rray2Tree(res.data)
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
+    searchGo(){
+       // 新页面打开
+       if(this.curCategoryName === '') {
+        return false;
+       }
+      let { href } = this.$router.resolve({
+        path: "/goodsType",
+        query: { categoryName: this.curCategoryName},
+      });
+      window.open(href, "_blank");
+    },
     handleNodeClick(data) {
       console.log(data);
       // 当前页面打开
@@ -251,7 +220,7 @@ export default {
       // 新页面打开
       let { href } = this.$router.resolve({
         path: "/goodsType",
-        query: { username: data.label },
+        query: { categoryId: data.categoryId },
       });
       window.open(href, "_blank");
     },
@@ -262,6 +231,24 @@ export default {
       });
       window.open(href, "_blank");
     },
+    rray2Tree(arr){
+        if(!Array.isArray(arr) || !arr.length) return;
+        let map = {};
+        arr.forEach(item => map[item.categoryId] = item);
+
+        let roots = [];
+        arr.forEach(item => {
+            const parent = map[item.parentId];
+            if(parent){
+                (parent.children || (parent.children=[])).push(item);
+            }
+            else{
+                roots.push(item);
+            }
+        })
+
+        return roots;
+    }
   },
 };
 </script>
@@ -394,23 +381,12 @@ export default {
   display: flex;
   padding: 25px 0;
 }
-.type_search .type_info {
-  margin-left: 15px;
-  display: flex;
-  line-height: 45px;
-}
-.type_search .type_info div {
-  cursor: pointer;
-  color: #488c60;
-  font-size: 17px;
-  font-weight: 600;
-  margin-right: 28px;
-}
 .type_search .logo img {
   width: 200px;
 }
 .type_search .search {
   display: flex;
+  margin-left: 680px;
 }
 .type_search .search .cart {
   margin-left: 32px;

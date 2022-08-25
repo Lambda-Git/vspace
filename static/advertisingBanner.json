@@ -1,0 +1,41 @@
+{
+    "flag": true,
+    "code": 10000,
+    "message": "广告banner",
+    "data": [
+        {
+            "categoryId": 1,
+            "gmtCreate": 1654530895000,
+            "gmtModified": 1654530895000,
+            "id": 1,
+            "isDeleted": 0,
+            "pic": "../assets/slide_3.jpg",
+            "sortOrder": 1,
+            "title": "首页广告",
+            "url": "https://deepdao-uploads.s3.us-east-2.amazonaws.com/assets/snapshots/spaces/ens.eth.png",
+            "userModified": "admin"
+        },
+        {
+            "categoryId": 1,
+            "gmtCreate": 1654530896000,
+            "gmtModified": 1654530896000,
+            "id": 2,
+            "isDeleted": 0,
+            "pic": "../assets/slide_4.jpg",
+            "sortOrder": 1,
+            "title": "前台首页",
+            "url": "http://www.baidu.com",
+            "userModified": "admin"
+        },
+        {
+            "categoryId": 1,
+            "gmtCreate": 1654530897000,
+            "gmtModified": 1654530897000,
+            "id": 13,
+            "isDeleted": 0,
+            "pic": "../assets/slide_5.jpg",
+            "title": "轮播首页",
+            "userModified": "admin"
+        }
+    ]
+}
