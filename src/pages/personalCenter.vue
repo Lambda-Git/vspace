@@ -341,9 +341,22 @@ export default {
   },
   created() {
     console.log(this.$route.path);
+    this.getOrderList()
   },
   mounted() {},
   methods: {
+    getOrderList() {
+       // 获取订单列表
+      this.$http.get("/static/orderList.json").then(
+        (res) => {
+          this.orderData = res.rows;
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
     onSelect(type) {
       this.curSelect = type;
     },
