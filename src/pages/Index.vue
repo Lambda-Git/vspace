@@ -156,7 +156,7 @@ export default {
   mounted() {
     this.$nextTick(this.getBanner())
     this.getAllProductCategories()
-    // 获取促销商品
+    // 获取促销商品 /productInfo/promotionProduct get
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
         this.promotionProductData = res.data;
@@ -166,8 +166,11 @@ export default {
         console.log(err);
       }
     );
-    // 获取 最新商品
-    this.$http.get("/static/latestProduct.json").then(
+    // 获取 最新商品 /productInfo/latestProduct post
+    this.$http.get("/static/latestProduct.json", {
+      currentPage: 1,
+      pageSize: 10,
+    }).then(
       (res) => {
         this.latestProductData = res.data;
       },

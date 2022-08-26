@@ -95,12 +95,11 @@ import Footer from "@/components/Footer";
 export default {
   components: {
     LoginHeader,
-    Footer,
+    Footer
   },
   data() {
-    let validatorPhone = function (phone, value, callback) {
-      let reg =
-        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+    let validatorPhone = function(phone, value, callback) {
+      let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (value === "") {
         callback(new Error("手机号不能为空"));
       } else if (!reg.test(value)) {
@@ -114,18 +113,18 @@ export default {
       disabled: true,
       timer: 60,
       ruleForm: {
-        phone: '',
+        phone: "",
         code: undefined,
         password: undefined,
-        type: "",
+        type: ""
       },
       rules: {
         phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
         code: [
-          { required: true, message: "请输入手机验证码", trigger: "blur" },
+          { required: true, message: "请输入手机验证码", trigger: "blur" }
         ],
-        type: [{ required: true, message: "请勾选", trigger: "blur" }],
-      },
+        type: [{ required: true, message: "请勾选", trigger: "blur" }]
+      }
     };
   },
   created() {
@@ -138,19 +137,18 @@ export default {
     },
     verification() {
       // 手机号常规检验
-       let reg =
-        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+      let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (this.ruleForm.phone === "") {
-        this.$message.error('手机号不能为空!');
-        return  false
-      } 
+        this.$message.error("手机号不能为空!");
+        return false;
+      }
       if (!reg.test(this.ruleForm.phone)) {
-        this.$message.error('手机号格式错误!');
-        return  false
-      } 
+        this.$message.error("手机号格式错误!");
+        return false;
+      }
       this.disabled = false;
       // 调获取验证码接口
-      this.getVerification()
+      this.getVerification();
       const authTimer = setInterval(() => {
         this.timer--;
         if (this.timer <= 0) {
@@ -164,21 +162,22 @@ export default {
       // 调用验证码接口
     },
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(valid => {
         if (valid) {
           // this.$store.state.post("userInfo/login",{ // vuex
           this.$http
             .post("userInfo/login", {
               phone: this.ruleForm.phone,
               code: this.ruleForm.code,
-              password: this.ruleForm.password,
+              password: this.ruleForm.password
             })
-            .then((response) => {
+            .then(response => {
               if (response.code === 2000) {
                 this.$message({
                   message: response.message,
-                  type: "success",
+                  type: "success"
                 });
+                // 登陆成功之后 需要把用户 phone 存到本地缓存中
                 this.$router.push("/");
               } else {
                 this.$message.error(response.message);
@@ -191,8 +190,8 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    },
-  },
+    }
+  }
 };
 </script>
 <style>

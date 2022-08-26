@@ -268,5 +268,6 @@ span.el-tree-node__label {
 }
 .el-tree--highlight-current .is-current.el-tree-node > .el-tree-node__content {
   background-color: #009866 !important;
+  border-radius:5px;
 }
 </style>
