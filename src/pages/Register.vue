@@ -27,8 +27,6 @@
               >
               <el-button v-if="!disabled" slot="append" class="getCode"
                 >{{ timer }}秒后重试</el-button>
-
-              
               </el-input
             >
           </el-form-item>

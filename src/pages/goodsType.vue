@@ -5,6 +5,11 @@
       <div class="logo">
         <img src="../assets/logo.png" />
       </div>
+      <div class="type_search">
+          <div class="searchInfo">
+            <i @click="searchFor()" style="cursor: pointer" class="el-icon-search"></i><input v-model="curCategoryName" placeholder="搜一搜" />
+          </div>
+        </div>
     </div>
     <div class="line"></div>
     <div class="goodsType">
@@ -29,6 +34,9 @@
           :data="Treedata"
           :props="defaultProps"
           default-expand-all
+          :highlight-current="true"
+          node-key="categoryId"
+          :current-node-key="currentNodekey"
           ref="tree"
           @node-click="handleNodeClick"
         >
@@ -125,74 +133,45 @@ export default {
   },
   data() {
     return {
+      curCategoryName: '',
+      currentNodekey: undefined,
       ProductData: [1, 2, 3, 4, 5, 6],
-       defaultProps: {
+      defaultProps: {
         children: "children",
-        label: "label",
+        label: "categoryName",
       },
-      Treedata: [
-        {
-          id: 1,
-          label: "蔬菜豆制品",
-          children: [
-            {
-              id: 1.1,
-              label: "土豆",
-            },
-            {
-              id: 1.2,
-              label: "大白菜",
-            },
-            {
-              id: 1.3,
-              label: "干豆角",
-            },
-          ],
-        },
-        {
-          id: 2,
-          label: "肉禽蛋",
-          children: [
-            {
-              id: 2.1,
-              label: "鸡胸肉",
-            },
-            {
-              id: 2.2,
-              label: "牛棒骨",
-            },
-            {
-              id: 2.3,
-              label: "鹌鹑蛋",
-            },
-          ],
-        },
-        {
-          id: 3,
-          label: "海鲜水产",
-          children: [
-            {
-              id: 3.1,
-              label: "龙虾",
-            },
-            {
-              id: 3.2,
-              label: "海参",
-            },
-            {
-              id: 3.3,
-              label: "帝王蟹",
-            },
-          ],
-        },
-      ],
+      Treedata: [],
     };
   },
   created() {
     console.log(this.$route.path);
+    this.getAllProductCategories()
   },
-  mounted() {},
+  mounted() {
+    // 输入查询跳转 过来 给input框赋值
+    this.curCategoryName = this.$route.query.categoryName === undefined ? '' : this.$route.query.categoryName
+    this.currentNodekey = this.$route.query.categoryId === undefined ? undefined : this.$route.query.categoryId
+  },
   methods: {
+     getAllProductCategories(){
+      // 获取所有商品分类 
+      this.$http.get("/static/allProductCategories.json").then(
+        (res) => {
+          this.Treedata = this.rray2Tree(res.data)
+          //一定要加这个选中了否则样式没有出来
+          this.$nextTick(() => {
+            this.$refs.tree.setCurrentKey(this.$route.query.categoryId); 
+           });
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
+    searchFor() {
+      console.log(this.curCategoryName)
+    },
     onSelect(type) {
       this.curSelect = type;
     },
@@ -206,6 +185,24 @@ export default {
     handleNodeClick(data) {
       console.log(data);
     },
+    rray2Tree(arr){
+        if(!Array.isArray(arr) || !arr.length) return;
+        let map = {};
+        arr.forEach(item => map[item.categoryId] = item);
+
+        let roots = [];
+        arr.forEach(item => {
+            const parent = map[item.parentId];
+            if(parent){
+                (parent.children || (parent.children=[])).push(item);
+            }
+            else{
+                roots.push(item);
+            }
+        })
+
+        return roots;
+    }
   },
 };
 </script>
@@ -218,6 +215,25 @@ export default {
 }
 .pesponCenter .logo img {
   width: 200px;
+}
+ .type_search{
+  margin-left: 700px;
+    margin-top: 18px;
+ }
+.type_search .searchInfo i {
+  margin-left: 55px;
+  position: relative;
+}
+.type_search .searchInfo input {
+  width: 150px;
+  height: 25px;
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #e0dada;
+  margin-top: 5px;
+  outline: none;
 }
 .line {
   width: 1200px;
@@ -249,5 +265,9 @@ span.el-tree-node__label {
 .el-upload-list__item:hover {
   background: #009866;
   border-radius: 5px;
+}
+.el-tree--highlight-current .is-current.el-tree-node > .el-tree-node__content {
+  background-color: #009866 !important;
+  border-radius:5px;
 }
 </style>

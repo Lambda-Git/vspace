@@ -1,0 +1,60 @@
+{
+    "total": 12,
+    "rows": [
+        {
+            "picUrl": "http: //192.168.50.50:8080/group01/xx/01/mm.jpg",
+            "orderDetailId": "109871000100110",
+            "productCnt": 52,
+            "orderSign": "10987651234",
+            "productTitle": "时令蔬菜",
+            "totalPrice": "123.5",
+            "paymentMethod": "支付宝",
+            "payStatus": "已支付",
+            "gmtCreate" : "2022-08-26 01:00:14"
+        },
+        {
+            "picUrl": "http: //192.168.50.50:8080/group01/xx/01/mm.jpg",
+            "orderDetailId": "109871000100120",
+            "productCnt": 12,
+            "orderSign": "10987651255",
+            "productTitle": "营养菌菇",
+            "totalPrice": "55.6",
+            "paymentMethod": "支付宝",
+            "payStatus": "已支付",
+            "gmtCreate" : "2022-07-16 01:00:14"
+        },
+        {
+            "picUrl": "http: //192.168.50.50:8080/group01/xx/01/mm.jpg",
+            "orderDetailId": "109871000300110",
+            "productCnt": 2,
+            "orderSign": "10981651234",
+            "productTitle": "应急蔬菜",
+            "totalPrice": "123.5",
+            "paymentMethod": "支付宝",
+            "payStatus": "已支付",
+            "gmtCreate" : "2022-07-06 01:00:14"
+        },
+        {
+            "picUrl": "http: //192.168.50.50:8080/group01/xx/01/mm.jpg",
+            "orderDetailId": "109871100100110",
+            "productCnt": 12,
+            "orderSign": "10287651234",
+            "productTitle": "鸡蛋",
+            "totalPrice": "123.5",
+            "paymentMethod": "支付宝",
+            "payStatus": "已支付",
+            "gmtCreate" : "2022-07-03 01:00:14"
+        },
+        {
+            "picUrl": "http: //192.168.50.50:8080/group01/xx/01/mm.jpg",
+            "orderDetailId": "109871090100110",
+            "productCnt": 42,
+            "orderSign": "14987651234",
+            "productTitle": "甲鱼",
+            "totalPrice": "123.5",
+            "paymentMethod": "支付宝",
+            "payStatus": "已支付",
+            "gmtCreate" : "2022-07-02 01:00:14"
+        }
+    ]
+}
