@@ -71,8 +71,8 @@
                 <div>
                   <img style="width: 126px" src="../assets/cart-1.jpg" />
                 </div>
-                <div style="width: 200px;">
-                  <div style="margin-top: 29px; margin-bottom: 20px;">
+                <div style="width: 200px">
+                  <div style="margin-top: 29px; margin-bottom: 20px">
                     品类:{{ item.productTitle }}
                   </div>
                   <!-- <div style="padding-bottom: 10px; padding-top: 10px">
@@ -102,7 +102,7 @@
                 <div>(含运费: 0.01)</div>
                 <div>手机订单</div>
               </div> -->
-              <div style="line-height: 121px;;text-align: center; width: 220px">
+              <div style="line-height: 121px; text-align: center; width: 220px">
                 <div v-if="item.payStatus === '已支付'" style="color: #60b17d">
                   {{ item.payStatus }}
                 </div>
@@ -113,7 +113,7 @@
             </div>
           </div>
           <el-pagination
-            style="text-align: center;margin-bottom: 31px;"
+            style="text-align: center; margin-bottom: 31px"
             background
             layout="prev, pager, next"
             @size-change="handleSizeChange"
@@ -125,7 +125,7 @@
         </div>
         <!-- 用户基本信息 -->
         <div v-if="curSelect === 2">
-          <div class="formList" style="padding: 30px;">
+          <div class="formList" style="padding: 30px">
             <el-form
               :model="userInfoForm"
               :rules="userInfoRules"
@@ -241,7 +241,7 @@
         </div>
         <!-- 修改密码 -->
         <div v-if="curSelect == 3" class="passwordForm" id="passwordPage">
-          <div class="formList" style="padding: 30px;">
+          <div class="formList" style="padding: 30px">
             <el-form
               :model="passwordForm"
               :rules="passwordRules"
@@ -253,7 +253,7 @@
                   style="width: 250px"
                   v-model="passwordForm.password"
                   placeholder="请输入旧密码"
-                   show-password
+                  show-password
                 ></el-input>
               </el-form-item>
 
@@ -299,17 +299,45 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 export default {
+  watch: {
+    $route(now, old) {
+      this.$router.go(0)
+    },
+  },
   components: {
     Header,
-    Footer
+    Footer,
   },
   data() {
-    let validatorPhone = function(phone, value, callback) {
-      let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+    let validatorPhone = function (phone, value, callback) {
+      let reg =
+        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (value === "") {
         callback(new Error("手机号不能为空"));
       } else if (!reg.test(value)) {
         callback(new Error("手机号格式错误"));
+      } else {
+        callback();
+      }
+    };
+    // 密码验证
+    const pwdCheck = async (rule, value, callback) => {
+      if (value.length < 6) {
+        return callback(new Error("密码不能少于6位！"));
+      } else if (value.length > 16) {
+        return callback(new Error("密码最长不能超过16位！"));
+      } else {
+        callback();
+      }
+    };
+    // 重复密码验证
+    const pwdAgainCheck = async (rule, value, callback) => {
+      if (value.length < 1) {
+        return callback(new Error("重复密码不能为空！"));
+      } else if (
+        this.passwordForm.newPassword != this.passwordForm.confirmPassword
+      ) {
+        return callback(new Error("两次输入密码不一致！"));
       } else {
         callback();
       }
@@ -322,77 +350,67 @@ export default {
       orderData: [1, 2, 3, 4],
       userInfoForm: {
         phone: "",
-        levelId: 0,  // 会员级别:1 普通会员，2 青铜，3白银，4黄金，5钻石
+        levelId: 0, // 会员级别:1 普通会员，2 青铜，3白银，4黄金，5钻石
         nickName: "",
         userUame: "",
         userEmail: "",
         identityCardType: 0, // 证件类型:1 身份证，2 军官证，3 护照
         gmtGreate: "",
         userGender: "",
-        userPoint: 0,  // 用户积分
+        userPoint: 0, // 用户积分
         registerTime: "",
-        birthday: ""
+        birthday: "",
       },
       userInfoRules: {
-        phone: [
-          { required: true, validator: validatorPhone, trigger: "blur" }
+        phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
+        nickName: [{ required: true, message: "请选择", trigger: "blur" }],
+        userUame: [{ required: true, message: "请选择", trigger: "blur" }],
+        identityCardType: [
+          { required: true, message: "请选择", trigger: "blur" },
         ],
-        nickName : [
-           { required: true, message: "请选择", trigger: "blur" }
-        ],
-        userUame : [
-           { required: true, message: "请选择", trigger: "blur" }
-        ],
-        identityCardType : [
-           { required: true, message: "请选择", trigger: "blur" }
-        ],
-        userEmail : [ 
-           { required: true, message: "请输入", trigger: "blur" }
-        ],
-        userGender : [
-           { required: true, message: "请选择", trigger: "blur" }
-        ],
-        levelId: [
-          { required: true, message: "请选择", trigger: "blur" }
-        ]
+        userEmail: [{ required: true, message: "请输入", trigger: "blur" }],
+        userGender: [{ required: true, message: "请选择", trigger: "blur" }],
+        levelId: [{ required: true, message: "请选择", trigger: "blur" }],
       },
       // 修改密码表单
       passwordForm: {
         password: "",
         newPassword: "",
-        confirmPassword: ""
+        confirmPassword: "",
       },
       passwordRules: {
-        password: [
-          { required: true, message: "请输入密码", trigger: "blur" }
-        ],
-        newPassword: [
-          { required: true, message: "请输入新密码", trigger: "blur" }
-        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        newPassword: [{ required: true, validator: pwdCheck, trigger: "blur" }],
         confirmPassword: [
-          { required: true, message: "请再次输入新密码", trigger: "blur" }
-        ]
-      }
+          { required: true, validator: pwdAgainCheck, trigger: "blur" },
+        ],
+      },
     };
   },
   created() {
     console.log(this.$route.path);
     this.getOrderList();
-    this.getUserInfo()
+    this.getUserInfo();
   },
-  mounted() {},
+  mounted() {
+    console.log(" parseInt(this.$route.query.type)");
+    console.log(parseInt(this.$route.query.type));
+    this.$nextTick(() => {
+      this.curSelect = parseInt(this.$route.query.type);
+    });
+  },
   methods: {
     getUserInfo() {
       // 获取用户信息 /userInfo/findById get
       this.$http
         .get("/static/userInfo.json", {
-          phone: "" // 从本地缓存拿
+          phone: "", // 从本地缓存拿
         })
         .then(
-          res => {
+          (res) => {
             this.userInfoForm = res.data;
           },
-          err => {
+          (err) => {
             // 500响应
             console.log(err);
           }
@@ -403,14 +421,14 @@ export default {
       this.$http
         .get("/static/orderList.json", {
           currentPage: this.curPage,
-          pageSize: this.pageSize
+          pageSize: this.pageSize,
         })
         .then(
-          res => {
+          (res) => {
             this.orderData = res.rows;
             this.total = res.total;
           },
-          err => {
+          (err) => {
             // 500响应
             console.log(err);
           }
@@ -430,7 +448,7 @@ export default {
     },
     // 修改密码
     submitFormPassword(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$http
             .post("userInfo/update", {
@@ -454,9 +472,9 @@ export default {
     },
     // 基本信息修改
     submitFormUserInfo(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-           this.$http
+          this.$http
             .post("userInfo/update", {
               phone: this.userInfoForm.phone,
               nickName: this.userInfoForm.nickName,
@@ -483,8 +501,8 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

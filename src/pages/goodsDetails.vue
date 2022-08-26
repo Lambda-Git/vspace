@@ -52,22 +52,23 @@
         </div>
         <div style="width: 100%; padding: 25px">
           <div style="font-size: 20px; font-weight: 500; color: #228664">
-            圣女果新鲜小番茄5斤水果当季整箱包邮蔬菜生吃自然熟西红柿千禧
+            
+             {{productDetail.productTitle}}
           </div>
           <div style="display: flex; margin-top: 20px">
             <div style="width: 100px">价格:</div>
-            <div style="text-decoration: line-through">¥ 89.00</div>
+            <div style="text-decoration: line-through">¥ {{productDetail.productPrice}}</div>
           </div>
           <div style="display: flex; margin-top: 20px">
             <div style="width: 100px">促销价:</div>
             <div style="font-size: 18px; font-weight: 500; color: #228664">
-              ¥ 29.80- 39.79
+              ¥ {{productDetail.productPrice  * productDetail.discount }}
             </div>
           </div>
           <div style="display: flex; margin-top: 20px">
             <div style="width: 50%; display: flex; justify-content: center">
               <div>月销量:</div>
-              <div style="color: #228664; margin-left: 15px">6000+</div>
+              <div style="color: #228664; margin-left: 15px">200+</div>
             </div>
             <div style="border-right: 1px solid #ececec"></div>
             <div style="width: 50%; display: flex; justify-content: center">
@@ -78,7 +79,7 @@
           <div style="margin-top: 20px">
             <div style="width: 100px; height: 55px; float: left">详情描述:</div>
             <div style="font-size: 14px">
-              西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质,西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质,西红柿富含维生素A、维生素C、维生素B1、维生素B2、胡萝卜素等营养物质
+            {{productDetail.descript}}
             </div>
           </div>
           <div style="margin-top: 20px; display: flex">
@@ -152,8 +153,8 @@
               </div>
             </div>
             <div style="display: flex; padding: 10px 5px; font-size: 14px">
-              <div style="">商品有效期:</div>
-              <div>冷藏: 15天</div>
+              <div>商品有效期:</div>
+              <div style="marginRight: '10px'">冷藏: 15天;</div>
               <div>常温: 5天</div>
             </div>
           </div>
@@ -164,7 +165,7 @@
     <!-- 商品推荐 list-->
     <div class="recommendItem">
       <div class="promotion_items">
-        <div class="title">商品推荐</div>
+        <div class="title">促销商品</div>
         <div class="items">
           <el-row :gutter="20">
             <el-col
@@ -173,7 +174,7 @@
               :key="index"
             >
               <div class="grid_ontent" @click="buys(item)">
-                <div class="item_img"><img src="../assets/cart-1.jpg" /></div>
+                <div class="item_img"><img :src="rotationArray[index]" /></div>
                 <div class="productTitle">{{ item.productTitle }}</div>
                 <div class="productPrice">
                   <div class="one">惊爆价:</div>
@@ -202,14 +203,64 @@ export default {
   data() {
     return {
       ProductData: [1, 2, 3, 4, 5, 6],
-      recommendData: [],
+      recommendData: [], // 促销商品data
       num: 1,
+      // 暂时用本地图片代替服务器图片文件
+      rotationArray: [
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+        require("../assets/cart-2.jpg"),
+        require("../assets/cart-1.jpg"),
+      ],
+      productDetail: {
+        productId: 1015,
+        productTitle: "海虹",
+        categoryId: 26,
+        productPrice: 30,
+        discount: 0.98,
+        publishStatus: 1,
+        specifacation: null,
+        productionDate: "2022-05-31T12:09:31.000+00:00",
+        shelfLife: "2022-05-31T12:23:55.000+00:00",
+        userCreate: "admin",
+        gmtCreate: "2022-05-31T12:09:31.000+00:00",
+        isDeleted: 0,
+        userModified: "admin",
+        gmtModified: "2022-05-31T12:09:31.000+00:00",
+        descript: "这是路地版本海虹",
+        firstCategoryName: null,
+        secCategoryName: "海虹",
+        picUrl:
+          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+        picUrls: [
+          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdcL2Ad5ryAADV4jcc7Ck640.jpg",
+        ],
+      },
     };
   },
   created() {
     console.log(this.$route.path);
+    this.getProductDetail();
+    // 获取促销商品 /productInfo/promotionProduct get
+    this.$http.get("/static/promotionProduct.json").then(
+      (res) => {
+        this.recommendData = res.data;
+      },
+      (err) => {
+        // 500响应
+        console.log(err);
+      }
+    );
   },
   mounted() {
+    // 获取促销商品列表
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
         this.recommendData = res.data;
@@ -221,13 +272,31 @@ export default {
     );
   },
   methods: {
+    // 获取商品详情信息 /productInfo/findById/{productId} get
+    getProductDetail() {
+      this.$http
+        .get("/static/productDetail.json", {
+          productId: this.$route.query.productId,
+        })
+        .then(
+          (res) => {
+            this.productDetail = res.data;
+            console.log("res.data");
+            console.log(res.data);
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
     onSelect(type) {
       this.curSelect = type;
     },
     buys(data) {
       let { href } = this.$router.resolve({
         path: "/goodsDetails",
-        query: { username: data.label },
+        query: { productId: data.productId },
       });
       window.open(href, "_blank");
     },

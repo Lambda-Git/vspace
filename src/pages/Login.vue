@@ -43,7 +43,8 @@
                 >获取验证码</el-button
               >
               <el-button v-if="!disabled" slot="append" class="getCode"
-                >{{ timer }}秒后重试</el-button>
+                >{{ timer }}秒后重试</el-button
+              >
             </el-input>
           </el-form-item>
           <el-form-item v-if="this.loginType === 2" label="" prop="code">
@@ -95,11 +96,12 @@ import Footer from "@/components/Footer";
 export default {
   components: {
     LoginHeader,
-    Footer
+    Footer,
   },
   data() {
-    let validatorPhone = function(phone, value, callback) {
-      let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+    let validatorPhone = function (phone, value, callback) {
+      let reg =
+        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (value === "") {
         callback(new Error("手机号不能为空"));
       } else if (!reg.test(value)) {
@@ -116,15 +118,15 @@ export default {
         phone: "",
         code: undefined,
         password: undefined,
-        type: ""
+        type: "",
       },
       rules: {
         phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
         code: [
-          { required: true, message: "请输入手机验证码", trigger: "blur" }
+          { required: true, message: "请输入手机验证码", trigger: "blur" },
         ],
-        type: [{ required: true, message: "请勾选", trigger: "blur" }]
-      }
+        type: [{ required: true, message: "请勾选", trigger: "blur" }],
+      },
     };
   },
   created() {
@@ -137,7 +139,8 @@ export default {
     },
     verification() {
       // 手机号常规检验
-      let reg = /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
+      let reg =
+        /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (this.ruleForm.phone === "") {
         this.$message.error("手机号不能为空!");
         return false;
@@ -160,31 +163,31 @@ export default {
     },
     getVerification() {
       // 调用验证码接口
-      console.log(this.ruleForm.phone)
+      console.log(this.ruleForm.phone);
       this.$http
-            .post("userInfo/login", {
-              phone: this.ruleForm.phone,
-            })
-            .then((response) => {
-              
-            }
-            );
+        .post("userInfo/login", {
+          phone: this.ruleForm.phone,
+        })
+        .then((response) => {});
     },
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
-          // this.$store.state.post("userInfo/login",{ // vuex
+          // 模拟登陆 
+          if(this.ruleForm.password === 'admin') {
+            this.getUserInfo()
+          }
           this.$http
             .post("userInfo/login", {
               phone: this.ruleForm.phone,
               code: this.ruleForm.code,
-              password: this.ruleForm.password
+              password: this.ruleForm.password,
             })
-            .then(response => {
+            .then((response) => {
               if (response.code === 2000) {
                 this.$message({
                   message: response.message,
-                  type: "success"
+                  type: "success",
                 });
                 // 登陆成功之后 需要把用户 phone 存到本地缓存中
                 this.$router.push("/");
@@ -199,8 +202,25 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+     getUserInfo() {
+      // 获取用户信息 /userInfo/findById get
+      this.$http
+        .get("/static/userInfo.json", {
+          phone: this.ruleForm.phone // 从本地缓存拿
+        })
+        .then(
+          res => {
+            localStorage.setItem('userInfo', JSON.stringify(res.data))
+            this.$router.push("/");
+          },
+          err => {
+            // 500响应
+            console.log(err);
+          }
+        );
     }
-  }
+  },
 };
 </script>
 <style>

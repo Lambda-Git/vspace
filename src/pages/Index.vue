@@ -9,11 +9,18 @@
         </div>
         <div class="search">
           <div class="searchInfo">
-            <i @click="searchGo()" style="cursor: pointer" class="el-icon-search"></i><input v-model="curCategoryName" placeholder="搜一搜" />
+            <i
+              @click="searchGo()"
+              style="cursor: pointer"
+              class="el-icon-search"
+            ></i
+            ><input v-model="curCategoryName" placeholder="搜一搜" />
           </div>
           <div class="cart">
             <el-badge :value="$store.getters.getAllCount" class="item">
-              <img src="../assets/shoppingCart1.png" />
+              <router-link :to="{ path: '/shoppingCart' }">
+                <img src="../assets/shoppingCart1.png" />
+              </router-link>
             </el-badge>
           </div>
         </div>
@@ -22,7 +29,12 @@
       <div class="menu_level_two" style="display: flex; margin-bottom: 30px">
         <div
           class="side_left"
-          style="width: 300px; background: rgb(98, 210, 161);height:400px;overflow: auto;"
+          style="
+            width: 300px;
+            background: rgb(98, 210, 161);
+            height: 400px;
+            overflow: auto;
+          "
         >
           <el-tree
             class="filter-tree"
@@ -36,9 +48,13 @@
         </div>
         <div class="side_rotation" style="width: 100%">
           <el-carousel height="400px">
-              <el-carousel-item v-for="(item,index) in bannerData" :key="index">
-                <img :src="bannerLocalList[index]"  style="height: 400px; width: 100%" alt="">
-              </el-carousel-item>
+            <el-carousel-item v-for="(item, index) in bannerData" :key="index">
+              <img
+                :src="bannerLocalList[index]"
+                style="height: 400px; width: 100%"
+                alt=""
+              />
+            </el-carousel-item>
           </el-carousel>
         </div>
       </div>
@@ -121,8 +137,8 @@ export default {
   name: "Index",
   data() {
     return {
-      curCategoryName: '',
-       // 暂时用本地图片代替服务器图片文件
+      curCategoryName: "",
+      // 暂时用本地图片代替服务器图片文件
       rotationArray: [
         require("../assets/cart-1.jpg"),
         require("../assets/cart-2.jpg"),
@@ -135,10 +151,10 @@ export default {
         require("../assets/cart-1.jpg"),
       ],
       // 暂时用本地图片代替服务器图片文件
-      bannerLocalList:[
-          require("../assets/slide_3.jpg"),
-          require("../assets/slide_4.jpg"),
-          require("../assets/slide_5.jpg"),
+      bannerLocalList: [
+        require("../assets/slide_3.jpg"),
+        require("../assets/slide_4.jpg"),
+        require("../assets/slide_5.jpg"),
       ],
       promotionProductData: [],
       latestProductData: [],
@@ -154,8 +170,8 @@ export default {
     console.log(this.$route.path);
   },
   mounted() {
-    this.$nextTick(this.getBanner())
-    this.getAllProductCategories()
+    this.$nextTick(this.getBanner());
+    this.getAllProductCategories();
     // 获取促销商品 /productInfo/promotionProduct get
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
@@ -167,37 +183,27 @@ export default {
       }
     );
     // 获取 最新商品 /productInfo/latestProduct post
-    this.$http.get("/static/latestProduct.json", {
-      currentPage: 1,
-      pageSize: 10,
-    }).then(
-      (res) => {
-        this.latestProductData = res.data;
-      },
-      (err) => {
-        // 500响应
-        console.log(err);
-      }
-    );
+    this.$http
+      .get("/static/latestProduct.json", {
+        currentPage: 1,
+        pageSize: 10,
+      })
+      .then(
+        (res) => {
+          this.latestProductData = res.data;
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
   },
   methods: {
-    getBanner(){
+    getBanner() {
       // 获取广告轮播图
-     this.$http.get("/static/advertisingBanner.json").then(
-      (res) => {
-        this.bannerData = res.data;
-      },
-      (err) => {
-        // 500响应
-        console.log(err);
-      }
-    );
-    },
-    getAllProductCategories(){
-      // 获取所有商品分类 
-      this.$http.get("/static/allProductCategories.json").then(
+      this.$http.get("/static/advertisingBanner.json").then(
         (res) => {
-          this.Treedata = this.rray2Tree(res.data)
+          this.bannerData = res.data;
         },
         (err) => {
           // 500响应
@@ -205,14 +211,26 @@ export default {
         }
       );
     },
-    searchGo(){
-       // 新页面打开
-       if(this.curCategoryName === '') {
+    getAllProductCategories() {
+      // 获取所有商品分类
+      this.$http.get("/static/allProductCategories.json").then(
+        (res) => {
+          this.Treedata = this.rray2Tree(res.data);
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
+    searchGo() {
+      // 新页面打开
+      if (this.curCategoryName === "") {
         return false;
-       }
+      }
       let { href } = this.$router.resolve({
         path: "/goodsType",
-        query: { categoryName: this.curCategoryName},
+        query: { categoryName: this.curCategoryName },
       });
       window.open(href, "_blank");
     },
@@ -230,28 +248,27 @@ export default {
     buys(data) {
       let { href } = this.$router.resolve({
         path: "/goodsDetails",
-        query: { username: data.label },
+        query: { productId: data.productId },
       });
       window.open(href, "_blank");
     },
-    rray2Tree(arr){
-        if(!Array.isArray(arr) || !arr.length) return;
-        let map = {};
-        arr.forEach(item => map[item.categoryId] = item);
+    rray2Tree(arr) {
+      if (!Array.isArray(arr) || !arr.length) return;
+      let map = {};
+      arr.forEach((item) => (map[item.categoryId] = item));
 
-        let roots = [];
-        arr.forEach(item => {
-            const parent = map[item.parentId];
-            if(parent){
-                (parent.children || (parent.children=[])).push(item);
-            }
-            else{
-                roots.push(item);
-            }
-        })
+      let roots = [];
+      arr.forEach((item) => {
+        const parent = map[item.parentId];
+        if (parent) {
+          (parent.children || (parent.children = [])).push(item);
+        } else {
+          roots.push(item);
+        }
+      });
 
-        return roots;
-    }
+      return roots;
+    },
   },
 };
 </script>
