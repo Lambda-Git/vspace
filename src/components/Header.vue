@@ -63,9 +63,17 @@ export default {
       // this.$store.commit("addCar", JSON.parse(localStorage.getItem("car")));
     }
     // 从本地缓存中拿数据
-    if (localStorage.getItem("userInfo") !== undefined) {
+    if (localStorage.getItem("userInfo") !== null) {
       this.isLogin = true;
       this.nickName = JSON.parse(localStorage.getItem("userInfo")).nickName;
+    } else {
+      this.$message({
+        message: "请您先登录！",
+        type: "warning",
+      });
+      setTimeout(() => {
+        this.$router.push("/login");
+      }, 3000);
     }
     console.log('localStorage.getItem("userInfo")');
     console.log(JSON.parse(localStorage.getItem("userInfo")));

@@ -10,48 +10,60 @@
     <div class="cards">
       <div class="title" style="display: flex">
         <div>购物车</div>
-        <div>(全部{{ tableData.length }})</div>
+        <div>(全部{{ cartData.length }})</div>
       </div>
       <div>
         <el-table
           ref="multipleTable"
-          :data="tableData"
+          :data="cartData"
           tooltip-effect="dark"
-          style="width: 100%"
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="30"> </el-table-column>
-          <el-table-column label="商品信息" width="700">
+          <el-table-column label="商品信息" width="650">
             <template slot-scope="scope">
               <div style="display: flex">
                 <img style="width: 150px" src="../assets/cart-1.jpg" />
-                <div>
-                  {{ scope.row.info }}
+                <!-- <img style="width: 150px" :src="row.scope.picUrl" /> -->
+                <div style="line-height: 143px;height: 143px;padding: 0 10px;color: #049866;">
+                  {{ scope.row.descript }}
                 </div>
-                <div>净含量:2500g</div>
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="price" label="单价" width="80">
+          <el-table-column label="单价" width="100">
+            <template slot-scope="scope">
+              <div>
+                <div style="text-decoration: line-through;margin-bottom: 20px;">
+                  原价:{{ scope.row.productPrice }}
+                </div>
+                <div style="color: #049866;font-weight: 600">
+                  折后:{{
+                    (scope.row.productPrice * scope.row.discount).toFixed(2)
+                  }}
+                </div>
+              </div>
+            </template>
           </el-table-column>
-          <el-table-column prop="count" label="数量" width="200">
+          <el-table-column label="数量" width="200">
             <template slot-scope="scope">
               <el-input-number
-                v-model="scope.row.count"
+                v-model="scope.row.productCnt"
+                :disabled="isSelect(scope.row.productId)"
                 @change="handleChange"
                 :min="1"
               ></el-input-number>
             </template>
           </el-table-column>
-          <el-table-column prop="money" label="金额" width="80">
+          <el-table-column prop="money" label="金额" width="180">
             <template slot-scope="scope">
               <div style="color: #009866; font-size: 18px; font-weight: 500">
-                ¥{{ scope.row.price * scope.row.count }}
+                ¥{{ (scope.row.productPrice * scope.row.discount * scope.row.productCnt).toFixed(2) }}
               </div>
             </template>
           </el-table-column>
-          <el-table-column prop="action" label="操作" width="180">
-          </el-table-column>
+          <!-- <el-table-column prop="action" label="操作" width="180">
+          </el-table-column> -->
         </el-table>
       </div>
       <div
@@ -72,11 +84,12 @@
         <div style="margin-right: 30px; display: flex; margin-top: 8px">
           <div style="margin-right: 8px">合计(不含运费),</div>
           <div style="color: #009866; font-size: 18px; font-weight: 500">
-            ¥{{ this.totalPrice }}
+            ¥{{ this.totalPrice.toFixed(2) }}
           </div>
         </div>
         <div>
           <el-button
+            :disabled="this.totalPrice === 0"
             style="
               background: #62d2a1;
               color: #fff;
@@ -104,59 +117,34 @@ export default {
   },
   data() {
     return {
-      ProductData: [1, 2, 3, 4, 5, 6],
-      tableData: [
-        {
-          price: 14,
-          count: 20,
-          money: 100.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-        {
-          price: 17.99,
-          count: 3,
-          money: 1020.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-        {
-          price: 14.99,
-          count: 100,
-          money: 1100.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-        {
-          price: 14.99,
-          count: 100,
-          money: 1100.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-        {
-          price: 14.99,
-          count: 100,
-          money: 1100.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-        {
-          price: 14.99,
-          count: 100,
-          money: 1100.0,
-          info: "新鲜紫甘蓝农家现摘卷心菜沙拉椰菜紫包菜蔬菜10斤整箱包邮",
-        },
-      ],
+      cartData: [],
       multipleSelection: [],
-      totalPrice: 0.0,
+      totalPrice: 0,
     };
   },
   created() {
     console.log(this.$route.path);
   },
-  mounted() {},
+  mounted() {
+    // 获取购物车列表
+    this.getCardList();
+  },
   methods: {
-    onSelect(type) {
-      this.curSelect = type;
+    // 获取购物车列表 /cartinfo/list  get
+    getCardList() {
+      this.$http.get("/static/cartList.json").then(
+        (res) => {
+          this.cartData = res.orderItemList;
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
     },
     // 结算
     settlement() {
+      localStorage.setItem('settlementList', JSON.stringify(this.multipleSelection))
       let { href } = this.$router.resolve({
         path: "/settlement",
         query: { username: "结算" },
@@ -164,7 +152,22 @@ export default {
       window.open(href, "_blank");
     },
     handleSelectionChange(val) {
+      let total = 0
+      val.forEach(list => {
+        total = total + (list.productPrice * list.discount * list.productCnt)
+      });
       this.multipleSelection = val;
+      this.totalPrice = total
+    },
+    // 判断当前结算勾选项
+    isSelect(productId) {
+      let flag = false
+      this.multipleSelection.forEach(item => {
+        if(item.productId === productId){
+          flag = true
+        }
+      })
+      return flag
     },
     handleChange() {},
   },

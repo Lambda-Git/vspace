@@ -1,0 +1,63 @@
+{
+    "orderItemList":[
+        {
+            "orderDetailId":null,
+            "orderId":null,
+            "productId":1002,
+            "productCnt":10,
+            "totalPrice":50,
+            "feeMoney":null,
+            "userCreate":null,
+            "gmtCreate":null,
+            "isDeleted":null,
+            "userModified":null,
+            "gmtModified":null,
+            "productCode":null,
+            "picUrl":"http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+            "productName":"四川突尼斯软籽石榴",
+            "productPrice":7.9,
+            "discount":0.80,
+            "descript":"四川突尼斯软籽石榴 新鲜甜石榴 精选5斤彩箱装 单果200-300g 生鲜时令水果"
+        },
+        {
+            "orderDetailId":null,
+            "orderId":null,
+            "productId":1003,
+            "productCnt":5,
+            "totalPrice":120,
+            "feeMoney":null,
+            "userCreate":null,
+            "gmtCreate":null,
+            "isDeleted":null,
+            "userModified":null,
+            "gmtModified":null,
+            "productCode":null,
+            "picUrl":"http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+            "productName":"山东蒙阴黄桃",
+            "productPrice":5.9,
+            "discount":0.90,
+            "descript":"山东蒙阴黄桃水果桃子中秋礼品礼盒可选现摘 坏果包赔 7--12枚（纸箱装）带箱5斤"
+        },
+        {
+            "orderDetailId":null,
+            "orderId":null,
+            "productId":1004,
+            "productCnt":5,
+            "totalPrice":120,
+            "feeMoney":null,
+            "userCreate":null,
+            "gmtCreate":null,
+            "isDeleted":null,
+            "userModified":null,
+            "gmtModified":null,
+            "productCode":null,
+            "picUrl":"http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
+            "productName":"凯特芒大果",
+            "productPrice":9.9,
+            "discount":0.95,
+            "descript":"四川攀枝花凯特芒大果新鲜水果当季青皮凯特芒果整箱桂七 9斤 大果精选装"
+        }
+    ],
+    "totalNum":50,
+    "totalPrice":170
+}

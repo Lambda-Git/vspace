@@ -10,7 +10,11 @@ import { post, get, patch, put } from '../utils/http'
 
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV != 'production',
-    state: { str: 'liangzai', car: [] },
+    state: { 
+        str: 'liangzai', 
+        car: [],  // 购物车 临时存储数据
+        settlementList:[] // 结算列表临时存储数据
+     },
     getters: {
         // 计算购物车 徽标的数值
         getAllCount(state) {

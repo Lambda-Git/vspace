@@ -397,6 +397,8 @@ export default {
   },
   created() {
     console.log(this.$route.path);
+    console.log('this.$store.state[settlementList]')
+    console.log(this.$store.state['settlementList'])
   },
   mounted() {},
   methods: {
