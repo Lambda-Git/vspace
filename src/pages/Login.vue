@@ -184,7 +184,7 @@ export default {
               password: this.ruleForm.password,
             })
             .then((response) => {
-              if (response.code === 2000) {
+              if (response.code === 10000) {
                 this.$message({
                   message: response.message,
                   type: "success",
