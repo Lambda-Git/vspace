@@ -1,109 +1,66 @@
-<!DOCTYPE html>
-
-<html>
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <style type="text/css">
-
-    #myCanvas{
-
-        margin: 0 auto;
-
-        display: block;
-
-    }
-
-    </style>
-
-</head>
-
-<body>
-
-  <canvas id="myCanvas">当前浏览器不支持canvas组件请升级！</canvas>
-
-  <script type="text/javascript">
-
-  //方法一：arc 动态画圆
-
-  var c = document.getElementById('myCanvas');
-
-  var ctx = c.getContext('2d');
-
-  var mW = c.width = 300;
-
-  var mH = c.height = 300;
-
-  var lineWidth = 5;
-
-  var r = mW / 2; //中间位置
-
-  var cR = r - 4 * lineWidth; //圆半径
-
-  var startAngle = -(1 / 2 * Math.PI); //开始角度
-
-  var endAngle = startAngle + 2 * Math.PI; //结束角度
-
-  var xAngle = 1 * (Math.PI / 180); //偏移角度量
-
-  var fontSize = 35; //字号大小
-
-  var tmpAngle = startAngle; //临时角度变量
-
-  //渲染函数
-
-  var rander = function(){
-
-    if(tmpAngle >= endAngle){
-
-      return;
-
-    }else if(tmpAngle + xAngle > endAngle){
-
-      tmpAngle = endAngle;
-
-    }else{
-
-      tmpAngle += xAngle;
-
-    }
-
-    ctx.clearRect(0, 0, mW, mH);
-
-    //画圈
-
-    ctx.beginPath();
-
-    ctx.lineWidth = lineWidth;
-
-    ctx.strokeStyle = '#1c86d1';
-
-    ctx.arc(r, r, cR, startAngle, tmpAngle);
-
-    ctx.stroke();
-
-    ctx.closePath();
-
-    //写字
-
-    ctx.fillStyle = '#1d89d5';
-
-    ctx.font= fontSize + 'px Microsoft Yahei';
-
-    ctx.textAlign='center';
-
-    ctx.fillText( Math.round((tmpAngle -  startAngle) / (endAngle - startAngle) * 100) + '%', r, r + fontSize / 2);
-
-    requestAnimationFrame(rander);
-
-  };
-
-  rander();
-
-  </script>
-
-</body>
-
+<!DOCTYPE html> 
+<html> 
+  
+<head> 
+  <title> 
+    CSS | overscroll-behavior-y 
+  </title> 
+  
+  <style> 
+    .container { 
+      display:flex; 
+    } 
+  
+    .main-content { 
+      height: 1200px;
+      width:200px; 
+      background-color:lightgreen; 
+    } 
+  
+    .smaller-box { 
+      overscroll-behavior-y:auto; 
+  
+      height:100px; 
+      width:125px; 
+      margin:25px; 
+      overflow-y:scroll; 
+    } 
+  </style> 
+</head> 
+  
+<body> 
+  <h1 style="color:green"> 
+    GeeksforGeeks 
+  </h1> 
+  
+  <b>CSS | overscroll-behavior-y</b> 
+  <p>overscroll-behavior-y:auto</p> 
+  
+  <div class="container"> 
+    <div class="main-content"> 
+      GeeksforGeeks is a computer science 
+      portal with a huge variety of well 
+      written and explained computer science 
+      and programming articles, quizzes and 
+      interview questions. The portal also 
+      has dedicated GATE preparation and 
+      competitive programming sections.<br><br> 
+      GeeksforGeeks is a computer science 
+      portal with a huge variety of well 
+      written and explained computer science 
+      and programming articles, quizzes and 
+      interview questions. The portal also 
+      has dedicated GATE preparation and 
+      competitive programming sections. 
+    </div> 
+    <div class="smaller-box"> 
+      This is a smaller element that is also 
+      scrollable. The overscroll behavior 
+      can be used to control if the main 
+      content behind would scroll when this 
+      element's vertical boundary is reached. 
+    </div> 
+  </div> 
+</body> 
+  
 </html>

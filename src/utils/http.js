@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie'
 // import { Message } from 'element-ui';
 // axios.defaults.timeout = 5000;
 // 本地开发 调试
@@ -8,14 +9,14 @@ import axios from 'axios';
 //http request 拦截器
 axios.interceptors.request.use(
   config => {
-    // const token = getCookie('名称');注意使用的时候需要引入cookie方法，推荐js-cookie
+    const token = Cookies.get('token'); //注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
     config.headers = {
       'Content-Type':'application/x-www-form-urlencoded',
     }
-    // if(token){
-    //   config.params = {'token':token}
-    // }
+    if(token){
+      config.params = {'token':token}
+    }
     return config;
   },
   error => {

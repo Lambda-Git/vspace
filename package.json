@@ -17,6 +17,7 @@
     "axios": "^0.27.2",
     "element-china-area-data": "^5.0.2",
     "element-ui": "^2.15.9",
+    "js-cookie": "^3.0.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.6.2"

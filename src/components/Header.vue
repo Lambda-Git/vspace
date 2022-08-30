@@ -42,11 +42,14 @@
         </div>
         <!-- </router-link> -->
       </div>
+
+      <div class="loginOut" @click="loginOut()">退出登录</div>
     </div>
   </div>
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
   data() {
     return {
@@ -65,7 +68,7 @@ export default {
     // 从本地缓存中拿数据
     if (localStorage.getItem("userInfo") !== null) {
       this.isLogin = true;
-      this.nickName = JSON.parse(localStorage.getItem("userInfo")).nickName;
+      this.nickName = JSON.parse(localStorage.getItem("userInfo")).phone;
     } else {
       this.$message({
         message: "请您先登录！",
@@ -81,6 +84,24 @@ export default {
   methods: {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    loginOut() {
+      // 退出登录 /userInfo/loginOut  get
+      this.$http
+        .get("/static/loginOut.json", {
+          phone: JSON.parse(localStorage.getItem("userInfo")).phone, // 从本地缓存拿
+        })
+        .then(
+          (res) => {
+            Cookies.remove("token")
+            localStorage.removeItem("userInfo")
+            this.$router.push("/login");
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
     },
   },
 };
@@ -115,5 +136,9 @@ export default {
 }
 .menu .cart img {
   width: 25px;
+}
+.loginOut {
+  cursor: pointer;
+  color: #fff;
 }
 </style>>

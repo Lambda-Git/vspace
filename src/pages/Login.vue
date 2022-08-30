@@ -42,7 +42,7 @@
                 @click="verification"
                 >获取验证码</el-button
               >
-              <el-button v-if="!disabled" slot="append" class="getCode"
+              <el-button v-if="!disabled && this.loginType === 2" slot="append" class="getCode"
                 >{{ timer }}秒后重试</el-button
               >
             </el-input>
@@ -93,6 +93,7 @@
 <script>
 import LoginHeader from "@/components/LoginHeader";
 import Footer from "@/components/Footer";
+import Cookies from 'js-cookie'
 export default {
   components: {
     LoginHeader,
@@ -173,24 +174,22 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // 模拟登陆 
-          if(this.ruleForm.password === 'admin') {
-            this.getUserInfo()
-          }
+          // /userInfo/login post
           this.$http
-            .post("userInfo/login", {
+            .get("/static/login.json", {
               phone: this.ruleForm.phone,
               code: this.ruleForm.code,
               password: this.ruleForm.password,
             })
             .then((response) => {
-              if (response.code === 10000) {
+              if (response.code === "10000") {
                 this.$message({
                   message: response.message,
                   type: "success",
                 });
-                // 登陆成功之后 需要把用户 phone 存到本地缓存中
-                this.$router.push("/");
+                // 登陆成功之后 把返回的token 存入到 cookie里
+                Cookies.set("token", response.data);
+                this.getUserInfo();
               } else {
                 this.$message.error(response.message);
               }
@@ -203,23 +202,24 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-     getUserInfo() {
+    // /userInfo/findById  get
+    getUserInfo() {
       // 获取用户信息 /userInfo/findById get
       this.$http
         .get("/static/userInfo.json", {
-          phone: this.ruleForm.phone // 从本地缓存拿
+          phone: this.ruleForm.phone, // 从本地缓存拿
         })
         .then(
-          res => {
-            localStorage.setItem('userInfo', JSON.stringify(res.data))
+          (res) => {
+            localStorage.setItem("userInfo", JSON.stringify(res.data));
             this.$router.push("/");
           },
-          err => {
+          (err) => {
             // 500响应
             console.log(err);
           }
         );
-    }
+    },
   },
 };
 </script>
