@@ -62,8 +62,6 @@
               </div>
             </template>
           </el-table-column>
-          <!-- <el-table-column prop="action" label="操作" width="180">
-          </el-table-column> -->
         </el-table>
       </div>
       <div

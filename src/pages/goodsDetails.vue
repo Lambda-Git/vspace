@@ -217,32 +217,7 @@ export default {
         require("../assets/cart-2.jpg"),
         require("../assets/cart-1.jpg"),
       ],
-      productDetail: {
-        productId: 1015,
-        productTitle: "海虹",
-        categoryId: 26,
-        productPrice: 30,
-        discount: 0.98,
-        publishStatus: 1,
-        specifacation: null,
-        productionDate: "2022-05-31T12:09:31.000+00:00",
-        shelfLife: "2022-05-31T12:23:55.000+00:00",
-        userCreate: "admin",
-        gmtCreate: "2022-05-31T12:09:31.000+00:00",
-        isDeleted: 0,
-        userModified: "admin",
-        gmtModified: "2022-05-31T12:09:31.000+00:00",
-        descript: "这是路地版本海虹",
-        firstCategoryName: null,
-        secCategoryName: "海虹",
-        picUrl:
-          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
-        picUrls: [
-          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
-          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdhiKAeJHnAAAzsrywp40661.jpg",
-          "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdcL2Ad5ryAADV4jcc7Ck640.jpg",
-        ],
-      },
+      productDetail: {},
     };
   },
   created() {
@@ -260,16 +235,6 @@ export default {
     );
   },
   mounted() {
-    // 获取促销商品列表
-    this.$http.get("/static/promotionProduct.json").then(
-      (res) => {
-        this.recommendData = res.data;
-      },
-      (err) => {
-        // 500响应
-        console.log(err);
-      }
-    );
   },
   methods: {
     // 获取商品详情信息 /productInfo/findById/{productId} get
