@@ -40,18 +40,9 @@
             style="padding: 10px"
           >
             <div style="background: #eceaea; height: 45px; line-height: 45px">
-              <div style="float: right; margin-top: 3px; margin-right: 28px">
-                <!-- <div
-                  class="afterSales"
-                  style="float: left; margin-right: 34px; cursor: pointer"
-                >
-                  申请售后
-                </div>
-                <i
-                  style="font-weight: 600; font-size: 21px"
-                  class="el-icon-delete"
-                ></i> -->
-              </div>
+              <div
+                style="float: right; margin-top: 3px; margin-right: 28px"
+              ></div>
               <div style="display: flex">
                 <div
                   style="
@@ -75,20 +66,7 @@
                   <div style="margin-top: 29px; margin-bottom: 20px">
                     品类:{{ item.productTitle }}
                   </div>
-                  <!-- <div style="padding-bottom: 10px; padding-top: 10px">
-                    净含量:3斤 规格:[中大果]果径65-70mm,超值热卖!
-                  </div> -->
-                  <div>
-                    支付方式: {{ item.paymentMethod }}
-                    <!-- <img
-                      style="width: 30px; height: 30px"
-                      src="../assets/orderOne.png"
-                    />
-                    <img
-                      style="width: 30px; height: 30px"
-                      src="../assets/orderThree.png"
-                    /> -->
-                  </div>
+                  <div>支付方式: {{ item.paymentMethod }}</div>
                 </div>
               </div>
               <div style="line-height: 121px; width: 200px; text-align: center">
@@ -97,11 +75,6 @@
               <div style="line-height: 121px; width: 100px; text-align: center">
                 数量：{{ item.productCnt }}
               </div>
-              <!-- <div style="text-align: center; width: 120px">
-                <div>¥ 0.01</div>
-                <div>(含运费: 0.01)</div>
-                <div>手机订单</div>
-              </div> -->
               <div style="line-height: 121px; text-align: center; width: 220px">
                 <div v-if="item.payStatus === '已支付'" style="color: #60b17d">
                   {{ item.payStatus }}
@@ -212,7 +185,7 @@
               </el-form-item>
 
               <el-form-item label="会员等级" prop="levelId">
-                <el-radio-group v-model="userInfoForm.levelId">
+                <el-radio-group disabled v-model="userInfoForm.levelId">
                   <el-radio :label="1">普通会员</el-radio>
                   <el-radio :label="2">青铜</el-radio>
                   <el-radio :label="3">白银</el-radio>
@@ -233,6 +206,7 @@
                   style="margin-left: 70px; background: #408e5c; width: 80px"
                   type="primary"
                   id="registerSub"
+                  @click="resetForm('userInfoForm')"
                   >取消</el-button
                 >
               </el-form-item>
@@ -301,7 +275,7 @@ import Footer from "@/components/Footer";
 export default {
   watch: {
     $route(now, old) {
-      this.$router.go(0)
+      this.$router.go(0);
     },
   },
   components: {
@@ -363,13 +337,17 @@ export default {
       },
       userInfoRules: {
         phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
-        nickName: [{ required: true, message: "请选择", trigger: "blur" }],
-        userUame: [{ required: true, message: "请选择", trigger: "blur" }],
+        nickName: [{ required: true, message: "请输入昵称", trigger: "blur" }],
+        userUame: [
+          { required: true, message: "请输入真实姓名", trigger: "blur" },
+        ],
         identityCardType: [
           { required: true, message: "请选择", trigger: "blur" },
         ],
-        userEmail: [{ required: true, message: "请输入", trigger: "blur" }],
-        userGender: [{ required: true, message: "请选择", trigger: "blur" }],
+        userEmail: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
+        userGender: [
+          { required: true, message: "请选择性别", trigger: "blur" },
+        ],
         levelId: [{ required: true, message: "请选择", trigger: "blur" }],
       },
       // 修改密码表单
@@ -404,7 +382,7 @@ export default {
       // 获取用户信息 /userInfo/findById get
       this.$http
         .get("/static/userInfo.json", {
-          phone: "", // 从本地缓存拿
+          phone: JSON.parse(localStorage.getItem("userInfo")).phone, // 从本地缓存拿
         })
         .then(
           (res) => {
@@ -494,6 +472,11 @@ export default {
                 this.$message.error(response.message);
               }
             });
+          // 模拟成功
+          this.$message({
+            message: "用户基本信息修改成功!",
+            type: "success",
+          });
         } else {
           return false;
         }

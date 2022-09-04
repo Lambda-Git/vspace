@@ -31,17 +31,17 @@
             style="display: flex"
           >
             <div
-              :class="addresSelect === index ? 'addresSelect' : ''"
+              :class="addresSelect === item.userAddrId ? 'addresSelect' : ''"
               class="addressName"
-              @click="addresOnSelect(index)"
+              @click="addresOnSelect(item.userAddrId)"
             >
-              {{ item.name }}
+              {{ item.userName }}
             </div>
             <div style="height: 35px; line-height: 35px; margin-left: 20px">
-              {{ item.name }}
+              {{ item.userName }}
             </div>
             <div style="height: 35px; line-height: 35px; margin-left: 20px">
-              {{ item.cities }}
+              {{ item.provinceName }}
             </div>
             <div style="height: 35px; line-height: 35px; margin-left: 20px">
               {{ item.detail }}
@@ -68,18 +68,26 @@
               style="height: 35px; line-height: 35px; margin-left: 100px"
               v-if="item.default === false"
             >
-              <el-button @click="setDefault(item.id)" type="text"
+              <el-button @click="setDefault(item.userAddrId)" type="text"
                 >设置为默认地址</el-button
               >
             </div>
             <div style="height: 35px; line-height: 35px; margin-left: 20px">
-              <i style="cursor: pointer" class="el-icon-edit"></i>
+              <i
+                style="cursor: pointer"
+                class="el-icon-edit"
+                @click="editAdress(item)"
+              ></i>
             </div>
             <div
               style="height: 35px; line-height: 35px; margin-left: 20px"
               v-if="item.default !== true"
             >
-              <i style="cursor: pointer" class="el-icon-delete"></i>
+              <i
+                style="cursor: pointer"
+                class="el-icon-delete"
+                @click="delAdress(item)"
+              ></i>
             </div>
           </div>
         </div>
@@ -89,13 +97,7 @@
             支付方式
           </div>
           <div style="display: flex">
-            <div
-              @click="payTypeOnSelect(1)"
-              :class="payType === 1 ? 'paySelect' : ''"
-              class="paytype"
-            >
-              <i class="el-icon-s-shop"></i>货到付款
-            </div>
+            <div class="paytype"><i class="el-icon-s-shop"></i>货到付款</div>
             <div
               @click="payTypeOnSelect(2)"
               :class="payType === 2 ? 'paySelect' : ''"
@@ -103,13 +105,7 @@
             >
               <i class="el-icon-full-screen"></i>在线支付
             </div>
-            <div
-              @click="payTypeOnSelect(3)"
-              :class="payType === 3 ? 'paySelect' : ''"
-              class="paytype"
-            >
-              <i class="el-icon-bank-card"></i>对公转账
-            </div>
+            <div class="paytype"><i class="el-icon-bank-card"></i>对公转账</div>
           </div>
         </div>
         <div class="line"></div>
@@ -150,30 +146,82 @@
                   </div>
                 </div>
               </div>
-              <div style="display: flex">
-                <div>
-                  <img
-                    style="width: 100px; height: 100px;margin-right: 10px;"
-                    src="../assets/cart-1.jpg"
-                  />
-                </div>
-                <div style="margin-right: 30px;">
-                  <div style="width: 300px;font-size: 13px;color: #898996;margin-bottom: 5px;">
-                    京东京造 荞麦枕头 花草枕 100%荞麦壳填充
-                    大凉山高山苦荞全棉舒睡枕芯睡眠填充分区高
+              <div>
+                <div
+                  v-for="(item, index) in orderItemList"
+                  :key="index"
+                  style="display: flex"
+                >
+                  <div>
+                    <img
+                      style="width: 100px; height: 100px; margin-right: 10px;border-radius: 50px;"
+                      src="../assets/cart-1.jpg"
+                    />
                   </div>
-                  <div style="width: 300px;font-size: 13px;color: #898996;margin-bottom: 5px;">颜色：店长推荐】智能游戏APP+加粗车架+防滑脚踏 黑</div>
-                  <div style="display: flex">
-                    <div><img src="" /></div>
-                    <div style="width: 300px;font-size: 13px;color: #898996;">不支持7天无理由退货</div>
+                  <div style="margin-right: 30px;line-height: 25px;">
+                    <div
+                      style="
+                        width: 300px;
+                        font-size: 13px;
+                        color: #898996;
+                        margin-bottom: 5px;
+                      "
+                    >
+                      {{item.productName}}
+                    </div>
+                    <div
+                      style="
+                        width: 300px;
+                        font-size: 13px;
+                        color: #898996;
+                        margin-bottom: 5px;
+                      "
+                    >
+                      {{item.descript}}
+                    </div>
+                    <div style="display: flex">
+                      <div><img src="" /></div>
+                      <div
+                        style="width: 300px; font-size: 13px; color: #898996"
+                      >
+                        不支持7天无理由退货
+                      </div>
+                    </div>
+                  </div>
+                  <div style="width: 100px; text-align: center">
+                    <div
+                      style="
+                        margin-top: 30px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #009866;
+                      "
+                    >
+                      ¥ {{(item.totalPrice*item.discount).toFixed(2)}}
+                    </div>
+                    <div style="font-size: 14px; margin-top: 8px">不计重量</div>
+                  </div>
+                  <div
+                    style="
+                      width: 100px;
+                      text-align: center;
+                      margin-top: 40px;
+                      font-size: 14px;
+                    "
+                  >
+                    x {{item.productCnt}}
+                  </div>
+                  <div
+                    style="
+                      width: 50px;
+                      text-align: center;
+                      margin-top: 40px;
+                      font-size: 14px;
+                    "
+                  >
+                    有货
                   </div>
                 </div>
-                <div style="width: 100px;text-align: center;">
-                  <div style="margin-top: 30px;font-size: 16px;font-weight: 600;color: #009866;">¥ 29.99</div>
-                  <div style="font-size: 14px;margin-top: 8px;">不计重量</div>
-                </div>
-                <div style="width: 100px;text-align: center;margin-top: 40px;font-size: 14px">x 1</div>
-                <div style="width: 50px;text-align: center;margin-top: 40px;font-size: 14px">有货</div>
               </div>
             </div>
           </div>
@@ -206,7 +254,9 @@
           >
             总商品金额:
           </div>
-          <div style="font-size: 14px; font-weight: 600">¥192.90</div>
+          <div style="font-size: 14px; font-weight: 600">
+            ¥{{ this.totalPrice }}
+          </div>
         </div>
         <div style="display: flex; margin-bottom: 10px">
           <div
@@ -221,7 +271,9 @@
           >
             运费:
           </div>
-          <div style="font-size: 14px; font-weight: 600">¥6.00</div>
+          <div style="font-size: 14px; font-weight: 600">
+            ¥{{ this.freight }}
+          </div>
         </div>
       </div>
       <div
@@ -247,7 +299,7 @@
             应付总额:
           </div>
           <div style="font-size: 18px; font-weight: 600; color: #009866">
-            ¥192.90
+            ¥{{ this.totalPrice + this.freight }}
           </div>
         </div>
         <div style="display: flex; justify-content: flex-end">
@@ -256,13 +308,20 @@
               寄送至:
             </div>
             <div style="font-size: 14px; font-weight: 600">
-              北京 朝阳区 三环到四环之间 小关安苑北里安苑北里小区 19号楼 1708
+              {{
+                this.curSelectUserInfo.provinceName === undefined
+                  ? ""
+                  : this.curSelectUserInfo.provinceName +
+                    "   " +
+                    this.curSelectUserInfo.detail
+              }}
             </div>
           </div>
           <div style="display: flex; margin-right: 50px">
             <div style="font-size: 14px; font-weight: 600">收货人:</div>
             <div style="font-size: 14px; font-weight: 600">
-              周桂林 13716883073
+              {{ this.curSelectUserInfo.userName }}
+              {{ this.curSelectUserInfo.phone }}
             </div>
           </div>
         </div>
@@ -299,8 +358,8 @@
             >
             </el-cascader>
           </el-form-item>
-          <el-form-item label="收货人" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+          <el-form-item label="收货人" prop="userName">
+            <el-input v-model="ruleForm.userName"></el-input>
           </el-form-item>
           <el-form-item label="详细地址" prop="detail">
             <el-input v-model="ruleForm.detail"></el-input>
@@ -344,19 +403,22 @@ export default {
     };
     return {
       addresSelect: -1,
-      payType: 0,
+      payType: 2,
       options: provinceAndCityData,
-      ProductData: [1, 2, 3, 4, 5, 6],
+      orderItemList: [],
       dialogVisible: false,
+      totalPrice: 0,
+      freight: 6, // 运费
+      mailingAddress: "", // 邮寄地址
       ruleForm: {
         id: 0,
-        name: "",
+        userName: "",
         cities: "",
         detail: "",
         phone: "",
       },
       rules: {
-        name: [
+        userName: [
           { required: true, message: "请输入收货人姓名", trigger: "blur" },
         ],
         cities: [
@@ -367,46 +429,57 @@ export default {
         ],
         phone: [{ required: true, validator: validatorPhone, trigger: "blur" }],
       },
-      addressList: [
-        {
-          id: 1,
-          name: "周桂林",
-          cities: "北京市 朝阳区",
-          detail: "小关安苑北里安苑北里小区 19号楼 1708",
-          phone: "13716883072",
-          default: true,
-        },
-        {
-          id: 2,
-          name: "周大林",
-          cities: "北京市 朝阳区",
-          detail: "小关安苑北里安苑北里小区 19号楼 1708",
-          phone: "13716883072",
-          default: false,
-        },
-        {
-          id: 3,
-          name: "周小林",
-          cities: "北京市 朝阳区",
-          detail: "小关安苑北里安苑北里小区 19号楼 1708",
-          phone: "13716883072",
-          default: false,
-        },
-      ],
+      addressList: [],
+      curSelectUserInfo: {},
     };
   },
   created() {
     console.log(this.$route.path);
-    console.log('this.$store.state[settlementList]')
-    console.log(this.$store.state['settlementList'])
+    console.log("this.$store.state[settlementList]");
+    console.log(this.$store.state["settlementList"]);
+    // 收货地址查询和购物车信息查询展示
+    this.getAddresAndOrderList();
   },
   mounted() {},
   methods: {
+    getAddresAndOrderList() {
+      // /order/ready/order get
+      this.$http.get("/static/addresAndOrderList.json").then(
+        (res) => {
+          res.userAddrList.forEach((item) => {
+            item.default = false;
+          });
+          this.addressList = res.userAddrList;
+          this.totalPrice = res.totalPrice;
+          this.orderItemList = res.orderItemList;
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
     onSelect(type) {
       this.curSelect = type;
     },
+    // 新增用户地址信息
     add() {
       this.dialogVisible = true;
+      this.ruleForm.id = undefined;
+      this.ruleForm.userName = "";
+      this.ruleForm.cities = [];
+      this.ruleForm.detail = "";
+      this.ruleForm.phone = "";
+      this.dialogVisible = true;
+    },
+    editAdress(item) {
+      console.log(item);
+      this.dialogVisible = true;
+      this.ruleForm.id = item.userAddrId;
+      this.ruleForm.userName = item.userName;
+      this.ruleForm.cities = [item.provinceId, item.cityId];
+      this.ruleForm.detail = item.detail;
+      this.ruleForm.phone = item.phone;
     },
     handleClose(done) {
       this.$confirm("确认关闭？")
@@ -415,9 +488,56 @@ export default {
         })
         .catch((_) => {});
     },
+    saveAdress() {
+      // 接口url 待提供
+      this.$http
+        .get("/static/saveAdress.json", {
+          userAddrId: this.ruleForm.id,
+          userName: this.ruleForm.userName,
+          detail: this.ruleForm.detail,
+          phone: this.ruleForm.phone,
+          provinceId: this.ruleForm.cities[0],
+          cityId: this.ruleForm.cities[1],
+        })
+        .then(
+          (res) => {
+            this.$message({
+              message: res.message,
+              type: "success",
+            });
+            this.dialogVisible = false;
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
+    delAdress(item) {
+      // 接口url 待提供
+      this.$http
+        .get("/static/delAdress.json", {
+          userAddrId: item.id,
+        })
+        .then(
+          (res) => {
+            console.log(res);
+            this.$message({
+              message: "删除成功!",
+              type: "success",
+            });
+            this.getAddresAndOrderList();
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.saveAdress();
         } else {
           return false;
         }
@@ -426,41 +546,54 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    setDefault(id) {
+    setDefault(userAddrId) {
       let array = [];
       this.addressList.forEach((item) => {
-        if (item.id === id) {
+        if (item.userAddrId === userAddrId) {
           item.default === true;
           array.push({
-            id: item.id,
-            name: item.name,
+            userAddrId: item.userAddrId,
+            userName: item.userName,
             cities: item.cities,
             detail: item.detail,
             phone: item.phone,
+            provinceName: item.provinceName,
             default: true,
           });
         } else {
           array.push({
-            id: item.id,
-            name: item.name,
+            userAddrId: item.userAddrId,
+            userName: item.userName,
             cities: item.cities,
             detail: item.detail,
             phone: item.phone,
+            provinceName: item.provinceName,
             default: false,
           });
         }
       });
-      console.log(array);
+      this.addresSelect = userAddrId;
       this.addressList = array.slice();
+      // 寄送地址 同步更新
+      this.addressList.forEach((list) => {
+        if (list.userAddrId === userAddrId) {
+          this.curSelectUserInfo = list;
+        }
+      });
     },
-    addresOnSelect(num) {
-      this.addresSelect = num;
+    addresOnSelect(userAddrId) {
+      this.addresSelect = userAddrId;
+      this.addressList.forEach((list) => {
+        if (list.userAddrId === userAddrId) {
+          this.curSelectUserInfo = list;
+        }
+      });
     },
     payTypeOnSelect(num) {
       this.payType = num;
     },
-    goPaying(){
-       this.$router.push({ path: "/paying", query: { name: '' } });
+    goPaying() {
+      this.$router.push({ path: "/paying", query: { name: "" } });
     },
   },
 };
@@ -514,6 +647,7 @@ export default {
   padding: 5px 20px;
   margin-right: 50px;
   cursor: pointer;
+  color: #bcb4b4;
 }
 .paytype:hover {
   color: #009866;

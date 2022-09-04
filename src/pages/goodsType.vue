@@ -6,10 +6,15 @@
         <img src="../assets/logo.png" />
       </div>
       <div class="type_search">
-          <div class="searchInfo">
-            <i @click="searchFor()" style="cursor: pointer" class="el-icon-search"></i><input v-model="curCategoryName" placeholder="搜一搜" />
-          </div>
+        <div class="searchInfo">
+          <i
+            @click="searchFor()"
+            style="cursor: pointer"
+            class="el-icon-search"
+          ></i
+          ><input v-model="curCategoryName" placeholder="搜一搜" />
         </div>
+      </div>
     </div>
     <div class="line"></div>
     <div class="goodsType">
@@ -82,7 +87,7 @@
                       margin-bottom: 10px;
                     "
                   >
-                    <div>南非西柚5斤</div>
+                    <div>{{ item.productTitle }}</div>
                     <div style="margin-left: 20px">红心西柚大果孕妇柚子</div>
                   </div>
                   <div
@@ -93,10 +98,10 @@
                       margin-bottom: 10px;
                     "
                   >
-                    ¥ 29.69
+                    ¥ {{ item.productPrice }}
                   </div>
                   <div style="margin-bottom: 10px; font-size: 14px">
-                    南非西柚5斤,红心西柚大果孕妇柚子进口葡萄柚水果包邮新鲜鲜果,空运到北京,新鲜多汁,口中爆浆的感觉你值得拥有,现在下单,两小时送到你手中。
+                    {{ item.descript }}
                   </div>
                   <div>
                     <el-button
@@ -115,6 +120,16 @@
                 </div>
               </div>
             </div>
+            <el-pagination
+              style="text-align: center; margin-bottom: 31px"
+              background
+              layout="prev, pager, next"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :total="this.total"
+              :page-size="this.pagesize"
+            >
+            </el-pagination>
           </div>
         </div>
       </div>
@@ -133,35 +148,53 @@ export default {
   },
   data() {
     return {
-      curCategoryName: '',
+      curCategoryName: "",
       currentNodekey: undefined,
-      ProductData: [1, 2, 3, 4, 5, 6],
+      currentNodeName: "",
+      ProductData: [],
       defaultProps: {
         children: "children",
         label: "categoryName",
       },
       Treedata: [],
+      currentPage: 1,
+      pageSize: 5,
+      total: 0,
     };
   },
   created() {
     console.log(this.$route.path);
-    this.getAllProductCategories()
+    this.getAllProductCategories();
   },
   mounted() {
     // 输入查询跳转 过来 给input框赋值
-    this.curCategoryName = this.$route.query.categoryName === undefined ? '' : this.$route.query.categoryName
-    this.currentNodekey = this.$route.query.categoryId === undefined ? undefined : this.$route.query.categoryId
+    this.curCategoryName =
+      this.$route.query.categoryName === undefined
+        ? ""
+        : this.$route.query.categoryName;
+    this.currentNodekey =
+      this.$route.query.categoryId === undefined
+        ? undefined
+        : this.$route.query.categoryId;
+    // 判断当前用户是点击二级分类跳转、输入框关键字查询跳转
+    if (this.$route.query.categoryName === undefined) {
+      // 二级分类查询 by categoryId
+      this.getListByCategoryId();
+    } else {
+      // 关键字查询 by categoryName
+      this.getListByCategoryName();
+    }
   },
   methods: {
-     getAllProductCategories(){
-      // 获取所有商品分类 
+    getAllProductCategories() {
+      // 获取所有商品分类
       this.$http.get("/static/allProductCategories.json").then(
         (res) => {
-          this.Treedata = this.rray2Tree(res.data)
+          this.Treedata = this.rray2Tree(res.data);
           //一定要加这个选中了否则样式没有出来
           this.$nextTick(() => {
-            this.$refs.tree.setCurrentKey(this.$route.query.categoryId); 
-           });
+            this.$refs.tree.setCurrentKey(this.$route.query.categoryId);
+          });
         },
         (err) => {
           // 500响应
@@ -169,8 +202,67 @@ export default {
         }
       );
     },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    // 分页
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      if (this.$route.query.categoryName === undefined) {
+        // 二级分类查询 by categoryId
+        this.getListByCategoryId();
+      } else {
+        // 关键字查询 by categoryName
+        this.getListByCategoryName();
+      }
+    },
+    getListByCategoryId() {
+      // /productInfo/findByCategoryName get
+      // 根据二级分类 categoryId 查询商品列表
+      this.$http
+        .get("/static/productListBy.json", {
+          currentPage: this.currentPage,
+          pageSize: this.pageSize,
+          categoryName: this.currentNodeName,
+        })
+        .then(
+          (res) => {
+            this.ProductData = res.rows;
+            this.total = res.total;
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
+    getListByCategoryName() {
+      // //search post
+      // 根据关键字 categoryName 查询商品列表
+      this.$http
+        .get("/static/productListBy.json", {
+          currentPage: this.currentPage,
+          pageSize: this.pageSize,
+          keywords: this.curCategoryName,
+        })
+        .then(
+          (res) => {
+            this.ProductData = res.rows;
+            this.total = res.total;
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
     searchFor() {
-      console.log(this.curCategoryName)
+      this.currentPage = 1;
+      this.currentNodekey = undefined;
+      this.$nextTick(() => {
+        this.$refs.tree.setCurrentKey(undefined);
+      });
+      this.getListByCategoryName();
     },
     onSelect(type) {
       this.curSelect = type;
@@ -178,31 +270,33 @@ export default {
     buys(item) {
       let { href } = this.$router.resolve({
         path: "/goodsDetails",
-        query: { username: item },
+        query: { productId: item.productId },
       });
       window.open(href, "_blank");
     },
     handleNodeClick(data) {
-      console.log(data);
+      this.currentPage = 1;
+      this.curCategoryName = "";
+      this.currentNodeName = data.categoryName;
+      this.getListByCategoryId();
     },
-    rray2Tree(arr){
-        if(!Array.isArray(arr) || !arr.length) return;
-        let map = {};
-        arr.forEach(item => map[item.categoryId] = item);
+    rray2Tree(arr) {
+      if (!Array.isArray(arr) || !arr.length) return;
+      let map = {};
+      arr.forEach((item) => (map[item.categoryId] = item));
 
-        let roots = [];
-        arr.forEach(item => {
-            const parent = map[item.parentId];
-            if(parent){
-                (parent.children || (parent.children=[])).push(item);
-            }
-            else{
-                roots.push(item);
-            }
-        })
+      let roots = [];
+      arr.forEach((item) => {
+        const parent = map[item.parentId];
+        if (parent) {
+          (parent.children || (parent.children = [])).push(item);
+        } else {
+          roots.push(item);
+        }
+      });
 
-        return roots;
-    }
+      return roots;
+    },
   },
 };
 </script>
@@ -216,10 +310,10 @@ export default {
 .pesponCenter .logo img {
   width: 200px;
 }
- .type_search{
+.type_search {
   margin-left: 700px;
-    margin-top: 18px;
- }
+  margin-top: 18px;
+}
 .type_search .searchInfo i {
   margin-left: 55px;
   position: relative;
@@ -268,6 +362,6 @@ span.el-tree-node__label {
 }
 .el-tree--highlight-current .is-current.el-tree-node > .el-tree-node__content {
   background-color: #009866 !important;
-  border-radius:5px;
+  border-radius: 5px;
 }
 </style>

@@ -52,17 +52,18 @@
         </div>
         <div style="width: 100%; padding: 25px">
           <div style="font-size: 20px; font-weight: 500; color: #228664">
-            
-             {{productDetail.productTitle}}
+            {{ productDetail.productTitle }}
           </div>
           <div style="display: flex; margin-top: 20px">
             <div style="width: 100px">价格:</div>
-            <div style="text-decoration: line-through">¥ {{productDetail.productPrice}}</div>
+            <div style="text-decoration: line-through">
+              ¥ {{ productDetail.productPrice }}
+            </div>
           </div>
           <div style="display: flex; margin-top: 20px">
             <div style="width: 100px">促销价:</div>
             <div style="font-size: 18px; font-weight: 500; color: #228664">
-              ¥ {{productDetail.productPrice  * productDetail.discount }}
+              ¥ {{ productDetail.productPrice * productDetail.discount }}
             </div>
           </div>
           <div style="display: flex; margin-top: 20px">
@@ -79,14 +80,14 @@
           <div style="margin-top: 20px">
             <div style="width: 100px; height: 55px; float: left">详情描述:</div>
             <div style="font-size: 14px">
-            {{productDetail.descript}}
+              {{ productDetail.descript }}
             </div>
           </div>
           <div style="margin-top: 20px; display: flex">
             <div style="width: 100px; margin-top: 8px">数量:</div>
             <div>
               <el-input-number
-                v-model="num"
+                v-model="productDetail.productCnt"
                 controls-position="right"
                 @change="handleChange"
                 :min="1"
@@ -97,14 +98,14 @@
             <el-button
               style="color: rgb(98, 210, 161); width: 200px"
               plain
-              @click="buyNow(item)"
+              @click="addToShopCar('buy')"
               >立即购买</el-button
             >
             <el-button
               style="background: rgb(98, 210, 161); color: #fff; width: 200px"
               type="primary"
               plain
-              @click="addToShopCar(item)"
+              @click="addToShopCar('add')"
               ><img
                 style="position: absolute; margin-top: -1px; margin-left: -18px"
                 src="../assets/shoppingCart3.png"
@@ -154,7 +155,7 @@
             </div>
             <div style="display: flex; padding: 10px 5px; font-size: 14px">
               <div>商品有效期:</div>
-              <div style="marginRight: '10px'">冷藏: 15天;</div>
+              <div style="marginright: '10px'">冷藏: 15天;</div>
               <div>常温: 5天</div>
             </div>
           </div>
@@ -234,8 +235,7 @@ export default {
       }
     );
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     // 获取商品详情信息 /productInfo/findById/{productId} get
     getProductDetail() {
@@ -258,6 +258,7 @@ export default {
     onSelect(type) {
       this.curSelect = type;
     },
+    // 跳转商品详情页
     buys(data) {
       let { href } = this.$router.resolve({
         path: "/goodsDetails",
@@ -265,24 +266,45 @@ export default {
       });
       window.open(href, "_blank");
     },
-    buyNow(data) {
-      let { href } = this.$router.resolve({
-        path: "/shoppingCart",
-        query: { username: data },
-      });
-      window.open(href, "_blank");
-    },
-    // 点击添加到购物车
-    addToShopCar(item) {
-      this.ballFlag = !this.ballFlag;
-      var goodsInfo = {
-        id: Date.now(),
-        count: 2,
-        price: 32,
-        selected: true,
-      };
-      this.$store.commit("addCar", goodsInfo);
-      console.log(this.$store);
+    addToShopCar(type) {
+      // buy - 添加购物车并跳转；add - 加入购车
+      console.log("productDetail");
+      console.log(this.productDetail);
+      // 接口 把当前商品添加购物车  /cartinfo/add  get
+      this.$http
+        .get("/static/addToShop.json", {
+          productId: this.productDetail.productId,
+          num: this.productDetail.productCnt,
+        })
+        .then(
+          (response) => {
+            this.$message({
+              message: response.message,
+              type: "success",
+            });
+            if (type === "buy") {
+              setTimeout(() => {
+                let { href } = this.$router.resolve({
+                  path: "/shoppingCart",
+                  query: { productId: this.productDetail.productId },
+                });
+                window.open(href, "_blank");
+              }, 500);
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      // 购物车数据存储到
+      // this.ballFlag = !this.ballFlag;
+      // var goodsInfo = {
+      //   count: 2,
+      //   price: 32,
+      //   selected: true,
+      // };
+      // this.$store.commit("addCar", goodsInfo);
+      // console.log(this.$store);
     },
 
     handleChange(value) {
