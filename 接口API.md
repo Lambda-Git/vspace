@@ -11,7 +11,7 @@
 
 返回值具体格式： 【重点字段pic】
 
-```
+```json
 [
   {
     "categoryId": 1,
@@ -61,6 +61,44 @@
 ```
 
 # 2 搜索模块
+
+关键字搜索：
+
+访问地址： http://localhost:10010/search
+
+访问方式：post
+
+携带参数： {"keywords":"橘子"}
+
+```json
+{
+    "total": 1,
+    "totalPages": 1,
+    "rows": [
+        {
+            "productId": 1001,
+            "productTitle": "烟台<em style=\"color:red\">橘</em><em style=\"color:red\">子</em>",
+            "categoryId": 26,
+            "productPrice": 3.0,
+            "discount": 2.5,
+            "publishStatus": 1,
+            "specifacation": "500克/斤",
+            "productionDate": "2022-05-09T00:00:00.000+00:00",
+            "shelfLife": "2022-05-09T00:00:00.000+00:00",
+            "descript": null,
+            "userCreate": "admin",
+            "gmtCreate": "2022-06-14T13:32:32.000+00:00",
+            "userModified": "admin",
+            "gmtModified": "2022-08-12T16:43:03.000+00:00",
+            "isDeleted": 1,
+            "categoryName": "海虹",
+            "picUrl": "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmLuYaaAOM9GAAAqJNqYRj4983.jpg"
+        }
+    ]
+}
+```
+
+
 
 # 3 购物车模块
 
@@ -412,8 +450,14 @@ ngrok 内网穿透工具：
 支付成功    1
 超时已关闭  2
 用户已取消  3
-退款中      4
-已退款      5
+已退款      4
+```
+
+支付宝返回的参数信息： Map params
+
+```
+{gmt_create=2022-08-31 14:56:48, charset=UTF-8, gmt_payment=2022-08-31 14:56:57, notify_time=2022-08-31 14:56:59, subject=9.0, sign=WUhMjBv4g6Q1FPvRwwxp7bho/I4bLgsMOESJ37jIjexcKOAStKCoQNL20Je6PsYkLTvFLYMwUzsokpYkGw+W6yPK0zzUOXJX4r7dGevqiTKQR3F/XTh4EOsk0d8fGAqxtCuKmcJHWkK5HLzqlPQpqk8/BbNLoJhQ5CuZW3w1YvPFR2qYxEjsxN2qOSfe2hhc08MgGPTVEC/ljrVzVt3V8+1N0yIMjutdyszmEVH/q9KVaM2MYj1am3sisFaGKslUySYDhb6VRxLWlktOOgLZUX8UymhPiIsyDYsZh2KvAyTnrltPXzLLSHs6udfacxF6HKolo9FuflYsOlugw0MjNQ==, buyer_id=2088622957923601, invoice_amount=9.00, version=1.0, notify_id=2022083100222145658023600522899650, fund_bill_list=[{"amount":"9.00","fundChannel":"ALIPAYACCOUNT"}], notify_type=trade_status_sync, out_trade_no=1048, total_amount=9.00, trade_status=TRADE_SUCCESS, trade_no=2022083122001423600501959571, auth_app_id=2021000119624133, receipt_amount=9.00, point_amount=0.00, app_id=2021000119624133, buyer_pay_amount=9.00, sign_type=RSA2, seller_id=2088621957896218}
+
 ```
 
 
@@ -461,26 +505,41 @@ json格式如下：
 ## 6.3  查询用户基本信息
 
 ```
-请求:/userInfo/findById
+请求URL:http://localhost:10006/basicInfo/findByPhone?phone=18811307278
 请求方式：get
 参数： String phone 
 返回值：json
 ```
 
-```
+响应数据格式： 
+
+```json
 {
- "flag":"true",
- "code":"20000",
- "message":"注册成功",
- "data":{
-     "phone","18811307278",
-     "levelName":"黄金",
-     "changePoint":"1001" #用户积分
-     "gmtGreate":"2022-09-09" #用户得创建时间
-     ...用户得其他信息可参照数据库表获得
- }
+    "flag": true,
+    "code": 10000,
+    "message": "用户详情查询成功",
+    "data": {
+        "phone": "18811307278",
+        "nickName": "Chuck",
+        "userName": "顶顶1",
+        "identityCardType": 1,
+        "identityCardNo": "709499199501012596",
+        "userEmail": "chuck@163.com",
+        "userGender": "女",
+        "userPoint": 80,
+        "registerTime": "1994-04-01T16:07:01.000+00:00",
+        "birthday": "2009-11-02T00:00:00.000+00:00",
+        "levelId": 1,
+        "userCreate": "admin",
+        "gmtCreate": "2022-06-07T10:37:49.000+00:00",
+        "isDeleted": 1,
+        "userModified": "13321932590",
+        "gmtModified": "2022-06-07T10:37:49.000+00:00"
+    }
 }
 ```
+
+
 
 ## 6.4 用户密码修改
 
@@ -499,6 +558,46 @@ json格式如下：
 }
 ```
 
+## 6.5 用户信息修改
+
+```
+请求URL： http://localhost:10006/basicInfo/updateBasicInfo
+请求参数格式： 
+{"phone":"","userName":"","nickName":"","identity_card_type":"",...}
+后端使用@RequestBody BasicInfo basicInfo对象接收
+返回值： json
+```
+
+响应得格式： 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "用户信息修改成功",
+    "data": null
+}
+```
+
+### 6.6 用户退出按钮
+
+```
+请求URL： localhost:10006/userInfo/logout
+请求参数:  无
+前端：需要将本地缓存中存入得cookie销毁，跳转到登录页面 
+```
+
+响应结果； 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "用户退出成功！",
+    "data": null
+}
+```
+
 # 7 商品模块
 
 ## 7.1 商品一级分类查询
@@ -506,11 +605,11 @@ json格式如下：
 ```
 请求:/productCategory/findAll
 请求方式：get
-参数： Long productId
+参数： 无
 返回值：json
 ```
 
-```
+```json
 {
  "flag":"true",
  "code":"20000",
@@ -553,7 +652,7 @@ json格式如下：
 返回值：json
 ```
 
-```
+```json
 {
  "flag":"true",
  "code":"20000",
@@ -888,6 +987,124 @@ json格式如下：
             "http://192.168.50.50:8080/group1/M00/00/00/wKgyMmKdcL2Ad5ryAADV4jcc7Ck640.jpg"
         ]
     }
+}
+```
+
+# 8 地址模块管理
+
+## 8.1 收获人地址列表展示
+
+请求地址： http://localhost:10012/userAddr/list
+
+请求参数： Strring phone 
+
+响应结果： 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "查询成功！",
+    "data": [
+        {
+            "userAddrId": 1,
+            "phone": "18811307278",
+            "userName": "张久军",
+            "userPhone": "18811307278",
+            "provinceId": 120000,
+            "cityId": 120100,
+            "districtId": 120115,
+            "detail": "天津市市辖区宝坻区樱花园5号楼1单元502",
+            "isDefault": 0,
+            "userCreate": "admin",
+            "gmtCreate": "2022-06-15T15:56:39.000+00:00",
+            "isDeleted": 0,
+            "userModified": "admin",
+            "gmtModified": "2022-06-15T15:56:39.000+00:00"
+        },
+        {
+            "userAddrId": 2,
+            "phone": "18811307278",
+            "userName": "张久军",
+            "userPhone": "18811307278",
+            "provinceId": 110000,
+            "cityId": 110100,
+            "districtId": 110107,
+            "detail": "北京市市辖区石景山区香河园中里2号楼4单元102",
+            "isDefault": 1,
+            "userCreate": "admin",
+            "gmtCreate": "2022-08-17T14:32:27.000+00:00",
+            "isDeleted": 1,
+            "userModified": "admin",
+            "gmtModified": "2022-08-17T14:32:27.000+00:00"
+        }
+    ]
+}
+```
+
+## 8.2 新增收获地址
+
+请求地址： http://localhost:10012/userAddr/addUserAddr?cities=120000,120100
+
+请求参数： Integer [] cities,@RequestBody UserAddr userAddr
+
+参数说明： cities数组，装提交的省id和市id
+
+​                    UserAddr对象，封装用户基本信息，用户名称， 手机号码，地址详情等
+
+响应结果： 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "地址添加成功！",
+    "data": null
+}
+```
+
+
+
+## 8.3 删除收获地址
+
+请求地址： http://localhost:10012/userAddr/deleteUserAddrByPhone?userPhone=18811307299
+
+请求参数： String userPhone
+
+响应结果： 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "删除地址成功！",
+    "data": null
+}
+```
+
+## 8.4 编辑收获地址
+
+需要商讨一下~
+
+## 8.5 设置为默认地址
+
+```
+请求URL：http://:localhost:10012/userAddr/updateUserAddrDefault
+
+请求参数： String phone ,String userPhone 
+参数解释： phone 是用户登录使用得手机号
+         userPhone 是用户收货地址手机号码
+返回值： json         
+```
+
+响应格式： 
+
+```json
+{
+    "flag": true,
+    "code": 10000,
+    "message": "设置默认收货地址成功！",
+    "data": null
 }
 ```
 
