@@ -200,7 +200,7 @@ export default {
   },
   methods: {
     getBanner() {
-      // 获取广告轮播图
+      // 获取广告轮播图  /read_content  get
       this.$http.get("/static/advertisingBanner.json").then(
         (res) => {
           this.bannerData = res.data.data;

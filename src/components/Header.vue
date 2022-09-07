@@ -45,18 +45,37 @@
 
       <div class="loginOut" @click="loginOut()">退出登录</div>
     </div>
+    <el-dialog
+      title="确认"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span
+        style="
+          font-size: 15px;
+          color: #e46c4a;
+          font-weight: 500;
+          margin-left: 39px;
+        "
+        >确认退出vspace电商平台?</span
+      >
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="sureLoginOut">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 export default {
   data() {
     return {
       isLogin: false,
       nickName: "",
-      // activeIndex: '1',
-      // activeIndex2: '1'
+      dialogVisible: false,
     };
   },
   mounted() {
@@ -86,6 +105,10 @@ export default {
       console.log(key, keyPath);
     },
     loginOut() {
+      // 弹出确认框
+      this.dialogVisible = true;
+    },
+    sureLoginOut() {
       // 退出登录 /userInfo/loginOut  get
       this.$http
         .get("/static/loginOut.json", {
@@ -93,8 +116,8 @@ export default {
         })
         .then(
           (res) => {
-            Cookies.remove("token")
-            localStorage.removeItem("userInfo")
+            Cookies.remove("token");
+            localStorage.removeItem("userInfo");
             this.$router.push("/login");
           },
           (err) => {
