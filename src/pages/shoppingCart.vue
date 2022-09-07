@@ -10,7 +10,7 @@
     <div class="cards">
       <div class="title" style="display: flex">
         <div>购物车</div>
-        <div>(全部{{ cartData.length }})</div>
+        <div>(全部{{ this.cartData.length }})</div>
       </div>
       <div>
         <el-table
@@ -132,7 +132,7 @@ export default {
     getCardList() {
       this.$http.get("/static/cartList.json").then(
         (res) => {
-          this.cartData = res.orderItemList;
+          this.cartData = res.data.orderItemList;
         },
         (err) => {
           // 500响应

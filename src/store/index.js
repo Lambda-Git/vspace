@@ -1,12 +1,10 @@
 // import 'es6-promise/auto'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import boy from './card';
-import girl from './pay';
+import card from './card';
+import pay from './pay';
 Vue.use(Vuex);
 
-import axios from 'axios'
-import { post, get, patch, put } from '../utils/http'
 
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV != 'production',
@@ -49,15 +47,14 @@ const store = new Vuex.Store({
             console.log('JSON.stringify(state.car)')
             console.log(JSON.stringify(state.car))
             if (JSON.stringify(state.car) !== 'null') {
-                console.log(21221)
                 console.log(JSON.stringify(state.car))
                 localStorage.setItem('car', JSON.stringify(state.car))
             }
         }
     },
     modules: {
-        boy,
-        girl
+        card,
+        pay
     }
 });
 

@@ -175,7 +175,7 @@ export default {
     // 获取促销商品 /productInfo/promotionProduct get
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
-        this.promotionProductData = res.data;
+        this.promotionProductData = res.data.data;
       },
       (err) => {
         // 500响应
@@ -190,7 +190,7 @@ export default {
       })
       .then(
         (res) => {
-          this.latestProductData = res.data;
+          this.latestProductData = res.data.data;
         },
         (err) => {
           // 500响应
@@ -203,7 +203,7 @@ export default {
       // 获取广告轮播图
       this.$http.get("/static/advertisingBanner.json").then(
         (res) => {
-          this.bannerData = res.data;
+          this.bannerData = res.data.data;
         },
         (err) => {
           // 500响应
@@ -215,7 +215,7 @@ export default {
       // 获取所有商品分类
       this.$http.get("/static/allProductCategories.json").then(
         (res) => {
-          this.Treedata = this.rray2Tree(res.data);
+          this.Treedata = this.rray2Tree(res.data.data);
         },
         (err) => {
           // 500响应

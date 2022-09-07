@@ -184,11 +184,11 @@ export default {
             .then((response) => {
               if (response.code === "10000") {
                 this.$message({
-                  message: response.message,
+                  message: response.data.message,
                   type: "success",
                 });
                 // 登陆成功之后 把返回的token 存入到 cookie里
-                Cookies.set("token", response.data);
+                Cookies.set("token", response.data.data);
                 this.getUserInfo();
               } else {
                 this.$message.error(response.message);
@@ -202,7 +202,7 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
-    // /userInfo/findById  get
+    // /basicInfo/findByPhone?phone=18811307278 get
     getUserInfo() {
       // 获取用户信息 /userInfo/findById get
       this.$http
@@ -211,7 +211,7 @@ export default {
         })
         .then(
           (res) => {
-            localStorage.setItem("userInfo", JSON.stringify(res.data));
+            localStorage.setItem("userInfo", JSON.stringify(res.data.data));
             this.$router.push("/");
           },
           (err) => {

@@ -1,0 +1,41 @@
+{
+    "flag": true,
+    "code": 10000,
+    "message": "查询成功！",
+    "data": [
+        {
+            "userAddrId": 1,
+            "phone": "18811307278",
+            "userName": "张久军",
+            "userPhone": "18811307278",
+            "provinceId": "110000",
+            "provinceName": "天津市市辖区",
+            "cityId": "110100",
+            "districtId": 120115,
+            "detail": "天津市市辖区宝坻区樱花园5号楼1单元502",
+            "isDefault": 0,
+            "userCreate": "admin",
+            "gmtCreate": "2022-06-15T15:56:39.000+00:00",
+            "isDeleted": 0,
+            "userModified": "admin",
+            "gmtModified": "2022-06-15T15:56:39.000+00:00"
+        },
+        {
+            "userAddrId": 2,
+            "phone": "18811307278",
+            "userName": "张久军",
+            "userPhone": "18811307278",
+            "provinceId": "120000",
+            "provinceName": "北京市市辖区",
+            "cityId": "120100",
+            "districtId": 110107,
+            "detail": "北京市市辖区石景山区香河园中里2号楼4单元102",
+            "isDefault": 1,
+            "userCreate": "admin",
+            "gmtCreate": "2022-08-17T14:32:27.000+00:00",
+            "isDeleted": 1,
+            "userModified": "admin",
+            "gmtModified": "2022-08-17T14:32:27.000+00:00"
+        }
+    ]
+}

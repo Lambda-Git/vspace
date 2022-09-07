@@ -227,7 +227,7 @@ export default {
     // 获取促销商品 /productInfo/promotionProduct get
     this.$http.get("/static/promotionProduct.json").then(
       (res) => {
-        this.recommendData = res.data;
+        this.recommendData = res.data.data;
       },
       (err) => {
         // 500响应
@@ -245,9 +245,9 @@ export default {
         })
         .then(
           (res) => {
-            this.productDetail = res.data;
+            this.productDetail = res.data.data;
             console.log("res.data");
-            console.log(res.data);
+            console.log(res.data.data);
           },
           (err) => {
             // 500响应
@@ -279,7 +279,7 @@ export default {
         .then(
           (response) => {
             this.$message({
-              message: response.message,
+              message: response.data.message,
               type: "success",
             });
             if (type === "buy") {

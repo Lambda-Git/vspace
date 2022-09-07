@@ -386,7 +386,7 @@ export default {
         })
         .then(
           (res) => {
-            this.userInfoForm = res.data;
+            this.userInfoForm = res.data.data;
           },
           (err) => {
             // 500响应
@@ -403,8 +403,9 @@ export default {
         })
         .then(
           (res) => {
-            this.orderData = res.rows;
-            this.total = res.total;
+            console.log(res)
+            this.orderData = res.data.rows;
+            this.total = res.data.total;
           },
           (err) => {
             // 500响应

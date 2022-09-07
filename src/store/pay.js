@@ -1,16 +1,16 @@
 export default {
     state: {
-        str: 'girl'
+        str: 'pay'
     },
     mutations: {
-        'girlSetStr': function (state, s) {
+        'paySetStr': function (state, s) {
             console.log('girl 的 setStr');
             state.str = s;
         }
     },
     actions: {
-        'girlSetStr': function ({ commit }, s) {
-            commit('girlSetStr', s);
+        'paySetStr': function ({ commit }, s) {
+            commit('paySetStr', s);
         }
     }
 }

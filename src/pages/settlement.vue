@@ -60,15 +60,15 @@
                 padding: 0 5px;
                 margin-left: 100px;
               "
-              v-if="item.default === true"
+              v-if="item.isDefault === 0"
             >
               默认地址
             </div>
             <div
               style="height: 35px; line-height: 35px; margin-left: 100px"
-              v-if="item.default === false"
+              v-if="item.isDefault === 1"
             >
-              <el-button @click="setDefault(item.userAddrId)" type="text"
+              <el-button @click="setDefault(item)" type="text"
                 >设置为默认地址</el-button
               >
             </div>
@@ -81,7 +81,7 @@
             </div>
             <div
               style="height: 35px; line-height: 35px; margin-left: 20px"
-              v-if="item.default !== true"
+              v-if="item.isDefault === 1"
             >
               <i
                 style="cursor: pointer"
@@ -154,11 +154,16 @@
                 >
                   <div>
                     <img
-                      style="width: 100px; height: 100px; margin-right: 10px;border-radius: 50px;"
+                      style="
+                        width: 100px;
+                        height: 100px;
+                        margin-right: 10px;
+                        border-radius: 50px;
+                      "
                       src="../assets/cart-1.jpg"
                     />
                   </div>
-                  <div style="margin-right: 30px;line-height: 25px;">
+                  <div style="margin-right: 30px; line-height: 25px">
                     <div
                       style="
                         width: 300px;
@@ -167,7 +172,7 @@
                         margin-bottom: 5px;
                       "
                     >
-                      {{item.productName}}
+                      {{ item.productName }}
                     </div>
                     <div
                       style="
@@ -177,7 +182,7 @@
                         margin-bottom: 5px;
                       "
                     >
-                      {{item.descript}}
+                      {{ item.descript }}
                     </div>
                     <div style="display: flex">
                       <div><img src="" /></div>
@@ -197,7 +202,7 @@
                         color: #009866;
                       "
                     >
-                      ¥ {{(item.totalPrice*item.discount).toFixed(2)}}
+                      ¥ {{ (item.totalPrice * item.discount).toFixed(2) }}
                     </div>
                     <div style="font-size: 14px; margin-top: 8px">不计重量</div>
                   </div>
@@ -209,7 +214,7 @@
                       font-size: 14px;
                     "
                   >
-                    x {{item.productCnt}}
+                    x {{ item.productCnt }}
                   </div>
                   <div
                     style="
@@ -437,21 +442,45 @@ export default {
     console.log(this.$route.path);
     console.log("this.$store.state[settlementList]");
     console.log(this.$store.state["settlementList"]);
-    // 收货地址查询和购物车信息查询展示
+    // 获取当前用户收获地址
+    this.getUserAddr();
+    // 购物车信息查询和收货地址查询
     this.getAddresAndOrderList();
   },
   mounted() {},
   methods: {
+    getUserAddr() {
+      // /userAddr/list get
+      this.$http
+        .get("/static/userAddr.json", {
+          phone: JSON.parse(localStorage.getItem("userInfo")).phone,
+        })
+        .then(
+          (res) => {
+            // 获取当前 默认地址 list
+            res.data.data.forEach((item) => {
+              if (item.isDefault === 0) {
+                this.curSelectUserInfo = item;
+              }
+            });
+            this.addressList = res.data.data;
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
+    },
     getAddresAndOrderList() {
       // /order/ready/order get
       this.$http.get("/static/addresAndOrderList.json").then(
         (res) => {
-          res.userAddrList.forEach((item) => {
-            item.default = false;
-          });
-          this.addressList = res.userAddrList;
-          this.totalPrice = res.totalPrice;
-          this.orderItemList = res.orderItemList;
+          // res.data.userAddrList.forEach((item) => {
+          //   item.default = false;
+          // });
+          // this.addressList = res.data.userAddrList;
+          this.totalPrice = res.data.totalPrice;
+          this.orderItemList = res.data.orderItemList;
         },
         (err) => {
           // 500响应
@@ -489,20 +518,21 @@ export default {
         .catch((_) => {});
     },
     saveAdress() {
-      // 接口url 待提供
+      // /userAddr/addUserAddr?cities=120000,120100
       this.$http
         .get("/static/saveAdress.json", {
-          userAddrId: this.ruleForm.id,
-          userName: this.ruleForm.userName,
-          detail: this.ruleForm.detail,
-          phone: this.ruleForm.phone,
-          provinceId: this.ruleForm.cities[0],
-          cityId: this.ruleForm.cities[1],
+          cities: [this.ruleForm.cities[0], this.ruleForm.cities[1]],
+          UserAddr: {
+            serAddrId: this.ruleForm.id,
+            userName: this.ruleForm.userName,
+            detail: this.ruleForm.detail,
+            phone: this.ruleForm.phone,
+          },
         })
         .then(
           (res) => {
             this.$message({
-              message: res.message,
+              message: res.data.message,
               type: "success",
             });
             this.dialogVisible = false;
@@ -514,19 +544,19 @@ export default {
         );
     },
     delAdress(item) {
-      // 接口url 待提供
+      // /userAddr/deleteUserAddrByPhone?userPhone=18811307299    String userPhone
       this.$http
-        .get("/static/delAdress.json", {
-          userAddrId: item.id,
+        .get("/static/deleteUserAddrByPhone.json", {
+          userPhone: item.userPhone,
         })
         .then(
           (res) => {
             console.log(res);
             this.$message({
-              message: "删除成功!",
+              message: res.data.message,
               type: "success",
             });
-            this.getAddresAndOrderList();
+            this.getUserAddr();
           },
           (err) => {
             // 500响应
@@ -546,37 +576,30 @@ export default {
     handleChange(value) {
       console.log(value);
     },
-    setDefault(userAddrId) {
-      let array = [];
-      this.addressList.forEach((item) => {
-        if (item.userAddrId === userAddrId) {
-          item.default === true;
-          array.push({
-            userAddrId: item.userAddrId,
-            userName: item.userName,
-            cities: item.cities,
-            detail: item.detail,
-            phone: item.phone,
-            provinceName: item.provinceName,
-            default: true,
-          });
-        } else {
-          array.push({
-            userAddrId: item.userAddrId,
-            userName: item.userName,
-            cities: item.cities,
-            detail: item.detail,
-            phone: item.phone,
-            provinceName: item.provinceName,
-            default: false,
-          });
-        }
-      });
-      this.addresSelect = userAddrId;
-      this.addressList = array.slice();
+    setDefault(item) {
+      // /userAddr/updateUserAddrDefault get   String phone ,String userPhone
+      this.$http
+        .get("/static/setDefault.json", {
+          phone: JSON.parse(localStorage.getItem("userInfo")).phone,
+          userPhone: item.userPhone,
+        })
+        .then(
+          (res) => {
+            console.log(res);
+            this.$message({
+              message: res.data.message,
+              type: "success",
+            });
+            this.getUserAddr();
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
       // 寄送地址 同步更新
       this.addressList.forEach((list) => {
-        if (list.userAddrId === userAddrId) {
+        if (list.userAddrId === item.userAddrId) {
           this.curSelectUserInfo = list;
         }
       });

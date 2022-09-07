@@ -190,7 +190,7 @@ export default {
       // 获取所有商品分类
       this.$http.get("/static/allProductCategories.json").then(
         (res) => {
-          this.Treedata = this.rray2Tree(res.data);
+          this.Treedata = this.rray2Tree(res.data.data);
           //一定要加这个选中了否则样式没有出来
           this.$nextTick(() => {
             this.$refs.tree.setCurrentKey(this.$route.query.categoryId);
@@ -227,8 +227,8 @@ export default {
         })
         .then(
           (res) => {
-            this.ProductData = res.rows;
-            this.total = res.total;
+            this.ProductData = res.data.rows;
+            this.total = res.data.total;
           },
           (err) => {
             // 500响应
@@ -247,8 +247,8 @@ export default {
         })
         .then(
           (res) => {
-            this.ProductData = res.rows;
-            this.total = res.total;
+            this.ProductData = res.data.rows;
+            this.total = res.data.total;
           },
           (err) => {
             // 500响应

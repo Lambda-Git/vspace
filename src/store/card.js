@@ -1,16 +1,16 @@
 export default {
     state: {
-        str: 'boy'
+        str: 'card'
     },
     mutations: {
-        'boySetStr': function (state, s) {
-            console.log('boy 的 setStr');
+        'cardetStr': function (state, s) {
+            console.log('card 的 setStr');
             state.str = s;
         }
     },
     actions: {
-        'boySetStr': function ({ commit }, s) {
-            commit('boySetStr', s);
+        'cardSetStr': function ({ commit }, s) {
+            commit('cardSetStr', s);
         }
     }
 }
