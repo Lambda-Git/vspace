@@ -32,12 +32,15 @@
         </div>
       </div>
     </div>
-
+    <div class="divform"></div>
     <div class="payTypes">
       <div style="margin-top: 40px">
         <div style="height: 50px">支付平台</div>
         <div>
-          <img style="width: 130px;margin-bottom: 20px;" src="../assets/payType.png" />
+          <img
+            style="width: 130px; margin-bottom: 20px"
+            src="../assets/payType.png"
+          />
         </div>
       </div>
       <div class="line"></div>
@@ -51,7 +54,7 @@
             letter-spacing: 4px;
           "
           plain
-          @click="buys(item)"
+          @click="payNow()"
           >立即支付</el-button
         >
       </div>
@@ -74,6 +77,11 @@ export default {
     return {
       payable: 0,
       ProductData: [1, 2, 3, 4, 5, 6],
+      text: `<form name="punchout_form" method="post" action="https://openapi.alipaydev.com/gateway.do?charset=UTF-8&method=alipay.trade.page.pay&sign=VwuAyQZ15oFqBm3cfDB%2BBazqe4RAki9kJW%2FW7JpK0AIjkQ%2FTyUyCDfecCufXe%2BdqaFMtnm8qMh9fZN0d0o4B8O7KMysnKNa7DbQ8kph2VBVIL83FN0cJ5KL0UMnLehmPo3aqZ8SPW8u8tLiR3ZNfgzB%2F7kKItD9w29bs0AWEUfRH1DjWsmPuZITkBnoCTB%2B3YxW7JpvBvLAZqEZJ62p13EVbrz9bLYvQZUxnGFZaZ9yX6bst1nT6EI3xkb0d76DCT6%2Fmry4ewTYZ9eGY2y8wBVOYCSjVfy%2FYkAI4XUm%2FnCxYDpWbGXqYowEz6PgRLzz5D%2FI29O%2Fe5VyyUF60dBloYg%3D%3D&return_url=http%3A%2F%2Flocalhost%3A8080%2F%23%2Fsuccess&notify_url=https%3A%2F%2F0743-2409-8900-1801-16aa-68cb-6b88-b25e-92fc.ap.ngrok.io%2Fali-pay%2Ftrade%2Fnotify&version=1.0&app_id=2021000119624133&sign_type=RSA2&timestamp=2022-09-07+19%3A42%3A51&alipay_sdk=alipay-sdk-java-dynamicVersionNo&format=json">
+<input type="hidden" name="biz_content" value="{&quot;out_trade_no&quot;:1055,&quot;total_amount&quot;:550,&quot;subject&quot;:550.0,&quot;product_code&quot;:&quot;FAST_INSTANT_TRADE_PAY&quot;}">
+<input type="submit" value="立即支付" style="display:none" >
+</form>
+<script>document.forms[0].submit();`,
     };
   },
   created() {
@@ -84,6 +92,17 @@ export default {
   methods: {
     onSelect(type) {
       this.curSelect = type;
+    },
+    payNow() {
+      let divForm = document.getElementsByTagName("divform");
+      if (divForm.length) {
+        document.body.removeChild(divForm[0]);
+      }
+      const div = document.createElement("divform");
+      div.innerHTML = this.text; // res.data就是sb支付宝返回给你的form
+      document.body.appendChild(div);
+      // document.forms[0].setAttribute('target', '_blank') // 加了_blank可能出问题所以我注释了
+      document.forms[0].submit();
     },
   },
 };
