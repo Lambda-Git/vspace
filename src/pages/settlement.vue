@@ -624,10 +624,10 @@ export default {
           (res) => {
             console.log('tradePay');
             console.log(res.data);
-            this.$message({
-              message: res.data.message,
-              type: "success",
-            });
+            // this.$message({
+            //   message: res.data.message,
+            //   type: "success",
+            // });
             this.$router.push({ path: "/paying", query: { payable: this.totalPrice + this.freight }});
           },
           (err) => {
