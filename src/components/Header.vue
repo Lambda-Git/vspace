@@ -49,7 +49,6 @@
       title="确认"
       :visible.sync="dialogVisible"
       width="30%"
-      :before-close="handleClose"
     >
       <span
         style="

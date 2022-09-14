@@ -9,7 +9,7 @@
             "productTitle": "时令蔬菜",
             "totalPrice": "123.5",
             "paymentMethod": "支付宝",
-            "payStatus": "已支付",
+            "payStatus": 0,
             "gmtCreate" : "2022-08-26 01:00:14"
         },
         {
@@ -20,7 +20,7 @@
             "productTitle": "营养菌菇",
             "totalPrice": "55.6",
             "paymentMethod": "支付宝",
-            "payStatus": "已支付",
+            "payStatus": 1,
             "gmtCreate" : "2022-07-16 01:00:14"
         },
         {
@@ -31,7 +31,7 @@
             "productTitle": "应急蔬菜",
             "totalPrice": "123.5",
             "paymentMethod": "支付宝",
-            "payStatus": "已支付",
+            "payStatus": 2,
             "gmtCreate" : "2022-07-06 01:00:14"
         },
         {
@@ -42,7 +42,7 @@
             "productTitle": "鸡蛋",
             "totalPrice": "123.5",
             "paymentMethod": "支付宝",
-            "payStatus": "已支付",
+            "payStatus": 3,
             "gmtCreate" : "2022-07-03 01:00:14"
         },
         {
@@ -53,7 +53,7 @@
             "productTitle": "甲鱼",
             "totalPrice": "123.5",
             "paymentMethod": "支付宝",
-            "payStatus": "已支付",
+            "payStatus": 4,
             "gmtCreate" : "2022-07-02 01:00:14"
         }
     ]

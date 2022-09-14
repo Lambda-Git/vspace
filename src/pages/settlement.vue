@@ -615,8 +615,26 @@ export default {
     payTypeOnSelect(num) {
       this.payType = num;
     },
+    // 下单
     goPaying() {
-      this.$router.push({ path: "/paying", query: { name: "" } });
+      // /ali-pay/trade/page/pay  post
+      this.$http
+        .get("/static/tradePay.json")
+        .then(
+          (res) => {
+            console.log('tradePay');
+            console.log(res.data);
+            this.$message({
+              message: res.data.message,
+              type: "success",
+            });
+            this.$router.push({ path: "/paying", query: { payable: this.totalPrice + this.freight }});
+          },
+          (err) => {
+            // 500响应
+            console.log(err);
+          }
+        );
     },
   },
 };

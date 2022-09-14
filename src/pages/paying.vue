@@ -12,36 +12,36 @@
         <div style="font-size: 16px; font-weight: 500">
           订单提交成功，请尽快付款!订单号:434342832323232
         </div>
-        <div style="font-size: 14px">
+        <!-- <div style="font-size: 14px">
           请您在<span style="color: #009866">05时50分21秒</span
           >内完成支付,否则订单会被自动取消
-        </div>
+        </div> -->
       </div>
       <div style="float: right; margin-top: -45px">
         <div>
           应付金额
-          <span style="font-size: 18px; font-weight: 600; color: #009866"
-            >29.90</span
-          >
+          <span style="font-size: 18px; font-weight: 600; color: #009866">{{
+            payable
+          }}</span>
           元
         </div>
         <div>
-          <el-button type="text">订单详情</el-button>
+          <router-link :to="{ path: '/personalCenter', query: { type: 1 } }">
+            <el-button type="text">订单列表</el-button>
+          </router-link>
         </div>
       </div>
     </div>
+
     <div class="payTypes">
       <div style="margin-top: 40px">
         <div style="height: 50px">支付平台</div>
-        <div></div>
+        <div>
+          <img style="width: 130px;margin-bottom: 20px;" src="../assets/payType.png" />
+        </div>
       </div>
       <div class="line"></div>
-      <div style="margin-top: 40px">
-        <div>支付网银</div>
-        <div style="height: 50px"></div>
-      </div>
-      <div class="line"></div>
-      <div style="text-align: center;padding: 20px 0 45px 0;">
+      <div style="text-align: center; padding: 20px 0 45px 0">
         <el-button
           style="
             color: #fff;
@@ -65,17 +65,20 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 export default {
+  name: "payGateWay",
   components: {
     Header,
     Footer,
   },
   data() {
     return {
+      payable: 0,
       ProductData: [1, 2, 3, 4, 5, 6],
     };
   },
   created() {
     console.log(this.$route.path);
+    this.payable = this.$route.query.payable;
   },
   mounted() {},
   methods: {

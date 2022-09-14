@@ -76,12 +76,33 @@
                 数量：{{ item.productCnt }}
               </div>
               <div style="line-height: 121px; text-align: center; width: 220px">
-                <div v-if="item.payStatus === '已支付'" style="color: #60b17d">
-                  {{ item.payStatus }}
+                <div v-if="item.payStatus === 0" style="color: #60b17d">
+                  <el-tag type="info">未支付</el-tag>
                 </div>
-                <div v-if="item.payStatus !== '已支付'" style="color: red">
-                  {{ item.payStatus }}
+                <div v-if="item.payStatus === 1" style="color: #60b17d">
+                  <el-tag type="success">支付成功</el-tag>
                 </div>
+                <div v-if="item.payStatus === 2" style="color: #60b17d">
+                  <el-tag type="warning">超时已关闭</el-tag>
+                </div>
+                <div v-if="item.payStatus === 3" style="color: #60b17d">
+                  <el-tag type="info">用户已取消</el-tag>
+                </div>
+                <div v-if="item.payStatus === 4" style="color: #60b17d">
+                  <el-tag type="danger">已退款</el-tag>
+                </div>
+              </div>
+              <div style="line-height: 121px; width: 100px; text-align: center">
+                <el-button
+                  @click="cancelOrder(item.orderSign)"
+                  v-if="item.payStatus !== 1"
+                  >取消订单</el-button
+                >
+                <el-button
+                  @click="refund(item.orderId)"
+                  v-if="item.payStatus === 1"
+                  >申请退款</el-button
+                >
               </div>
             </div>
           </div>
@@ -403,7 +424,7 @@ export default {
         })
         .then(
           (res) => {
-            console.log(res)
+            console.log(res);
             this.orderData = res.data.rows;
             this.total = res.data.total;
           },
@@ -481,6 +502,51 @@ export default {
         } else {
           return false;
         }
+      });
+    },
+    // 取消订单
+    cancelOrder(orderSign) {
+      this.$http
+        .post("/ali-pay/trade/close", {
+          orderSign,
+        })
+        .then((response) => {
+          if (response.code === 2000) {
+            this.$message({
+              message: response.message,
+              type: "success",
+            });
+            this.getOrderList();
+          } else {
+            this.$message.error(response.message);
+          }
+        });
+      // 模拟成功
+      this.$message({
+        message: "取消订单成功!",
+        type: "success",
+      });
+    },
+    // 申请退款
+    refund(orderId) {
+      let reason = "";
+      this.$http
+        .post(`/ali-pay/trade/refund/${orderId}/${reason}`)
+        .then((response) => {
+          if (response.code === 2000) {
+            this.$message({
+              message: response.message,
+              type: "success",
+            });
+            this.getOrderList();
+          } else {
+            this.$message.error(response.message);
+          }
+        });
+      // 模拟成功
+      this.$message({
+        message: "申请退款成功!",
+        type: "success",
       });
     },
     resetForm(formName) {
