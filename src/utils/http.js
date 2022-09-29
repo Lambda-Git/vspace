@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 // axios.defaults.timeout = 5000;
 // 本地开发 调试
 // axios.defaults.baseURL ='http://3ea5443a.cpolar.cn/';
- 
+
 
 //http request 拦截器
 axios.interceptors.request.use(
@@ -12,10 +12,10 @@ axios.interceptors.request.use(
     const token = Cookies.get('token'); //注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
     config.headers = {
-      'Content-Type':'application/x-www-form-urlencoded',
+      'Content-Type': 'application/x-www-form-urlencoded',
     }
-    if(token){
-      config.params = {'token':token}
+    if (token) {
+      config.params = { 'token': token }
     }
     return config;
   },
@@ -23,13 +23,13 @@ axios.interceptors.request.use(
     return Promise.reject(err);
   }
 );
- 
- 
+
+
 //http response 拦截器
 axios.interceptors.response.use(
   response => {
-  	// console.log(response)
-    if(response.data.errCode ==2){
+    // console.log(response)
+    if (response.data.errCode == 2) {
       // router.push({
       //   path:"/login",
       //   querry:{redirect:router.currentRoute.fullPath}//从哪个页面跳转
@@ -41,87 +41,87 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   }
 )
- 
- 
+
+
 /**
  * 封装get方法
  * @param url
  * @param data
  * @returns {Promise}
  */
- 
- 
-export function get(url,params={}){
-  return new Promise((resolve,reject) => {
-    axios.get(url,{
-      params:params
+
+
+export function get(url, params = {}) {
+  return new Promise((resolve, reject) => {
+    axios.get(url, {
+      params: params
     })
-    .then(response => {
-      resolve(response.data);
-    })
-    .catch(err => {
-      reject(err)
-    })
+      .then(response => {
+        resolve(response.data);
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
- 
- 
+
+
 /**
  * 封装post请求
  * @param url
  * @param data
  * @returns {Promise}
  */
- 
- export function post(url,data = {}){
-   return new Promise((resolve,reject) => {
-     axios.post(url,data,
-    	  // {
-    	  //     headers: {
-       //      	'token': 'Bearer',
-    	  //     }
-    	  // }
-     )
-     .then(response => {
-       resolve(response.data);
-     },err => {
-       reject(err)
-     })
-   })
- }
- 
- /**
- * 封装patch请求
- * @param url
- * @param data
- * @returns {Promise}
- */
- 
-export function patch(url,data = {}){
-  return new Promise((resolve,reject) => {
-    axios.patch(url,data)
-         .then(response => {
-           resolve(response.data);
-         },err => {
-           reject(err)
-         })
+
+export function post(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.post(url, data,
+      // {
+      //     headers: {
+      //      	'token': 'Bearer',
+      //     }
+      // }
+    )
+      .then(response => {
+        resolve(response.data);
+      }, err => {
+        reject(err)
+      })
   })
 }
- 
- /**
- * 封装put请求
- * @param url
- * @param data
- * @returns {Promise}
- */
- 
-export function put(url,data = {}){
-  return new Promise((resolve,reject) => {
-    axios.put(url,data)
-         .then(response => {
-           resolve(response.data);
-         },err => {
-           reject(err)
-         })
+
+/**
+* 封装patch请求
+* @param url
+* @param data
+* @returns {Promise}
+*/
+
+export function patch(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.patch(url, data)
+      .then(response => {
+        resolve(response.data);
+      }, err => {
+        reject(err)
+      })
+  })
+}
+
+/**
+* 封装put请求
+* @param url
+* @param data
+* @returns {Promise}
+*/
+
+export function put(url, data = {}) {
+  return new Promise((resolve, reject) => {
+    axios.put(url, data)
+      .then(response => {
+        resolve(response.data);
+      }, err => {
+        reject(err)
+      })
   })
 }

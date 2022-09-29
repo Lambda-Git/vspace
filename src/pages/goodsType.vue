@@ -114,7 +114,7 @@
                       type="primary"
                       plain
                       @click="buys(item)"
-                      >购买</el-button
+                      >商品详情</el-button
                     >
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default {
         .get("/static/productListBy.json", {
           currentPage: this.currentPage,
           pageSize: this.pageSize,
-          categoryName: this.currentNodeName,
+          categoryId: this.currentNodekey,
         })
         .then(
           (res) => {
@@ -278,6 +278,7 @@ export default {
       this.currentPage = 1;
       this.curCategoryName = "";
       this.currentNodeName = data.categoryName;
+      this.currentNodekey = data.categoryId
       this.getListByCategoryId();
     },
     rray2Tree(arr) {

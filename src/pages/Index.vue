@@ -335,6 +335,7 @@ export default {
 .promotion_items .items .grid_ontent .item_img {
   text-align: center;
   margin-bottom: -20px;
+  min-height: 226px;
 }
 
 .promotion_items .items .grid_ontent img {

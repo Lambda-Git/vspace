@@ -20,7 +20,7 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="30"> </el-table-column>
-          <el-table-column label="商品信息" width="650">
+          <el-table-column label="商品信息" width="600">
             <template slot-scope="scope">
               <div style="display: flex">
                 <img style="width: 150px" src="../assets/cart-1.jpg" />
@@ -55,11 +55,16 @@
               ></el-input-number>
             </template>
           </el-table-column>
-          <el-table-column prop="money" label="金额" width="180">
+          <el-table-column prop="money" label="金额" width="120">
             <template slot-scope="scope">
               <div style="color: #009866; font-size: 18px; font-weight: 500">
                 ¥{{ (scope.row.productPrice * scope.row.discount * scope.row.productCnt).toFixed(2) }}
               </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="money" label="操作" width="80">
+            <template slot-scope="scope">
+               <i @click="remove(scope.row.productId)" class="el-icon-delete"></i>
             </template>
           </el-table-column>
         </el-table>
@@ -133,6 +138,22 @@ export default {
       this.$http.get("/static/cartList.json").then(
         (res) => {
           this.cartData = res.data.orderItemList;
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
+    },
+    remove(productId) {
+       this.$http.get("/static/cartListDelete.json").then(
+        (res) => {
+          this.$message({
+              message: res.data.message,
+              type: "success",
+            });
+          // 删除成功 刷新购物车列表
+          this.getCardList()
         },
         (err) => {
           // 500响应

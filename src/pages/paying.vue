@@ -36,10 +36,160 @@
     <div class="payTypes">
       <div style="margin-top: 40px">
         <div style="height: 50px">支付平台</div>
-        <div>
+        <div
+          style="display: flex; flex-wrap: wrap; justify-content: space-around"
+        >
           <img
-            style="width: 130px; margin-bottom: 20px"
-            src="../assets/payType.png"
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_1.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_2.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_3.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_4.jpeg"
+          />
+        </div>
+        <div
+          style="display: flex; flex-wrap: wrap; justify-content: space-around"
+        >
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_5.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_6.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_7.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_8.jpeg"
+          />
+        </div>
+        <div
+          style="display: flex; flex-wrap: wrap; justify-content: space-around"
+        >
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_9.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+              padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_10.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_11.jpeg"
+          />
+          <img
+            style="
+              width: 130px;
+              margin-bottom: 20px;
+             padding: 12px 45px
+              width: 130px;
+              height: 26px;
+              border: 1px solid #619b76;
+              border-radius: 6px;
+            "
+            src="../assets/pay_12.jpeg"
           />
         </div>
       </div>
