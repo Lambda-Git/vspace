@@ -12,10 +12,10 @@
         <div style="font-size: 16px; font-weight: 500">
           订单提交成功，请尽快付款!订单号:434342832323232
         </div>
-        <!-- <div style="font-size: 14px">
-          请您在<span style="color: #009866">05时50分21秒</span
+        <div style="font-size: 14px">
+          请您在<span id="timing" style="color: #009866; font-size: 20px"></span
           >内完成支付,否则订单会被自动取消
-        </div> -->
+        </div>
       </div>
       <div style="float: right; margin-top: -45px">
         <div>
@@ -232,11 +232,15 @@ export default {
 <input type="submit" value="立即支付" style="display:none" >
 </form>
 <script>document.forms[0].submit();`,
+      update_time: +new Date(),
+      m: "",
+      s: "",
     };
   },
   created() {
     console.log(this.$route.path);
     this.payable = this.$route.query.payable;
+    this.resetTime(1800);
   },
   mounted() {},
   methods: {
@@ -253,6 +257,59 @@ export default {
       document.body.appendChild(div);
       // document.forms[0].setAttribute('target', '_blank') // 加了_blank可能出问题所以我注释了
       document.forms[0].submit();
+    },
+    //倒计时start     需要传入的参数为秒数，此方法倒计时结束后会自动刷新页面
+    // resetTime(1800);
+    resetTime(timeStamp) {
+      var timer = null;
+      var t = timeStamp;
+      var m = 0;
+      var s = 0;
+      m = Math.floor((t / 60) % 60);
+      m < 10 && (m = "0" + m);
+      s = Math.floor(t % 60);
+      //开启定时任务
+      timer = setInterval(countDown, 1000);
+      function countDown() {
+        s--;
+        s < 10 && (s = "0" + s);
+        if (s.length >= 3) {
+          s = 59;
+          m = Number(m) - 1;
+          m < 10 && (m = "0" + m);
+        }
+        if (m.length >= 3) {
+          m = "00";
+          s = "00";
+          //倒计时结束,关闭定时任务。
+          clearInterval(timer);
+        }
+        document.getElementById("timing").innerHTML = m + "分" + s + "秒";
+        // $("#Pk10Time").html(m + "分" + s + "秒");
+        if (m == 0 && s == 0) {
+          //倒计时结束 取消订单
+          this.$http
+            .post("/ali-pay/trade/close", {
+              orderSign: '订单号ID',
+            })
+            .then((response) => {
+              if (response.code === 2000) {
+                this.$message({
+                  message: response.message,
+                  type: "success",
+                });
+                this.$router.push("/personalCenter?type=1");
+              } else {
+                this.$message.error(response.message);
+              }
+            });
+          // 模拟成功
+          this.$message({
+            message: "取消订单成功!",
+            type: "success",
+          });
+        }
+      }
     },
   },
 };
