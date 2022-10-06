@@ -121,31 +121,6 @@
             "
           >
             <div style="display: flex; padding: 30px">
-              <div style="width: 350px">
-                <div style="font-size: 15px; font-weight: 500">配送方式</div>
-                <div
-                  style="
-                    border: 1px solid #009866;
-                    width: 110px;
-                    height: 25px;
-                    text-align: center;
-                    line-height: 25px;
-                    color: #009866;
-                    margin: 10px 0 20px 20px;
-                  "
-                >
-                  快递运输
-                </div>
-                <div style="display: flex">
-                  <div style="font-size: 15px; font-weight: 500">配送时间</div>
-                  <div>
-                    <el-input
-                      style="width: 250px; margin-top: -11px; margin-left: 10px"
-                      placeholder="工作日、双休日与节假日均可配送"
-                    ></el-input>
-                  </div>
-                </div>
-              </div>
               <div>
                 <div
                   v-for="(item, index) in orderItemList"
@@ -166,7 +141,7 @@
                   <div style="margin-right: 30px; line-height: 25px">
                     <div
                       style="
-                        width: 300px;
+                        width: 500px;
                         font-size: 13px;
                         color: #898996;
                         margin-bottom: 5px;
@@ -523,7 +498,7 @@ export default {
         .get("/static/saveAdress.json", {
           cities: [this.ruleForm.cities[0], this.ruleForm.cities[1]],
           UserAddr: {
-            serAddrId: this.ruleForm.id,
+            serAddrId: this.ruleForm.id === 0 ? undefind : this.ruleForm.id,
             userName: this.ruleForm.userName,
             detail: this.ruleForm.detail,
             phone: this.ruleForm.phone,
@@ -618,23 +593,22 @@ export default {
     // 下单
     goPaying() {
       // /ali-pay/trade/page/pay  post
-      this.$http
-        .get("/static/tradePay.json")
-        .then(
-          (res) => {
-            console.log('tradePay');
-            console.log(res.data);
-            // this.$message({
-            //   message: res.data.message,
-            //   type: "success",
-            // });
-            this.$router.push({ path: "/paying", query: { payable: this.totalPrice + this.freight }});
-          },
-          (err) => {
-            // 500响应
-            console.log(err);
-          }
-        );
+      this.$http.get("/static/tradePay.json").then(
+        (res) => {
+          this.$router.push({
+            path: "/paying",
+            query: {
+              payable: this.totalPrice + this.freight,
+              orderNumber: res.data.orderId,
+              formStr: res.data.formStr,
+            },
+          });
+        },
+        (err) => {
+          // 500响应
+          console.log(err);
+        }
+      );
     },
   },
 };

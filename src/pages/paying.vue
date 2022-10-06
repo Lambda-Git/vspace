@@ -232,9 +232,6 @@ export default {
 <input type="submit" value="立即支付" style="display:none" >
 </form>
 <script>document.forms[0].submit();`,
-      update_time: +new Date(),
-      m: "",
-      s: "",
     };
   },
   created() {
@@ -253,7 +250,7 @@ export default {
         document.body.removeChild(divForm[0]);
       }
       const div = document.createElement("divform");
-      div.innerHTML = this.text; // res.data就是sb支付宝返回给你的form
+      div.innerHTML = this.text; // res.data就是支付宝返回给你的form
       document.body.appendChild(div);
       // document.forms[0].setAttribute('target', '_blank') // 加了_blank可能出问题所以我注释了
       document.forms[0].submit();
