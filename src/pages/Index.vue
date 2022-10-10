@@ -14,7 +14,11 @@
               style="cursor: pointer"
               class="el-icon-search"
             ></i
-            ><input v-model="curCategoryName" placeholder="搜一搜" />
+            ><input
+              v-model="curCategoryName"
+              placeholder="搜一搜"
+              @keyup.enter="searchGo"
+            />
           </div>
           <div class="cart">
             <el-badge :value="$store.getters.getAllCount" class="item">

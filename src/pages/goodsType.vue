@@ -12,7 +12,7 @@
             style="cursor: pointer"
             class="el-icon-search"
           ></i
-          ><input v-model="curCategoryName" placeholder="搜一搜" />
+          ><input v-model="curCategoryName" placeholder="搜一搜" @keyup.enter="searchFor" />
         </div>
       </div>
     </div>
