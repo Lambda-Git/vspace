@@ -5,9 +5,22 @@ import Cookies from 'js-cookie'
 // 本地开发 调试
 // axios.defaults.baseURL ='http://3ea5443a.cpolar.cn/';
 
+const instance = axios.create({
+  // baseURL 将自动加在 url`前面，除非 url 是一个绝对 URL。
+  // 它可以通过设置一个 baseURL 便于为 axios 实例的方法传递相对 URL
+  baseURL: "http://3ea5443a.cpolar.cn/",
+  // timeout设置一个请求超时时间，如果请求时间超过了timeout，请求将被中断，单位为毫秒（ms）
+  timeout: 60000,
+  // headers是被发送的自定义请求头，请求头内容需要根据后端要求去设置，这里我们使用本项目请求头。
+  headers: {
+    'Accept': 'application/json',
+    'token': Cookies.get('token'),
+  }
+})
+
 
 //http request 拦截器
-axios.interceptors.request.use(
+instance.interceptors.request.use(
   config => {
     const token = Cookies.get('token'); //注意使用的时候需要引入cookie方法，推荐js-cookie
     config.data = JSON.stringify(config.data);
@@ -26,7 +39,7 @@ axios.interceptors.request.use(
 
 
 //http response 拦截器
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   response => {
     // console.log(response)
     if (response.data.errCode == 2) {
