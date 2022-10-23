@@ -42,7 +42,10 @@
                 @click="verification"
                 >获取验证码</el-button
               >
-              <el-button v-if="!disabled && this.loginType === 2" slot="append" class="getCode"
+              <el-button
+                v-if="!disabled && this.loginType === 2"
+                slot="append"
+                class="getCode"
                 >{{ timer }}秒后重试</el-button
               >
             </el-input>
@@ -93,7 +96,7 @@
 <script>
 import LoginHeader from "@/components/LoginHeader";
 import Footer from "@/components/Footer";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 export default {
   components: {
     LoginHeader,
@@ -163,11 +166,9 @@ export default {
       }, 1000);
     },
     getVerification() {
-      // 调用验证码接口
-      console.log(this.ruleForm.phone);
       this.$http
-        .post("userInfo/login", {
-          phone: this.ruleForm.phone,
+        .get("/verificationCode", {
+          phone: this.ruleForm.phoneNumber,
         })
         .then((response) => {});
     },

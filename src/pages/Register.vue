@@ -26,9 +26,9 @@
                 >获取验证码</el-button
               >
               <el-button v-if="!disabled" slot="append" class="getCode"
-                >{{ timer }}秒后重试</el-button>
-              </el-input
-            >
+                >{{ timer }}秒后重试</el-button
+              >
+            </el-input>
           </el-form-item>
           <el-form-item label="" prop="code">
             <el-input
@@ -95,23 +95,23 @@ export default {
       }
     };
     // 密码验证
-    const pwdCheck = async(rule, value, callback) => {
+    const pwdCheck = async (rule, value, callback) => {
       if (value.length < 6) {
-        return callback(new Error('密码不能少于6位！'));
+        return callback(new Error("密码不能少于6位！"));
       } else if (value.length > 16) {
-        return callback(new Error('密码最长不能超过16位！'));
+        return callback(new Error("密码最长不能超过16位！"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     // 重复密码验证
-    const pwdAgainCheck = async(rule, value, callback) => {
+    const pwdAgainCheck = async (rule, value, callback) => {
       if (value.length < 1) {
-        return callback(new Error('重复密码不能为空！'));
-      } else if(this.ruleForm.password != this.ruleForm.passwordAgain){
-        return callback(new Error('两次输入密码不一致！'));
-      }else{
-        callback()
+        return callback(new Error("重复密码不能为空！"));
+      } else if (this.ruleForm.password != this.ruleForm.passwordAgain) {
+        return callback(new Error("两次输入密码不一致！"));
+      } else {
+        callback();
       }
     };
     return {
@@ -130,9 +130,9 @@ export default {
         code: [
           { required: true, message: "请输入手机验证码", trigger: "blur" },
         ],
-        password: [{ required: true, validator: pwdCheck,  trigger: "blur" }],
+        password: [{ required: true, validator: pwdCheck, trigger: "blur" }],
         passwordAgain: [
-          { required: true,validator: pwdAgainCheck, trigger: "blur" },
+          { required: true, validator: pwdAgainCheck, trigger: "blur" },
         ],
       },
     };
@@ -140,19 +140,19 @@ export default {
   methods: {
     verification() {
       // 手机号常规检验
-       let reg =
+      let reg =
         /^(((13[0-9]{1})|(15[0-9]{1})|(16[0-9]{1})|(17[3-8]{1})|(18[0-9]{1})|(19[0-9]{1})|(14[5-7]{1}))+\d{8})$/;
       if (this.ruleForm.phoneNumber === "") {
-        this.$message.error('手机号不能为空!');
-        return  false
-      } 
+        this.$message.error("手机号不能为空!");
+        return false;
+      }
       if (!reg.test(this.ruleForm.phoneNumber)) {
-        this.$message.error('手机号格式错误!');
-        return  false
-      } 
+        this.$message.error("手机号格式错误!");
+        return false;
+      }
       this.disabled = false;
       // 调获取验证码接口
-      this.verificationCode()
+      this.verificationCode();
       const authTimer = setInterval(() => {
         this.timer--;
         if (this.timer <= 0) {
@@ -162,40 +162,23 @@ export default {
         }
       }, 1000);
     },
-     // 获取验证码
-    verificationCode() {
-      console.log(this.ruleForm.phoneNumber)
-      this.$http
-            .post("userInfo/login", {
-              phone: this.ruleForm.phoneNumber,
-            })
-            .then((response) => {
-              
-            }
-            );
-    },
     // 获取验证码
     verificationCode() {
-      console.log(this.ruleForm.phoneNumber)
+      console.log(this.ruleForm.phoneNumber);
       this.$http
-            .post("userInfo/login", {
-              phone: this.ruleForm.phoneNumber,
-            })
-            .then((response) => {
-              
-            }
-            );
+        .get("/verificationCode", {
+          phone: this.ruleForm.phoneNumber,
+        })
+        .then((response) => {});
     },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-           this.$http
+          this.$http
             .post("userInfo/register", {
               phone: this.ruleForm.phoneNumber,
             })
-            .then((response) => {
-              
-            });
+            .then((response) => {});
         } else {
           console.log("error submit!!");
           return false;
@@ -247,13 +230,13 @@ export default {
   border-color: #66bcaf !important;
 }
 #register .el-input__icon.el-icon-mobile-phone {
-    font-size: 22px;
+  font-size: 22px;
 }
 #register .el-input__icon.el-icon-key {
-    font-size: 22px;
+  font-size: 22px;
 }
 #register .el-input__icon.el-icon-lock {
-    font-size: 22px;
+  font-size: 22px;
 }
 .formContent #registerSub {
   width: 100%;
