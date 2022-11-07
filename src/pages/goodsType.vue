@@ -12,7 +12,11 @@
             style="cursor: pointer"
             class="el-icon-search"
           ></i
-          ><input v-model="curCategoryName" placeholder="搜一搜" @keyup.enter="searchFor" />
+          ><input
+            v-model="curCategoryName"
+            placeholder="搜一搜"
+            @keyup.enter="searchFor"
+          />
         </div>
       </div>
     </div>
@@ -275,11 +279,13 @@ export default {
       window.open(href, "_blank");
     },
     handleNodeClick(data) {
-      this.currentPage = 1;
-      this.curCategoryName = "";
-      this.currentNodeName = data.categoryName;
-      this.currentNodekey = data.categoryId
-      this.getListByCategoryId();
+      if (data.parentId !== 0) {
+        this.currentPage = 1;
+        this.curCategoryName = "";
+        this.currentNodeName = data.categoryName;
+        this.currentNodekey = data.categoryId;
+        this.getListByCategoryId();
+      }
     },
     rray2Tree(arr) {
       if (!Array.isArray(arr) || !arr.length) return;
@@ -350,7 +356,7 @@ export default {
 }
 span.el-tree-node__label {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .el-tree-node:focus > .el-tree-node__content {
   background: #009866;
@@ -364,5 +370,9 @@ span.el-tree-node__label {
 .el-tree--highlight-current .is-current.el-tree-node > .el-tree-node__content {
   background-color: #009866 !important;
   border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

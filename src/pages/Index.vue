@@ -3,7 +3,7 @@
     <Header></Header>
     <div class="content_index">
       <!-- 查询 input-->
-      <div class="type_search">
+      <div class="type_search_1">
         <div class="logo">
           <img src="../assets/logo.png" />
         </div>
@@ -239,15 +239,13 @@ export default {
       window.open(href, "_blank");
     },
     handleNodeClick(data) {
-      console.log(data);
-      // 当前页面打开
-      // this.$router.push({ path: "/goodsType", query: { name: data.label } });
-      // 新页面打开
-      let { href } = this.$router.resolve({
-        path: "/goodsType",
-        query: { categoryId: data.categoryId },
-      });
-      window.open(href, "_blank");
+      if (data.parentId !== 0) {
+        let { href } = this.$router.resolve({
+          path: "/goodsType",
+          query: { categoryId: data.categoryId },
+        });
+        window.open(href, "_blank");
+      }
     },
     buys(data) {
       let { href } = this.$router.resolve({
@@ -402,26 +400,26 @@ export default {
 .fresh_vegetables .info .more:hover {
   color: #dc7e2b;
 }
-.type_search {
+.type_search_1 {
   display: flex;
-  padding: 25px 0;
+  justify-content: space-between;
+  padding: 20px 0;
 }
-.type_search .logo img {
+.type_search_1 .logo img {
   width: 200px;
 }
-.type_search .search {
+.type_search_1 .search {
   display: flex;
-  margin-left: 680px;
 }
-.type_search .search .cart {
+.type_search_1 .search .cart {
   margin-left: 32px;
   cursor: pointer;
 }
-.type_search .searchInfo i {
+.type_search_1 .searchInfo i {
   margin-left: 55px;
   position: relative;
 }
-.type_search .searchInfo input {
+.type_search_1 .searchInfo input {
   width: 150px;
   height: 25px;
   font-size: 16px;
@@ -458,7 +456,7 @@ input:-moz-placeholder {
 }
 span.el-tree-node__label {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 }
 .el-tree-node:focus > .el-tree-node__content {
   background: #009866;
@@ -468,5 +466,9 @@ span.el-tree-node__label {
 .el-upload-list__item:hover {
   background: #009866;
   border-radius: 5px;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>
